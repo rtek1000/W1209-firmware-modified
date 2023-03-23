@@ -23,6 +23,9 @@
 #define MENU_SET_THRESHOLD 1
 #define MENU_SELECT_PARAM  2
 #define MENU_CHANGE_PARAM  3
+#define MENU_ALARM         4
+#define MENU_ALARM_HIGH    5
+#define MENU_ALARM_LOW     6
 /* Menu events */
 #define MENU_EVENT_PUSH_BUTTON1     0
 #define MENU_EVENT_PUSH_BUTTON2     1

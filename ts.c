@@ -53,14 +53,22 @@ int main()
 
         if (getMenuDisplay() == MENU_ROOT) {
             int temp = getTemperature();
-            itofpa (temp, (char*) stringBuffer, 0);
-            setDisplayStr ( (char*) stringBuffer);
+            bool sensor_fail = getSensorFail();
 
-            if (getParamById (PARAM_OVERHEAT_INDICATION) ) {
-                if (temp < (getParamById (PARAM_MIN_TEMPERATURE) * 10) ) {
-                    setDisplayStr ("LLL");
-                } else if (temp > (getParamById (PARAM_MAX_TEMPERATURE) * 10) ) {
-                    setDisplayStr ("HHH");
+            if(sensor_fail) {
+                setDisplayStr ("FFF");
+            } else {
+                itofpa (temp, (char*) stringBuffer, 0);
+                setDisplayStr ( (char*) stringBuffer);
+
+                if (getParamById (PARAM_OVERHEAT_INDICATION) ) {
+                    bool blink = (bool) ( (unsigned char) getUptimeTicks() & 0x80);
+
+                    if (temp < (getParamById (PARAM_MIN_TEMPERATURE) * 10) ) {
+                        setDisplayOff (blink); // setDisplayStr ("LLL");
+                    } else if (temp >= (getParamById (PARAM_MAX_TEMPERATURE) * 10) ) {
+                        setDisplayOff (blink); // setDisplayStr ("HHH");
+                    }
                 }
             }
         } else if (getMenuDisplay() == MENU_SET_THRESHOLD) {
@@ -72,6 +80,19 @@ int main()
         } else if (getMenuDisplay() == MENU_CHANGE_PARAM) {
             paramToString (getParamId(), (char*) stringBuffer);
             setDisplayStr ( (char *) stringBuffer);
+        } else if (getMenuDisplay() == MENU_ALARM) {
+            setDisplayStr ("ALR");
+            setDisplayOff ( (bool) (getUptime() & 0x80) );
+        } else if (getMenuDisplay() == MENU_ALARM_HIGH) {
+            int temp = getParamById (PARAM_MAX_TEMPERATURE) * 10;
+            itofpa (temp, (char*) stringBuffer, 0);
+            setDisplayStr ( (char*) stringBuffer);
+            setDisplayOff ( (bool) (getUptime() & 0x80) );
+        } else if (getMenuDisplay() == MENU_ALARM_LOW) {
+            int temp = getParamById (PARAM_MIN_TEMPERATURE) * 10;
+            itofpa (temp, (char*) stringBuffer, 0);
+            setDisplayStr ( (char*) stringBuffer);
+            setDisplayOff ( (bool) (getUptime() & 0x80) );
         } else {
             setDisplayStr ("ERR");
             setDisplayOff ( (bool) (getUptime() & 0x40) );

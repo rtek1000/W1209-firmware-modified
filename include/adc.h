@@ -18,8 +18,15 @@
 #ifndef ADC_H
 #define ADC_H
 
+#ifndef bool
+#define bool    _Bool
+#define true    1
+#define false   0
+#endif
+
 void initADC();
 void startADC();
+bool getSensorFail();
 int getTemperature();
 unsigned int getAdcResult();
 unsigned int getAdcAveraged();

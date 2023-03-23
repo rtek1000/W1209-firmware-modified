@@ -26,6 +26,7 @@
 #define PARAM_TEMPERATURE_CORRECTION    4
 #define PARAM_RELAY_DELAY               5
 #define PARAM_OVERHEAT_INDICATION       6
+#define PARAM_LOCK_BUTTONS              7
 #define PARAM_THRESHOLD                 9
 
 int getParam();

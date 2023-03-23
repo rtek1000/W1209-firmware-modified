@@ -77,12 +77,21 @@ void feedMenu (unsigned char event)
         switch (event) {
         case MENU_EVENT_PUSH_BUTTON1:
             timer = 0;
-            menuDisplay = MENU_SET_THRESHOLD;
+            if (getParamById (PARAM_RELAY_MODE) == 2) {
+                menuDisplay = MENU_ALARM;
+            } else {
+                menuDisplay = MENU_SET_THRESHOLD;
+            }
+            setDisplayOff (0);
             break;
 
         case MENU_EVENT_RELEASE_BUTTON1:
             if (timer < MENU_5_SEC_PASSED) {
-                menuState = MENU_SET_THRESHOLD;
+                if (getParamById (PARAM_RELAY_MODE) == 2) {
+                    menuState = MENU_ALARM;
+                } else {
+                    menuState = MENU_SET_THRESHOLD;
+                }
             }
 
             timer = 0;
@@ -93,6 +102,7 @@ void feedMenu (unsigned char event)
                 if (timer > MENU_3_SEC_PASSED) {
                     setParamId (0);
                     timer = 0;
+                    setDisplayOff (0);
                     menuState = menuDisplay = MENU_SELECT_PARAM;
                 }
             }
@@ -224,7 +234,9 @@ void feedMenu (unsigned char event)
 
         case MENU_EVENT_PUSH_BUTTON2:
             setParamId (PARAM_THRESHOLD);
-            incParam();
+            if (!getParamById (PARAM_LOCK_BUTTONS) ) {
+                incParam();
+            }
 
         case MENU_EVENT_RELEASE_BUTTON2:
             timer = 0;
@@ -232,7 +244,9 @@ void feedMenu (unsigned char event)
 
         case MENU_EVENT_PUSH_BUTTON3:
             setParamId (PARAM_THRESHOLD);
-            decParam();
+            if (!getParamById (PARAM_LOCK_BUTTONS) ) {
+                decParam();
+            }
 
         case MENU_EVENT_RELEASE_BUTTON3:
             timer = 0;
@@ -276,6 +290,49 @@ void feedMenu (unsigned char event)
             break;
 
         default:
+            break;
+        }
+    } else if (menuState == MENU_ALARM) {
+        switch (event) {
+        case MENU_EVENT_PUSH_BUTTON1:
+            timer = 0;
+            menuDisplay = MENU_ROOT;
+            setDisplayOff (false);
+            break;
+
+        case MENU_EVENT_RELEASE_BUTTON1:
+            if (timer < MENU_5_SEC_PASSED) {
+                menuState = MENU_ROOT;
+                setDisplayOff (false);
+            }
+
+            timer = 0;
+            break;
+
+        case MENU_EVENT_PUSH_BUTTON2:
+            menuDisplay = MENU_ALARM_HIGH;
+
+        case MENU_EVENT_RELEASE_BUTTON2:
+            timer = 0;
+            break;
+
+        case MENU_EVENT_PUSH_BUTTON3:
+            menuDisplay = MENU_ALARM_LOW;
+
+        case MENU_EVENT_RELEASE_BUTTON3:
+            timer = 0;
+            break;
+
+        default:
+            if (timer > MENU_3_SEC_PASSED) {
+                menuDisplay = MENU_ALARM;
+            }
+
+            if (timer > MENU_5_SEC_PASSED) {
+                timer = 0;
+                menuState = menuDisplay = MENU_ROOT;
+            }
+
             break;
         }
     }
