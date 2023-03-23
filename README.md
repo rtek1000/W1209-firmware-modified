@@ -44,7 +44,7 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 # Usage:
 - Build procedure (Run the 'make' command inside the Src folder):
 - - make
-- - 
+
 - Upload procedure:
 - - Connect STlink to W1209 board, 3 wires are needed (GND/RESET/SWIM).
 - - Power the W1209 board using a 12V power supply.
