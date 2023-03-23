@@ -20,7 +20,7 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 - - When in H mode (Heater): cause relay activation using the SETPOINT parameter (Threshold in the source code).
 - - - Temperature greater than the SETPOINT: relay disabled (open contacts).
 
-- Added lock parameter [P7]: When activated (ON) the SETPOINT parameter (Threshold in the source code) cannot be modified.
+- Added lock parameter [P7: ON/OFF]: When activated (ON) the SETPOINT parameter (Threshold in the source code) cannot be modified.
 
 - Table of original parameters:
 ![image](https://raw.githubusercontent.com/rtek1000/w1209-firmware/master/Doc/Table_params_W1209.png)
