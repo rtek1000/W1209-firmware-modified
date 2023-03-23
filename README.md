@@ -69,6 +69,7 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 - - STlink V2
 - - Wires (At least 3 wires)
 - - Single row pin bar 2.54mm pitch (At least 3 pins)
+- Note: the STlink cable can interfere with the W1209 operation, if the display shows 888, remove the cable from the W1209 board.
 
 # Original description:
 - w1209-firmware
