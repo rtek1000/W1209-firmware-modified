@@ -6,6 +6,10 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 # Modifications:
 - Added sensor failure indicator (Value reading below position 0 of the table)
 - Added alarm type operation mode [C/H/A] (Cause relay activation using the maximum [P2] and minimum parameters [P3].)
+- Added lock parameter [P7]
+
+- Table of original parameters:
+![image](https://raw.githubusercontent.com/rtek1000/w1209-firmware/master/Doc/Table_params_W1209.png)
 
 # R2 is not the same for all boards
 ![image](https://raw.githubusercontent.com/rtek1000/w1209-firmware/master/Doc/w1209.png)
