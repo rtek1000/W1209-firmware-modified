@@ -42,9 +42,10 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 - Note: This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
 
 # Usage:
-- Build procedure:
+- Build procedure (Run the 'make' command inside the Src folder):
 - - make
-- Upload procedure: 
+- - 
+- Upload procedure (Run the command below inside the Build folder): 
 - - stm8flash -c stlinkv2 -p stm8s003?3 -w thermostat.ihx
 
 - Build tools:
