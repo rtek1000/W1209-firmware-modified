@@ -11,9 +11,14 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 - Value outside the maximum or minimum range: display flashes.
 - - In the original code it shows HHH for higher value and shows LLL for lower value.
 
-- Added operation mode for alarm [P0: C/H/A]: When in A mode: cause relay activation using the maximum [P2] and minimum parameters [P3].
-- - Temperature greater than the maximum value [P2]: relay activated.
-- - Temperature lower than the minimum value [P3]: relay activated.
+- Added operation mode for alarm [P0: C/H/A]:
+- - When in A mode: cause relay activation using the maximum [P2] and minimum parameters [P3].
+- - - Temperature greater than the maximum value [P2]: relay activated.
+- - - Temperature lower than the minimum value [P3]: relay activated.
+- - When in C mode (Cooler): cause relay activation using the SETPOINT parameter (Threshold in the source code).
+- - - Temperature greater than the SETPOINT: relay activated (closed contacts).
+- - When in H mode (Heater): cause relay activation using the SETPOINT parameter (Threshold in the source code).
+- - - Temperature greater than the SETPOINT: relay disabled (open contacts).
 
 - Added lock parameter [P7]: When activated (ON) the SETPOINT parameter (Threshold in the source code) cannot be modified.
 
