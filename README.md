@@ -4,7 +4,7 @@
 This repository is a fork of the ![original](https://github.com/mister-grumbler/w1209-firmware).
 
 # Modifications:
-- Fault if sensor shows FFF on display.
+- If the sensor is disconnected, it shows FFF on the display.
 - Value outside the maximum or minimum range: display flashes.
 - - In the original code it shows HHH for higher value and shows LLL for lower value.
 - Added sensor failure indicator (Value reading below position 0 of the table)
