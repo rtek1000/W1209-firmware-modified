@@ -11,7 +11,7 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 - Table of original parameters:
 ![image](https://raw.githubusercontent.com/rtek1000/w1209-firmware/master/Doc/Table_params_W1209.png)
 
-# R2 is not the same for all boards
+- R2 is not the same for all boards:
 ![image](https://raw.githubusercontent.com/rtek1000/w1209-firmware/master/Doc/w1209.png)
 
 - R2 resistor: Some boards have a resistor value of 20k, others may have different values such as 5.1k, check the table in the adc.c file
