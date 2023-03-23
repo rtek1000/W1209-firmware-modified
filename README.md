@@ -49,17 +49,17 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 
 - Build tools:
 - - Source control - Git is a free and open source distributed version control system.
-> $sudo apt-get install git-all
+- - - $sudo apt-get install git-all
 - - Build control - GNU Make is a tool which controls the generation of executables and other non-source files of a program.
-> $sudo apt install make
+- - - $sudo apt install make
 - - C Compiler - SDCC Small Device C Compiler
-> $sudo apt-get install sdcc
+- - - $sudo apt-get install sdcc
 - - SWIM upload - stm8flash is a free and opensource tool that's able to communicate through the SWIM interface of ST-LINKs under Linux.
-> $sudo apt-get install pkg-config libusb-1.0-0-dev
-> $git clone https://github.com/vdudouyt/stm8flash.git
-> cd stm8flash
-> make
-> sudo make install
+- - - $sudo apt-get install pkg-config libusb-1.0-0-dev
+- - - $git clone https://github.com/vdudouyt/stm8flash.git
+- - - $cd stm8flash
+- - - $make
+- - - #sudo make install
 
 - Upload tool:
 - - STlink V2
