@@ -41,6 +41,12 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 
 - Note: This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
 
+#Usage:
+- Build procedure:
+- - >$make
+- Upload procedure: 
+- - >stm8flash -c stlinkv2 -p stm8s003?3 -w thermostat.ihx
+
 # Original description:
 - w1209-firmware
 - - The functional equivalent to the original firmware of "Digital Thermostat Module Model XH-W1209".
