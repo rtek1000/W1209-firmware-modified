@@ -67,6 +67,8 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 
 - Upload tool:
 - - STlink V2
+- - Wires (About 3 or 4 wires)
+- - Single row pin bar 2.54mm pitch (About 3 or 4 pins)
 
 # Original description:
 - w1209-firmware
