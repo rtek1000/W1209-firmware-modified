@@ -7,12 +7,14 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 - Shows FFF on display if sensor fails:
 - - If the sensor is disconnected.
 - - If the sensor is short circuited.
+
 - Value outside the maximum or minimum range: display flashes.
 - - In the original code it shows HHH for higher value and shows LLL for lower value.
-- Added sensor failure indicator (Value reading below position 0 of the table)
+
 - Added alarm type operation mode [C/H/A]: When in A mode: cause relay activation using the maximum [P2] and minimum parameters [P3].
 - - Temperature greater than the maximum value [P2]: relay activated.
 - - Temperature lower than the minimum value [P3]: relay activated.
+
 - Added lock parameter [P7]: When activated (ON) the SETPOINT parameter (Threshold in the source code) cannot be modified.
 
 - Table of original parameters:
