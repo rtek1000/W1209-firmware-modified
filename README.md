@@ -47,6 +47,15 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 - Upload procedure: 
 > $stm8flash -c stlinkv2 -p stm8s003?3 -w thermostat.ihx
 
+- Build tools:
+- - Source control - Git is a free and open source distributed version control system.
+- - Build control - GNU Make is a tool which controls the generation of executables and other non-source files of a program.
+- - C Compiler - SDCC Small Device C Compiler
+- - SWIM upload - stm8flash is a free and opensource tool that's able to communicate through the SWIM interface of ST-LINKs under Linux.
+
+- Upload tool:
+- - STlink V2
+
 # Original description:
 - w1209-firmware
 - - The functional equivalent to the original firmware of "Digital Thermostat Module Model XH-W1209".
