@@ -54,9 +54,9 @@ const unsigned int rawAdc[] = {
     101, 99, 96, 94, 92
 };
 
-/*
 /* The lookup table contains raw ADC values for every degree of Celsius
    from -52C to 112C. [341 = 25°C; ] (R2 = 20k Ohms) */
+/*
 const unsigned int rawAdc[] = {
     974, 971, 967, 964, 960, 956, 953, 948, 944, 940,
     935, 930, 925, 920, 914, 909, 903, 897, 891, 884,
