@@ -48,7 +48,7 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 - Upload procedure:
 - - Connect STlink to W1209 board, 3 wires are needed (GND/RESET/SWIM).
 - - Power the W1209 board using a 12V power supply.
-- - Run the command below inside the Build folder:
+- - Run the command below inside the Build folder (Src/Build):
 - - - stm8flash -c stlinkv2 -p stm8s003?3 -w thermostat.ihx
 
 - Build tools:
