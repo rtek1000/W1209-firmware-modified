@@ -7,6 +7,11 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 - Added sensor failure indicator (Value reading below position 0 of the table)
 - Added alarm type operation mode [C/H/A] (Cause relay activation using the maximum [P2] and minimum parameters [P3].)
 
+# R2 is not the same for all boards
+![image](https://raw.githubusercontent.com/rtek1000/w1209-firmware/master/Doc/w1209.png)
+
+- Some boards have a resistor value of 20k, others may have different values such as 5.1k, check the table in the adc.c file
+
 # Original description:
 - w1209-firmware
 - - The functional equivalent to the original firmware of "Digital Thermostat Module Model XH-W1209".
