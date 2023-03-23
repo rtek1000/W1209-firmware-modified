@@ -12,6 +12,9 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 
 - Some boards have a resistor value of 20k, others may have different values such as 5.1k, check the table in the adc.c file
 
+- To generate a custom lookup table for a different sensor, you can use this tool "[NTC Lookup Table Generator](https://github.com/rtek1000/NTC_Lookup_Table_Generator)":
+![image](https://github.com/rtek1000/NTC_Lookup_Table_Generator/blob/main/Img/Image_1.png)
+
 # Original description:
 - w1209-firmware
 - - The functional equivalent to the original firmware of "Digital Thermostat Module Model XH-W1209".
