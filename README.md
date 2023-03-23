@@ -17,7 +17,7 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 - The generic schematic diagram shows the value of 20K ohms for R2:
 ![image](https://raw.githubusercontent.com/rtek1000/NTC_Lookup_Table_Generator/main/Img/image.jpg)
 
-- R2 resistor: Some boards have a resistor value of 20k, others may have different values such as 5.1k, check the table in the adc.c file, if your board has a different value for R2 or for the sensor, it may be necessary to change the table rawADC[]:
+- R2 resistor: Some boards have a resistor value of 20k, others may have different values such as 5.1k, check the table in the adc.c file, if your board has a different value for R2 or for the sensor, it may be necessary to change the table rawADC[ ]:
 ![image](https://raw.githubusercontent.com/rtek1000/NTC_Lookup_Table_Generator/main/Img/Image2.png)
 
 - To generate a custom lookup table for a different sensor, you can use this tool:
