@@ -5,7 +5,7 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 
 # Modifications:
 - Added sensor failure indicator (Value reading below position 0 of the table)
-- Added alarm type operation mode (Cause relay activation using the maximum [P2] and minimum parameters [P3].)
+- Added alarm type operation mode [C/H/A] (Cause relay activation using the maximum [P2] and minimum parameters [P3].)
 
 # Original description:
 - w1209-firmware
