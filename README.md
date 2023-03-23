@@ -4,6 +4,9 @@
 This repository is a fork of the ![original](https://github.com/mister-grumbler/w1209-firmware).
 
 # Modifications:
+- Fault if sensor shows FFF on display.
+- Value outside the maximum or minimum range: display flashes.
+- - In the original code it shows HHH for higher value and shows LLL for lower value.
 - Added sensor failure indicator (Value reading below position 0 of the table)
 - Added alarm type operation mode [C/H/A]: When in A mode: cause relay activation using the maximum [P2] and minimum parameters [P3].
 - - Temperature greater than the maximum value [P2]: relay activated.
