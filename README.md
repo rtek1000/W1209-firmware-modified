@@ -6,6 +6,8 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 # Modifications:
 - Added sensor failure indicator (Value reading below position 0 of the table)
 - Added alarm type operation mode [C/H/A]: When in A mode: cause relay activation using the maximum [P2] and minimum parameters [P3].
+- - Temperature greater than the maximum value [P2]: relay activated.
+- - Temperature lower than the minimum value [P3]: relay activated.
 - Added lock parameter [P7]: When activated (ON) the SETPOINT parameter (Threshold in the source code) cannot be modified.
 
 - Table of original parameters:
