@@ -43,9 +43,9 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 
 # Usage:
 - Build procedure:
-> $make
+- - make
 - Upload procedure: 
-> $stm8flash -c stlinkv2 -p stm8s003?3 -w thermostat.ihx
+- - stm8flash -c stlinkv2 -p stm8s003?3 -w thermostat.ihx
 
 - Build tools:
 - - Source control - Git is a free and open source distributed version control system.
