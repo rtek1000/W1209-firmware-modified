@@ -183,7 +183,8 @@ void ADC1_EOC_handler() __interrupt (22)
 
 bool getSensorFail()
 {
-    if((result_fail >> ADC_AVERAGING_FAIL_BITS) > rawAdc[0]) {
+    if(((result_fail >> ADC_AVERAGING_FAIL_BITS) > rawAdc[0]) ||
+       ((result_fail >> ADC_AVERAGING_FAIL_BITS) < rawAdc[ADC_RAW_TABLE_SIZE - 1])) {
         return true;
     } else {
         return false;
