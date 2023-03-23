@@ -10,7 +10,7 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 # R2 is not the same for all boards
 ![image](https://raw.githubusercontent.com/rtek1000/w1209-firmware/master/Doc/w1209.png)
 
-- Some boards have a resistor value of 20k, others may have different values such as 5.1k, check the table in the adc.c file
+- [R2 resistor]: Some boards have a resistor value of 20k, others may have different values such as 5.1k, check the table in the adc.c file
 
 - To generate a custom lookup table for a different sensor, you can use this tool:
 - - "[NTC Lookup Table Generator](https://github.com/rtek1000/NTC_Lookup_Table_Generator)":
