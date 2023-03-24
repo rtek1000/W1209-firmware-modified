@@ -22,6 +22,9 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 
 - Added lock parameter [P7: ON/OFF]: When activated (ON) the SETPOINT parameter (Threshold in the source code) cannot be modified.
 
+- Added automatic brightness reduction [P8: ON/OFF]: When activated (ON), after 15 seconds in IDLE, the brightness of the display is reduced.
+- - Brightness returns to maximum when you press any key.
+
 - Table of original parameters:
 ![image](https://raw.githubusercontent.com/rtek1000/w1209-firmware/master/Doc/Table_params_W1209.png)
 
