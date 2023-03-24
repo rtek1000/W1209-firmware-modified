@@ -1,0 +1,1 @@
+Precompiled file, for programming the STM8S003 or STM8S103 using STlink V2
