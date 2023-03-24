@@ -7,19 +7,20 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 - Shows "HHH" or "LLL" on display if sensor fails, display flashing:
 - - If the sensor is disconnected, it shows "LLL".
 - - If the sensor is short circuited, it shows "HHH".
-- - Note 1: in the C (Cooling) and Heating modes of parameter [P0], the relay is deactivated when the sensor fails (open contacts [K0 K1]).
-- - Note 2: in mode A (Alarm) of parameter [P0], the relay is activated when the sensor fails (closed contacts [K0-K1]).
+- - Note 1: in the "C" (Cooling) and "H" (Heating) modes of parameter [P0], the relay is deactivated when the sensor fails (open contacts [K0 K1]).
+- - Note 2: in mode "A1" (Alarm 1) of parameter [P0], the relay is activated when the sensor fails (closed contacts [K0-K1]).
+- - Note 3: in mode "A2" (Alarm 2) of parameter [P0], the relay is disabled when the sensor fails (open contacts [K0 K1]).
 
 - Operation mode for alarm [P0: C/H/A1/A2]:
-- - When in A1 mode (Alarm): cause relay activation using the maximum [P2] and minimum parameters [P3].
+- - When in "A1" mode (Alarm): cause relay activation using the maximum [P2] and minimum parameters [P3].
 - - - Temperature greater than the maximum value [P2]: relay activated.
 - - - Temperature lower than the minimum value [P3]: relay activated.
-- - When in A2 mode (Alarm): cause relay activation using the maximum [P2] and minimum parameters [P3].
+- - When in "A2" mode (Alarm): cause relay activation using the maximum [P2] and minimum parameters [P3].
 - - - Temperature greater than the maximum value [P2]: relay disabled.
 - - - Temperature lower than the minimum value [P3]: relay disabled.
-- - When in C mode (Cooler): cause relay activation using the SETPOINT parameter (Threshold in the source code).
+- - When in "C" mode (Cooler): cause relay activation using the SETPOINT parameter (Threshold in the source code).
 - - - Temperature greater than the SETPOINT: relay activated (closed contacts [K0-K1]).
-- - When in H mode (Heater): cause relay activation using the SETPOINT parameter (Threshold in the source code).
+- - When in "H" mode (Heater): cause relay activation using the SETPOINT parameter (Threshold in the source code).
 - - - Temperature greater than the SETPOINT: relay disabled (open contacts [K0 K1]).
 
 - For parameter [P6: ON/OFF]: When activated (ON) if the value is outside the maximum and minimum range: the display flashes.
