@@ -4,9 +4,9 @@
 This repository is a fork of the ![original](https://github.com/mister-grumbler/w1209-firmware).
 
 # Modifications:
-- Shows HHH or LLL on display if sensor fails, display flashing:
-- - If the sensor is disconnected, it shows LLL.
-- - If the sensor is short circuited, it shows HHH.
+- Shows "HHH" or "LLL" on display if sensor fails, display flashing:
+- - If the sensor is disconnected, it shows "LLL".
+- - If the sensor is short circuited, it shows "HHH".
 - - Note 1: in the C (Cooling) and Heating modes of parameter [P0], the relay is deactivated when the sensor fails (open contacts [K0 K1]).
 - - Note 2: in mode A (Alarm) of parameter [P0], the relay is activated when the sensor fails (closed contacts [K0-K1]).
 
@@ -25,9 +25,11 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 - For parameter [P6: ON/OFF]: When activated (ON) if the value is outside the maximum and minimum range: the display flashes.
 - - In the original code it shows HHH for higher value and shows LLL for lower value.
 
-- Lock parameter [P7: ON/OFF]:
-- - When activated (ON) the SETPOINT parameter (Threshold in the source code) cannot be modified.
-- - When activated (ON) the RECOVERY parameter cannot be performed.
+- Lock parameter [P7: ON/OFF]. When activated (ON):
+- - The SETPOINT parameter (Threshold in the source code) cannot be modified.
+- - - When trying to change the SETPIONT, the display shows: "LOC"
+- - - When power is started, the display shows: "P7" and "LOC"
+- - The RECOVERY parameter cannot be performed.
 - - - RECOVERY is data restoration to factory mode.
 
 - Automatic brightness reduction [P8: ON/OFF]: When activated (ON), after 15 seconds in IDLE, the brightness of the display is reduced.
