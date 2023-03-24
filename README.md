@@ -23,6 +23,16 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 - - When in "H" mode (Heater): cause relay activation using the SETPOINT parameter (Threshold in the source code).
 - - - Temperature greater than the SETPOINT: relay disabled (open contacts "K0" and "K1").
 
+- [P1: 0.1/15] Degree hysteresis (°C) to toggle relay.
+- [P2: -50/110] Maximum limit:
+- - Used for Alert on the display (blinking) and Alarm mode ("P0" parameter in "A1" or "A2").
+- [P3: -50/110] Minimum limit:
+- - Used for Alert on the display (blinking) and Alarm mode ("P0" parameter in "A1" or "A2").
+- [P4: -7.0/+7.0] Temperature offset.
+- - Used to compensate for temperature deviations.
+- [P5: 0/10] Delay before activating the relay:
+- - Used for applications such as refrigerator compressor motor.
+
 - [P6: ON/OFF] Alert parameter: When activated (ON) if the value is beyond the maximum and minimum range: the display flashes.
 - - In the original code it shows HHH for higher value and shows LLL for lower value.
 
