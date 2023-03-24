@@ -87,7 +87,7 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 - Note: the STlink cable can interfere with the W1209 operation, if the display shows 888 or remains off, remove the cable from the W1209 board.
 
 - Editing tool:
-- - Any editor can be used to modify the files, as suggested in the original repository, you can use CodeLite, it is lightweight and has color plugins that help in reading the code.
+- - Any editor can be used to modify the files, as suggested in the original repository, you can use CodeLite, it is lightweight and has color and plugins that help in reading the code.
 ![image](https://github.com/rtek1000/W1209-firmware-modified/blob/master/Doc/CodeLite%20IDE.png)
 - - CodeLite install:
 - - - sudo apt-get install codelite
