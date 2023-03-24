@@ -26,7 +26,7 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 - - Brightness returns to maximum when you press any key.
 
 - Table of adjustable parameters:
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/Doc/Table_params_W1209_modified.png)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/Doc/Table_params_W1209_modified_2.png)
 
 - R2 is not the same for all boards:
 ![image](https://raw.githubusercontent.com/rtek1000/w1209-firmware/master/Doc/w1209.png)
