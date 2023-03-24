@@ -30,6 +30,7 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 - - The SETPOINT parameter (Threshold in the source code) cannot be modified.
 - - - When trying to change the SETPIONT, the display shows: "LOC"
 - - - When power is started, the display shows: "P7" and "LOC"
+- - If parameter P6 is activated (ON), it shows the minimum and maximum values, using the + or - keys. 
 - - The RECOVERY parameter (data restoration to factory mode) cannot be performed.
 
 - Automatic brightness reduction [P8: ON/OFF]: When activated (ON), after 15 seconds in IDLE, the brightness of the display is reduced.
