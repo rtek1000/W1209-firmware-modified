@@ -89,6 +89,9 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 - Editing tool:
 - - Any editor can be used to modify the files, as suggested in the original repository, you can use CodeLite, it is lightweight and has color plugins that help in reading the code.
 ![image](https://github.com/rtek1000/W1209-firmware-modified/blob/master/Doc/CodeLite%20IDE.png)
+- - CodeLite install:
+- - - sudo apt-get install codelite
+- - - sudo apt-get install codelite-plugins
 
 # Original description:
 - w1209-firmware
