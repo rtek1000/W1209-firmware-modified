@@ -56,6 +56,11 @@ unsigned char getMenuDisplay()
     return menuDisplay;
 }
 
+void setMenuDisplay(unsigned char _menu)
+{
+    menuDisplay = _menu;
+}
+
 /**
  * @brief Updating state of application's menu and displaying info when new
  *  event is received. Possible states of menu and displaying are:
@@ -133,6 +138,16 @@ void feedMenu (unsigned char event)
                     timer = 0;
                     setDisplayOff (0);
                     menuState = menuDisplay = MENU_SELECT_PARAM;
+                }
+            }
+
+            if (timer > MENU_3_SEC_PASSED) {
+                if (menuDisplay == MENU_EEPROM_LOCKED) {
+                    menuDisplay = MENU_EEPROM_LOC_2;
+                    timer = 0;
+                } else if ((menuDisplay == MENU_EEPROM_LOC_2) || (menuDisplay == MENU_EEPROM_RESET)) {
+                    menuDisplay = MENU_ROOT;
+                    timer = 0;
                 }
             }
 
@@ -282,6 +297,8 @@ void feedMenu (unsigned char event)
             setParamId (PARAM_THRESHOLD);
             if (!getParamById (PARAM_LOCK_BUTTONS) ) {
                 incParam();
+            } else {
+                menuDisplay = MENU_EEPROM_LOC_2;
             }
 
         case MENU_EVENT_RELEASE_BUTTON2:
@@ -292,6 +309,8 @@ void feedMenu (unsigned char event)
             setParamId (PARAM_THRESHOLD);
             if (!getParamById (PARAM_LOCK_BUTTONS) ) {
                 decParam();
+            } else {
+                menuDisplay = MENU_EEPROM_LOC_2;
             }
 
         case MENU_EVENT_RELEASE_BUTTON3:

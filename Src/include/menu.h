@@ -26,6 +26,9 @@
 #define MENU_ALARM         4
 #define MENU_ALARM_HIGH    5
 #define MENU_ALARM_LOW     6
+#define MENU_EEPROM_RESET  7
+#define MENU_EEPROM_LOCKED 8
+#define MENU_EEPROM_LOC_2  9
 /* Menu events */
 #define MENU_EVENT_PUSH_BUTTON1     0
 #define MENU_EVENT_PUSH_BUTTON2     1
@@ -38,6 +41,7 @@
 void initMenu();
 void refreshMenu();
 unsigned char getMenuDisplay();
+void setMenuDisplay(unsigned char _menu);
 void feedMenu (unsigned char event);
 
 #endif

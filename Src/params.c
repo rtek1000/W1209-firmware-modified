@@ -37,6 +37,7 @@
 #include "params.h"
 #include "stm8s003/prom.h"
 #include "buttons.h"
+#include "menu.h"
 
 /* Definitions for EEPROM */
 #define EEPROM_BASE_ADDR        0x4000
@@ -51,6 +52,9 @@ const int paramDefault[] = {0, 20, 110, -50, 0, 0, 0, 0, 0, 280};
 
 #define paramIdMax 8
 
+static void resetParamsEEPROM();
+static void loadParamsEEPROM();
+
 /**
  * @brief Check values in the EEPROM to be correct then load them into
  * parameters' cache.
@@ -58,21 +62,38 @@ const int paramDefault[] = {0, 20, 110, -50, 0, 0, 0, 0, 0, 280};
 void initParamsEEPROM()
 {
     if (getButton2() && getButton3() ) {
-        // Restore parameters to default values
-        for (paramId = 0; paramId < paramLen; paramId++) {
-            paramCache[paramId] = paramDefault[paramId];
-        }
-
-        storeParams();
-    } else {
-        // Load parameters from EEPROM
-        for (paramId = 0; paramId < paramLen; paramId++) {
-            paramCache[paramId] = * (int*) (EEPROM_BASE_ADDR + EEPROM_PARAMS_OFFSET
-                                            + (paramId * sizeof paramCache[0]) );
+        if (getParamById (PARAM_LOCK_BUTTONS)) {
+            resetParamsEEPROM();
+            setMenuDisplay(MENU_EEPROM_RESET);
         }
     }
 
+    loadParamsEEPROM();
+
+    if (getParamById (PARAM_LOCK_BUTTONS)) {
+        setMenuDisplay(MENU_EEPROM_LOCKED);
+    }
+
     paramId = 0;
+}
+
+static void resetParamsEEPROM()
+{
+    // Restore parameters to default values
+    for (paramId = 0; paramId < paramLen; paramId++) {
+        paramCache[paramId] = paramDefault[paramId];
+    }
+
+    storeParams();
+}
+
+static void loadParamsEEPROM()
+{
+    // Load parameters from EEPROM
+    for (paramId = 0; paramId < paramLen; paramId++) {
+        paramCache[paramId] = * (int*) (EEPROM_BASE_ADDR + EEPROM_PARAMS_OFFSET
+                                        + (paramId * sizeof paramCache[0]) );
+    }
 }
 
 /**

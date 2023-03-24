@@ -331,6 +331,7 @@ static void setDigit (unsigned char id, unsigned char val, bool dot)
         break;
 
     case '5':
+    case 'S':
         displayAC[id] = SSD_SEG_C_BIT | SSD_SEG_F_BIT | SSD_SEG_G_BIT;
         displayD[id] = SSD_SEG_A_BIT | SSD_SEG_D_BIT;
         break;
@@ -413,6 +414,11 @@ static void setDigit (unsigned char id, unsigned char val, bool dot)
     case 'R':
         displayAC[id] = SSD_SEG_G_BIT;
         displayD[id] = SSD_SEG_E_BIT;
+        break;
+
+    case 'T':
+        displayAC[id] = SSD_SEG_F_BIT | SSD_SEG_G_BIT;
+        displayD[id] = SSD_SEG_D_BIT | SSD_SEG_E_BIT;
         break;
 
     default:

@@ -18,6 +18,8 @@
 #ifndef PARAMS_H
 #define PARAMS_H
 
+#include "main.h"
+
 /* Definition for parameter identifiers */
 #define PARAM_RELAY_MODE                0
 #define PARAM_RELAY_HYSTERESIS          1

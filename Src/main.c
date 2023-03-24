@@ -107,8 +107,16 @@ int main()
             setDisplayStr ( (char*) stringBuffer);
             setDisplayOff ( (bool) (getUptime() & 0x80) );
         } else {
-            setDisplayStr ("ERR");
-            setDisplayOff ( (bool) (getUptime() & 0x40) );
+            if(getMenuDisplay() == MENU_EEPROM_RESET) {
+                setDisplayStr ("RST");
+            } else if(getMenuDisplay() == MENU_EEPROM_LOCKED) {
+                setDisplayStr (" P7");
+            } else if(getMenuDisplay() == MENU_EEPROM_LOC_2) {
+                setDisplayStr ("LOC");
+            } else {
+                setDisplayStr ("ERR");
+                setDisplayOff ( (bool) (getUptime() & 0x40) );
+            }
         }
 
         WAIT_FOR_INTERRUPT
