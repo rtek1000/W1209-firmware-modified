@@ -55,6 +55,8 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 - - - - Press the "+" or "-" keys to change values.
 - - Long press SET key or no press (for 10 seconds), confirm and return automatically.
 
+- Note: Added delay for debounce, for fast increment hold key down.
+
 - Table of adjustable parameters:
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/Doc/Table_params_W1209_modified_6.png)
 
