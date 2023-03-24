@@ -18,11 +18,7 @@
 #ifndef ADC_H
 #define ADC_H
 
-#ifndef bool
-#define bool    _Bool
-#define true    1
-#define false   0
-#endif
+#include "main.h"
 
 void initADC();
 void startADC();

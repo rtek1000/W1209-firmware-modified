@@ -29,7 +29,7 @@ CFLAGS   := $(LibrarySwitch) -mstm8
 ##
 ## User defined environment variables
 ##
-Objects=$(BuildDirectory)/ts.c$(ObjectSuffix) $(BuildDirectory)/display.c$(ObjectSuffix) $(BuildDirectory)/timer.c$(ObjectSuffix) $(BuildDirectory)/buttons.c$(ObjectSuffix) $(BuildDirectory)/adc.c$(ObjectSuffix) $(BuildDirectory)/menu.c$(ObjectSuffix) $(BuildDirectory)/params.c$(ObjectSuffix) $(BuildDirectory)/relay.c$(ObjectSuffix) 
+Objects=$(BuildDirectory)/main.c$(ObjectSuffix) $(BuildDirectory)/display.c$(ObjectSuffix) $(BuildDirectory)/timer.c$(ObjectSuffix) $(BuildDirectory)/buttons.c$(ObjectSuffix) $(BuildDirectory)/adc.c$(ObjectSuffix) $(BuildDirectory)/menu.c$(ObjectSuffix) $(BuildDirectory)/params.c$(ObjectSuffix) $(BuildDirectory)/relay.c$(ObjectSuffix) 
 
 ##
 ## Main Build Targets 
@@ -51,8 +51,8 @@ $(BuildDirectory)/.d:
 ##
 ## Objects
 ##
-$(BuildDirectory)/ts.c$(ObjectSuffix): ts.c
-	$(CC) $(SourceSwitch) "$(SourceDirectory)/ts.c" $(CFLAGS) $(ObjectSwitch)$(BuildDirectory)/ts.c$(ObjectSuffix) $(IncludePath)
+$(BuildDirectory)/main.c$(ObjectSuffix): main.c
+	$(CC) $(SourceSwitch) "$(SourceDirectory)/main.c" $(CFLAGS) $(ObjectSwitch)$(BuildDirectory)/main.c$(ObjectSuffix) $(IncludePath)
 
 $(BuildDirectory)/display.c$(ObjectSuffix): display.c
 	$(CC) $(SourceSwitch) "$(SourceDirectory)/display.c" $(CFLAGS) $(ObjectSwitch)$(BuildDirectory)/display.c$(ObjectSuffix) $(IncludePath)

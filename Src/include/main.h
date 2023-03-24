@@ -15,20 +15,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BUTTONS_H
-#define BUTTONS_H
+#ifndef MAIN_H
+#define MAIN_H
 
-#include "main.h"
-
-void initButtons();
-bool isButton1();
-bool isButton2();
-bool isButton3();
-bool getButton1();
-bool getButton2();
-bool getButton3();
-unsigned char getButton();
-unsigned char getButtonDiff();
-void EXTI2_handler() __interrupt (5);
+#ifndef bool
+#define bool    _Bool
+#define true    1
+#define false   0
+#endif
 
 #endif
+

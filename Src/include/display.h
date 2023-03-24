@@ -18,11 +18,7 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
 
-#ifndef bool
-#define bool    _Bool
-#define true    1
-#define false   0
-#endif
+#include "main.h"
 
 void initDisplay();
 void dimmerBrightness(bool _state);
