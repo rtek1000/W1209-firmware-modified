@@ -10,7 +10,7 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 - - Note 1: in the C (Cooling) and Heating modes of parameter [P0], the relay is deactivated when the sensor fails (open contacts [K0 K1]).
 - - Note 2: in mode A (Alarm) of parameter [P0], the relay is activated when the sensor fails (closed contacts [K0-K1]).
 
-- Added operation mode for alarm [P0: C/H/A1/A2]:
+- Operation mode for alarm [P0: C/H/A1/A2]:
 - - When in A1 mode (Alarm): cause relay activation using the maximum [P2] and minimum parameters [P3].
 - - - Temperature greater than the maximum value [P2]: relay activated.
 - - - Temperature lower than the minimum value [P3]: relay activated.
@@ -25,9 +25,9 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 - For parameter [P6: ON/OFF]: When activated (ON) if the value is outside the maximum and minimum range: the display flashes.
 - - In the original code it shows HHH for higher value and shows LLL for lower value.
 
-- Added lock parameter [P7: ON/OFF]: When activated (ON) the SETPOINT parameter (Threshold in the source code) cannot be modified.
+- Lock parameter [P7: ON/OFF]: When activated (ON) the SETPOINT parameter (Threshold in the source code) cannot be modified.
 
-- Added automatic brightness reduction [P8: ON/OFF]: When activated (ON), after 15 seconds in IDLE, the brightness of the display is reduced.
+- Automatic brightness reduction [P8: ON/OFF]: When activated (ON), after 15 seconds in IDLE, the brightness of the display is reduced.
 - - Brightness returns to maximum when you press any key.
 - - Note, the brightness of LED1 cannot be controlled via software as it is the same control pin as the relay.
 
