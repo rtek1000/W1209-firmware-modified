@@ -7,21 +7,21 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 - Shows "HHH" or "LLL" on display if sensor fails, display flashing:
 - - If the sensor is disconnected, it shows "LLL".
 - - If the sensor is short circuited, it shows "HHH".
-- - Note 1: in the "C" (Cooling) and "H" (Heating) modes of parameter [P0], the relay is deactivated when the sensor fails (open contacts [K0 K1]).
-- - Note 2: in mode "A1" (Alarm 1) of parameter [P0], the relay is activated when the sensor fails (closed contacts [K0-K1]).
-- - Note 3: in mode "A2" (Alarm 2) of parameter [P0], the relay is disabled when the sensor fails (open contacts [K0 K1]).
+- - Note 1: in the "C" (Cooling) and "H" (Heating) modes of parameter "P0", the relay is deactivated when the sensor fails (open contacts "K0" and "K1").
+- - Note 2: in mode "A1" (Alarm 1) of parameter "P0", the relay is activated when the sensor fails (closed contacts "K0" and "K1").
+- - Note 3: in mode "A2" (Alarm 2) of parameter "P0", the relay is disabled when the sensor fails (open contacts "K0" and "K1").
 
 - Operation mode for alarm [P0: C/H/A1/A2]:
-- - When in "A1" mode (Alarm): cause relay activation using the maximum [P2] and minimum parameters [P3].
-- - - Temperature greater than the maximum value [P2]: relay activated.
-- - - Temperature lower than the minimum value [P3]: relay activated.
-- - When in "A2" mode (Alarm): cause relay activation using the maximum [P2] and minimum parameters [P3].
-- - - Temperature greater than the maximum value [P2]: relay disabled.
-- - - Temperature lower than the minimum value [P3]: relay disabled.
+- - When in "A1" mode (Alarm): cause relay activation using the maximum "P2" and minimum parameters "P3".
+- - - Temperature greater than the maximum value "P2": relay activated.
+- - - Temperature lower than the minimum value "P3": relay activated.
+- - When in "A2" mode (Alarm): cause relay activation using the maximum "P2" and minimum parameters "P3".
+- - - Temperature greater than the maximum value "P2": relay disabled.
+- - - Temperature lower than the minimum value "P3": relay disabled.
 - - When in "C" mode (Cooler): cause relay activation using the SETPOINT parameter (Threshold in the source code).
-- - - Temperature greater than the SETPOINT: relay activated (closed contacts [K0-K1]).
+- - - Temperature greater than the SETPOINT: relay activated (closed contacts "K0" and "K1").
 - - When in "H" mode (Heater): cause relay activation using the SETPOINT parameter (Threshold in the source code).
-- - - Temperature greater than the SETPOINT: relay disabled (open contacts [K0 K1]).
+- - - Temperature greater than the SETPOINT: relay disabled (open contacts "K0" and "K1").
 
 - Alert parameter [P6: ON/OFF]: When activated (ON) if the value is beyond the maximum and minimum range: the display flashes.
 - - In the original code it shows HHH for higher value and shows LLL for lower value.
@@ -35,15 +35,15 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 
 - Automatic brightness reduction [P8: ON/OFF]: When activated (ON), after 15 seconds in IDLE, the brightness of the display is reduced.
 - - Brightness returns to maximum when you press any key.
-- - Note, the brightness of LED1 cannot be controlled via software as it is the same control pin as the relay.
+- - Note, the brightness of "LED1" (see board) cannot be controlled via software as it is the same control pin as the relay.
 
 - Note:
 - - To enter the main configuration parameters menu:
 - - - Press the SET key for a long time (for more than 5 seconds).
-- - - Press the + or - keys to toggle between parameters P0 through P8.
+- - - Press the "+" or "-" keys to toggle between parameters "P0" through "P8".
 - - - Short press SET key to enter the parameter.
-- - - - Press the + or - keys to change values.
-- - Long press SET key or no press for 10 seconds, confirm and return automatically.
+- - - - Press the "+" or "-" keys to change values.
+- - Long press SET key or no press (for 10 seconds), confirm and return automatically.
 
 - Table of adjustable parameters:
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/Doc/Table_params_W1209_modified_6.png)
