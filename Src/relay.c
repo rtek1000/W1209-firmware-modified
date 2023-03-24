@@ -65,6 +65,7 @@ void refreshRelay()
 {
     bool mode = 0;
     bool alarm_mode = 0;
+    bool sensor_fail = getSensorFail();
 
     if (getParamById (PARAM_RELAY_MODE) == 2) {
         mode = 0;
@@ -74,51 +75,62 @@ void refreshRelay()
         alarm_mode = 0;
     }
 
-    if (state) { // Relay state is enabled
-        if (alarm_mode) {
-            if ((getTemperature() > (getParamById (PARAM_MIN_TEMPERATURE) * 10) ) &&
-                (getTemperature() < (getParamById (PARAM_MAX_TEMPERATURE) * 10) ) ) {
-                state = false;
-                setRelay (mode);
-            }
-        } else {
-            if (getTemperature() < (getParamById (PARAM_THRESHOLD)
-                                    - (getParamById (PARAM_RELAY_HYSTERESIS) >> 3) ) ) {
-                timer++;
-
-                if ( (getParamById (PARAM_RELAY_DELAY) << RELAY_TIMER_MULTIPLIER) < timer) {
+    if(!sensor_fail) {
+        if (state) { // Relay state is enabled
+            if (alarm_mode) {
+                if ((getTemperature() > (getParamById (PARAM_MIN_TEMPERATURE) * 10) ) &&
+                    (getTemperature() < (getParamById (PARAM_MAX_TEMPERATURE) * 10) ) ) {
                     state = false;
                     setRelay (mode);
-                } else {
-                    setRelay (!mode);
                 }
             } else {
-                timer = 0;
-                setRelay (!mode);
-            }
-        }
-    } else { // Relay state is disabled
-        if (alarm_mode) {
-            if ((getTemperature() <= (getParamById (PARAM_MIN_TEMPERATURE) * 10) ) ||
-                (getTemperature() >= (getParamById (PARAM_MAX_TEMPERATURE) * 10) ) ) {
-                state = true;
-                setRelay (!mode);
-            }
-        } else {
-            if (getTemperature() > (getParamById (PARAM_THRESHOLD)
-                                    + (getParamById (PARAM_RELAY_HYSTERESIS) >> 3) ) ) {
-                timer++;
+                if (getTemperature() < (getParamById (PARAM_THRESHOLD)
+                                        - (getParamById (PARAM_RELAY_HYSTERESIS) >> 3) ) ) {
+                    timer++;
 
-                if ( (getParamById (PARAM_RELAY_DELAY) << RELAY_TIMER_MULTIPLIER) < timer) {
+                    if ( (getParamById (PARAM_RELAY_DELAY) << RELAY_TIMER_MULTIPLIER) < timer) {
+                        state = false;
+                        setRelay (mode);
+                    } else {
+                        setRelay (!mode);
+                    }
+                } else {
+                    timer = 0;
+                    setRelay (!mode);
+                }
+            }
+        } else { // Relay state is disabled
+            if (alarm_mode) {
+                if ((getTemperature() <= (getParamById (PARAM_MIN_TEMPERATURE) * 10) ) ||
+                    (getTemperature() >= (getParamById (PARAM_MAX_TEMPERATURE) * 10) ) ) {
                     state = true;
                     setRelay (!mode);
-                } else {
-                    setRelay (mode);
                 }
             } else {
-                timer = 0;
-                setRelay (mode);
+                if (getTemperature() > (getParamById (PARAM_THRESHOLD)
+                                        + (getParamById (PARAM_RELAY_HYSTERESIS) >> 3) ) ) {
+                    timer++;
+
+                    if ( (getParamById (PARAM_RELAY_DELAY) << RELAY_TIMER_MULTIPLIER) < timer) {
+                        state = true;
+                        setRelay (!mode);
+                    } else {
+                        setRelay (mode);
+                    }
+                } else {
+                    timer = 0;
+                    setRelay (mode);
+                }
             }
+        }
+    } else {
+
+        if (getParamById (PARAM_RELAY_MODE) == 2) {
+            state = true;
+            setRelay (1);
+        } else {
+            state = false;
+            setRelay (0);
         }
     }
 }
