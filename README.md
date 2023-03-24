@@ -16,9 +16,9 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 - - - Temperature greater than the maximum value [P2]: relay activated.
 - - - Temperature lower than the minimum value [P3]: relay activated.
 - - When in C mode (Cooler): cause relay activation using the SETPOINT parameter (Threshold in the source code).
-- - - Temperature greater than the SETPOINT: relay activated (closed contacts).
+- - - Temperature greater than the SETPOINT: relay activated (closed contacts [K0<--->K1]).
 - - When in H mode (Heater): cause relay activation using the SETPOINT parameter (Threshold in the source code).
-- - - Temperature greater than the SETPOINT: relay disabled (open contacts).
+- - - Temperature greater than the SETPOINT: relay disabled (open contacts [K0<   >K1]).
 
 - Added lock parameter [P7: ON/OFF]: When activated (ON) the SETPOINT parameter (Threshold in the source code) cannot be modified.
 
