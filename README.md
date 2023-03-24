@@ -4,7 +4,7 @@
 This repository is a fork of the ![original](https://github.com/mister-grumbler/w1209-firmware).
 
 # Modifications:
-- Shows HHH or LLL on display if sensor fails:
+- Shows HHH or LLL on display if sensor fails, display flashing:
 - - If the sensor is disconnected, it shows LLL.
 - - If the sensor is short circuited, it shows HHH.
 - - Note 1: in the C (Cooling) and Heating modes of parameter [P0], the relay is deactivated when the sensor fails (open contacts [K0 K1]).
