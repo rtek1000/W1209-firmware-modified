@@ -23,7 +23,7 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 - - When in "H" mode (Heater): cause relay activation using the SETPOINT parameter (Threshold in the source code).
 - - - Temperature greater than the SETPOINT: relay disabled (open contacts [K0 K1]).
 
-- For parameter [P6: ON/OFF]: When activated (ON) if the value is outside the maximum and minimum range: the display flashes.
+- For parameter [P6: ON/OFF]: When activated (ON) if the value is beyond the maximum and minimum range: the display flashes.
 - - In the original code it shows HHH for higher value and shows LLL for lower value.
 
 - Lock parameter [P7: ON/OFF]. When activated (ON):
