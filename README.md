@@ -39,6 +39,7 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 - Table of adjustable parameters:
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/Doc/Table_params_W1209_modified_5.png)
 
+# W1209 hardware (variation):
 - R2 is not the same for all boards:
 ![image](https://raw.githubusercontent.com/rtek1000/w1209-firmware/master/Doc/w1209.png)
 
