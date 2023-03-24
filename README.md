@@ -10,9 +10,6 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 - - Note 1: in the C (Cooling) and Heating modes of parameter [P0], the relay is deactivated when the sensor fails (open contacts [K0 K1]).
 - - Note 2: in mode A (Alarm) of parameter [P0], the relay is activated when the sensor fails (closed contacts [K0-K1]).
 
-- Value outside the maximum or minimum range: display flashes.
-- - In the original code it shows HHH for higher value and shows LLL for lower value.
-
 - Added operation mode for alarm [P0: C/H/A]:
 - - When in A mode (Alarm): cause relay activation using the maximum [P2] and minimum parameters [P3].
 - - - Temperature greater than the maximum value [P2]: relay activated.
@@ -21,6 +18,9 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 - - - Temperature greater than the SETPOINT: relay activated (closed contacts [K0-K1]).
 - - When in H mode (Heater): cause relay activation using the SETPOINT parameter (Threshold in the source code).
 - - - Temperature greater than the SETPOINT: relay disabled (open contacts [K0 K1]).
+
+- For parameter [P6: ON/OFF]: When activated (ON) if the value is outside the maximum and minimum range: the display flashes.
+- - In the original code it shows HHH for higher value and shows LLL for lower value.
 
 - Added lock parameter [P7: ON/OFF]: When activated (ON) the SETPOINT parameter (Threshold in the source code) cannot be modified.
 
