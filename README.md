@@ -3,7 +3,7 @@
 
 This repository is a fork of the ![original](https://github.com/mister-grumbler/w1209-firmware).
 
-# Modifications:
+# Modifications (W1209 Usage):
 - Shows "HHH" or "LLL" on display if sensor fails, display flashing:
 - - If the sensor is disconnected, it shows "LLL".
 - - If the sensor is short circuited, it shows "HHH".
