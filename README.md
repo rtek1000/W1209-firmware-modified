@@ -78,7 +78,7 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 - - - cd stm8flash
 - - - make
 - - - sudo make install
-- - Note: If you have errors in the code, when executing the make command, messages referring to the files and lines appear, similar to the warnings of the Arduino IDE.
+- - Note: If you have errors in the code, when executing the make command, messages referring to the files and lines appear, similar to the warnings of the Arduino IDE. You can use different terminal windows (command-line shell) for compiling (make) and uploading (stm8flash).
 
 - Upload tool:
 - - STlink V2
