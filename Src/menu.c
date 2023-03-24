@@ -81,7 +81,7 @@ void feedMenu (unsigned char event)
         switch (event) {
         case MENU_EVENT_PUSH_BUTTON1:
             timer = 0;
-            if (getParamById (PARAM_RELAY_MODE) == 2) {
+            if ((getParamById (PARAM_RELAY_MODE) == 2) || (getParamById (PARAM_RELAY_MODE) == 3)) {
                 menuDisplay = MENU_ALARM;
             } else {
                 menuDisplay = MENU_SET_THRESHOLD;
@@ -97,7 +97,7 @@ void feedMenu (unsigned char event)
 
         case MENU_EVENT_RELEASE_BUTTON1:
             if (timer < MENU_5_SEC_PASSED) {
-                if (getParamById (PARAM_RELAY_MODE) == 2) {
+                if ((getParamById (PARAM_RELAY_MODE) == 2) || (getParamById (PARAM_RELAY_MODE) == 3)) {
                     menuState = MENU_ALARM;
                 } else {
                     menuState = MENU_SET_THRESHOLD;

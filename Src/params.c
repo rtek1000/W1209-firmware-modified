@@ -46,7 +46,7 @@
 static unsigned char paramId;
 static int paramCache[paramLen];
 const int paramMin[] = {0, 1, -45, -50, -70, 0, 0, 0, 0, -500};
-const int paramMax[] = {2, 150, 110, 105, 70, 10, 1, 0, 0, 1100};
+const int paramMax[] = {3, 150, 110, 105, 70, 10, 1, 0, 0, 1100};
 const int paramDefault[] = {0, 20, 110, -50, 0, 0, 0, 0, 0, 280};
 
 #define paramIdMax 8
@@ -202,15 +202,21 @@ void paramToString (unsigned char id, unsigned char* strBuff)
 {
     switch (id) {
     case PARAM_RELAY_MODE:
+        ( (unsigned char*) strBuff) [1] = 0;
         if (paramCache[id] == 1) {
             ( (unsigned char*) strBuff) [0] = 'H';
         } else if (paramCache[id] == 0) {
             ( (unsigned char*) strBuff) [0] = 'C';
         } else if (paramCache[id] == 2) {
+            ( (unsigned char*) strBuff) [2] = 0;
+            ( (unsigned char*) strBuff) [1] = '1';
+            ( (unsigned char*) strBuff) [0] = 'A';
+        } else if (paramCache[id] == 3) {
+            ( (unsigned char*) strBuff) [2] = 0;
+            ( (unsigned char*) strBuff) [1] = '2';
             ( (unsigned char*) strBuff) [0] = 'A';
         }
 
-        ( (unsigned char*) strBuff) [1] = 0;
         break;
 
     case PARAM_RELAY_HYSTERESIS:

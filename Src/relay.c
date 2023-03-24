@@ -68,22 +68,31 @@ void refreshRelay()
     int sensor_fail = getSensorFail();
 
     if (getParamById (PARAM_RELAY_MODE) == 2) {
-        mode = 0;
         alarm_mode = 1;
+        mode = 1;
+    } else if (getParamById (PARAM_RELAY_MODE) == 3) {
+        alarm_mode = 1;
+        mode = 0;
     } else {
-        mode = getParamById (PARAM_RELAY_MODE);
         alarm_mode = 0;
+        mode = getParamById (PARAM_RELAY_MODE);
     }
 
     if(sensor_fail == 0) {
-        if (state) { // Relay state is enabled
-            if (alarm_mode) {
-                if ((getTemperature() > (getParamById (PARAM_MIN_TEMPERATURE) * 10) ) &&
-                    (getTemperature() < (getParamById (PARAM_MAX_TEMPERATURE) * 10) ) ) {
-                    state = false;
-                    setRelay (mode);
-                }
-            } else {
+        if (alarm_mode) {
+            if ((getTemperature() > (getParamById (PARAM_MIN_TEMPERATURE) * 10) ) &&
+                (getTemperature() < (getParamById (PARAM_MAX_TEMPERATURE) * 10) ) ) {
+                state = false;
+                setRelay (!mode);
+            }
+
+            if ((getTemperature() <= (getParamById (PARAM_MIN_TEMPERATURE) * 10) ) ||
+                (getTemperature() >= (getParamById (PARAM_MAX_TEMPERATURE) * 10) ) ) {
+                state = true;
+                setRelay (mode);
+            }
+        } else {
+            if (state) { // Relay state is enabled
                 if (getTemperature() < (getParamById (PARAM_THRESHOLD)
                                         - (getParamById (PARAM_RELAY_HYSTERESIS) >> 3) ) ) {
                     timer++;
@@ -98,15 +107,8 @@ void refreshRelay()
                     timer = 0;
                     setRelay (!mode);
                 }
-            }
-        } else { // Relay state is disabled
-            if (alarm_mode) {
-                if ((getTemperature() <= (getParamById (PARAM_MIN_TEMPERATURE) * 10) ) ||
-                    (getTemperature() >= (getParamById (PARAM_MAX_TEMPERATURE) * 10) ) ) {
-                    state = true;
-                    setRelay (!mode);
-                }
-            } else {
+
+            } else { // Relay state is disabled
                 if (getTemperature() > (getParamById (PARAM_THRESHOLD)
                                         + (getParamById (PARAM_RELAY_HYSTERESIS) >> 3) ) ) {
                     timer++;

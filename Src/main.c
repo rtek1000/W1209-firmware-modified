@@ -90,7 +90,11 @@ int main()
             paramToString (getParamId(), (char*) stringBuffer);
             setDisplayStr ( (char *) stringBuffer);
         } else if (getMenuDisplay() == MENU_ALARM) {
-            setDisplayStr ("ALR");
+            if(getParamById(PARAM_RELAY_MODE) == 2) {
+                setDisplayStr ("AL1");
+            } else {
+                setDisplayStr ("AL2");
+            }
             setDisplayOff ( (bool) (getUptime() & 0x80) );
         } else if (getMenuDisplay() == MENU_ALARM_HIGH) {
             int temp = getParamById (PARAM_MAX_TEMPERATURE) * 10;

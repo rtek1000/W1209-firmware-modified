@@ -411,8 +411,8 @@ static void setDigit (unsigned char id, unsigned char val, bool dot)
         break;
 
     case 'R':
-        displayAC[id] = SSD_SEG_F_BIT;
-        displayD[id] = SSD_SEG_A_BIT | SSD_SEG_E_BIT;
+        displayAC[id] = SSD_SEG_G_BIT;
+        displayD[id] = SSD_SEG_E_BIT;
         break;
 
     default:
