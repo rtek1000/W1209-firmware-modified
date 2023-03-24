@@ -36,6 +36,8 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 - - Brightness returns to maximum when you press any key.
 - - Note, the brightness of LED1 cannot be controlled via software as it is the same control pin as the relay.
 
+- Note: Long-time press SET ket 5 seconds,then enter main setting menu,press + – key to change P0 to P8.Long-time press SET key or no any press 10seconds,automatically confirm and return.
+
 - Table of adjustable parameters:
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/Doc/Table_params_W1209_modified_5.png)
 
