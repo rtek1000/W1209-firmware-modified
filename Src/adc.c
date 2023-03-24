@@ -77,7 +77,7 @@ const unsigned int rawAdc[] = {
     49, 48, 47, 47, 46
 };
 */
-   
+
 static unsigned int result;
 static unsigned long result_fail;
 static unsigned long averaged;
@@ -181,12 +181,13 @@ void ADC1_EOC_handler() __interrupt (22)
     }
 }
 
-bool getSensorFail()
+int getSensorFail()
 {
-    if(((result_fail >> ADC_AVERAGING_FAIL_BITS) > rawAdc[0]) ||
-       ((result_fail >> ADC_AVERAGING_FAIL_BITS) < rawAdc[ADC_RAW_TABLE_SIZE - 1])) {
-        return true;
+    if((result_fail >> ADC_AVERAGING_FAIL_BITS) > rawAdc[0]) {
+        return 2;
+    } else if((result_fail >> ADC_AVERAGING_FAIL_BITS) < rawAdc[ADC_RAW_TABLE_SIZE - 1]) {
+        return 1;
     } else {
-        return false;
+        return 0;
     }
 }

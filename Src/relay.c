@@ -65,7 +65,7 @@ void refreshRelay()
 {
     bool mode = 0;
     bool alarm_mode = 0;
-    bool sensor_fail = getSensorFail();
+    int sensor_fail = getSensorFail();
 
     if (getParamById (PARAM_RELAY_MODE) == 2) {
         mode = 0;
@@ -75,7 +75,7 @@ void refreshRelay()
         alarm_mode = 0;
     }
 
-    if(!sensor_fail) {
+    if(sensor_fail == 0) {
         if (state) { // Relay state is enabled
             if (alarm_mode) {
                 if ((getTemperature() > (getParamById (PARAM_MIN_TEMPERATURE) * 10) ) &&

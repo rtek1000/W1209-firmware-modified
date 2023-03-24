@@ -54,10 +54,18 @@ int main()
 
         if (getMenuDisplay() == MENU_ROOT) {
             int temp = getTemperature();
-            bool sensor_fail = getSensorFail();
+            int sensor_fail = getSensorFail();
 
-            if(sensor_fail) {
-                setDisplayStr ("FFF");
+            if(sensor_fail > 0) {
+                bool blink = (bool) ( (unsigned char) getUptimeTicks() & 0x40);
+
+                if(sensor_fail == 1) {
+                    setDisplayStr ("LLL");
+                } else {
+                    setDisplayStr ("HHH");
+                }
+
+                setDisplayOff (blink);
             } else {
                 itofpa (temp, (char*) stringBuffer, 0);
                 setDisplayStr ( (char*) stringBuffer);
@@ -66,9 +74,9 @@ int main()
                     bool blink = (bool) ( (unsigned char) getUptimeTicks() & 0x80);
 
                     if (temp < (getParamById (PARAM_MIN_TEMPERATURE) * 10) ) {
-                        setDisplayOff (blink); // setDisplayStr ("LLL");
+                        setDisplayOff (blink);
                     } else if (temp >= (getParamById (PARAM_MAX_TEMPERATURE) * 10) ) {
-                        setDisplayOff (blink); // setDisplayStr ("HHH");
+                        setDisplayOff (blink);
                     }
                 }
             }

@@ -22,7 +22,7 @@
 
 void initADC();
 void startADC();
-bool getSensorFail();
+int getSensorFail();
 int getTemperature();
 unsigned int getAdcResult();
 unsigned int getAdcAveraged();
