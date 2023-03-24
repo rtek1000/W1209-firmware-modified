@@ -25,7 +25,10 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 - For parameter [P6: ON/OFF]: When activated (ON) if the value is outside the maximum and minimum range: the display flashes.
 - - In the original code it shows HHH for higher value and shows LLL for lower value.
 
-- Lock parameter [P7: ON/OFF]: When activated (ON) the SETPOINT parameter (Threshold in the source code) cannot be modified.
+- Lock parameter [P7: ON/OFF]:
+- - When activated (ON) the SETPOINT parameter (Threshold in the source code) cannot be modified.
+- - When activated (ON) the RECOVERY parameter cannot be performed.
+- - - RECOVERY is data restoration to factory mode.
 
 - Automatic brightness reduction [P8: ON/OFF]: When activated (ON), after 15 seconds in IDLE, the brightness of the display is reduced.
 - - Brightness returns to maximum when you press any key.
