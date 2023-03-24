@@ -60,9 +60,9 @@ int main()
                 bool blink = (bool) ( (unsigned char) getUptimeTicks() & 0x40);
 
                 if(sensor_fail == 1) {
-                    setDisplayStr ("LLL");
-                } else {
                     setDisplayStr ("HHH");
+                } else {
+                    setDisplayStr ("LLL");
                 }
 
                 setDisplayOff (blink);
