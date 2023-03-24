@@ -1,0 +1,389 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 4.0.0 #11528 (Linux)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module relay
+                                      6 	.optsdcc -mstm8
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _getParamById
+                                     12 	.globl _getTemperature
+                                     13 	.globl _getSensorFail
+                                     14 	.globl _initRelay
+                                     15 	.globl _setRelay
+                                     16 	.globl _refreshRelay
+                                     17 ;--------------------------------------------------------
+                                     18 ; ram data
+                                     19 ;--------------------------------------------------------
+                                     20 	.area DATA
+      000000                         21 _timer:
+      000000                         22 	.ds 2
+      000002                         23 _state:
+      000002                         24 	.ds 1
+                                     25 ;--------------------------------------------------------
+                                     26 ; ram data
+                                     27 ;--------------------------------------------------------
+                                     28 	.area INITIALIZED
+                                     29 ;--------------------------------------------------------
+                                     30 ; absolute external ram data
+                                     31 ;--------------------------------------------------------
+                                     32 	.area DABS (ABS)
+                                     33 
+                                     34 ; default segment ordering for linker
+                                     35 	.area HOME
+                                     36 	.area GSINIT
+                                     37 	.area GSFINAL
+                                     38 	.area CONST
+                                     39 	.area INITIALIZER
+                                     40 	.area CODE
+                                     41 
+                                     42 ;--------------------------------------------------------
+                                     43 ; global & static initialisations
+                                     44 ;--------------------------------------------------------
+                                     45 	.area HOME
+                                     46 	.area GSINIT
+                                     47 	.area GSFINAL
+                                     48 	.area GSINIT
+                                     49 ;--------------------------------------------------------
+                                     50 ; Home
+                                     51 ;--------------------------------------------------------
+                                     52 	.area HOME
+                                     53 	.area HOME
+                                     54 ;--------------------------------------------------------
+                                     55 ; code
+                                     56 ;--------------------------------------------------------
+                                     57 	.area CODE
+                                     58 ;	./relay.c: 38: void initRelay()
+                                     59 ;	-----------------------------------------
+                                     60 ;	 function initRelay
+                                     61 ;	-----------------------------------------
+      000000                         62 _initRelay:
+                                     63 ;	./relay.c: 40: PA_DDR |= RELAY_BIT;
+      000000 72 16 50 02      [ 1]   64 	bset	20482, #3
+                                     65 ;	./relay.c: 41: PA_CR1 |= RELAY_BIT;
+      000004 72 16 50 03      [ 1]   66 	bset	20483, #3
+                                     67 ;	./relay.c: 42: timer = 0;
+      000008 5F               [ 1]   68 	clrw	x
+      000009 CFu00u00         [ 2]   69 	ldw	_timer+0, x
+                                     70 ;	./relay.c: 43: state = false;
+      00000C 72 5Fu00u02      [ 1]   71 	clr	_state+0
+                                     72 ;	./relay.c: 44: }
+      000010 81               [ 4]   73 	ret
+                                     74 ;	./relay.c: 50: void setRelay (bool on)
+                                     75 ;	-----------------------------------------
+                                     76 ;	 function setRelay
+                                     77 ;	-----------------------------------------
+      000011                         78 _setRelay:
+                                     79 ;	./relay.c: 53: RELAY_PORT |= RELAY_BIT;
+      000011 C6 50 00         [ 1]   80 	ld	a, 0x5000
+                                     81 ;	./relay.c: 52: if (on) {
+      000014 0D 03            [ 1]   82 	tnz	(0x03, sp)
+      000016 27 06            [ 1]   83 	jreq	00102$
+                                     84 ;	./relay.c: 53: RELAY_PORT |= RELAY_BIT;
+      000018 AA 08            [ 1]   85 	or	a, #0x08
+      00001A C7 50 00         [ 1]   86 	ld	0x5000, a
+      00001D 81               [ 4]   87 	ret
+      00001E                         88 00102$:
+                                     89 ;	./relay.c: 55: RELAY_PORT &= ~RELAY_BIT;
+      00001E A4 F7            [ 1]   90 	and	a, #0xf7
+      000020 C7 50 00         [ 1]   91 	ld	0x5000, a
+                                     92 ;	./relay.c: 58: }
+      000023 81               [ 4]   93 	ret
+                                     94 ;	./relay.c: 64: void refreshRelay()
+                                     95 ;	-----------------------------------------
+                                     96 ;	 function refreshRelay
+                                     97 ;	-----------------------------------------
+      000024                         98 _refreshRelay:
+      000024 52 0A            [ 2]   99 	sub	sp, #10
+                                    100 ;	./relay.c: 68: int sensor_fail = getSensorFail();
+      000026 CDr00r00         [ 4]  101 	call	_getSensorFail
+      000029 1F 08            [ 2]  102 	ldw	(0x08, sp), x
+                                    103 ;	./relay.c: 70: if (getParamById (PARAM_RELAY_MODE) == 2) {
+      00002B 4B 00            [ 1]  104 	push	#0x00
+      00002D CDr00r00         [ 4]  105 	call	_getParamById
+      000030 84               [ 1]  106 	pop	a
+      000031 A3 00 02         [ 2]  107 	cpw	x, #0x0002
+      000034 26 08            [ 1]  108 	jrne	00105$
+                                    109 ;	./relay.c: 71: alarm_mode = 1;
+                                    110 ;	./relay.c: 72: mode = 1;
+      000036 A6 01            [ 1]  111 	ld	a, #0x01
+      000038 6B 0A            [ 1]  112 	ld	(0x0a, sp), a
+      00003A 6B 01            [ 1]  113 	ld	(0x01, sp), a
+      00003C 20 20            [ 2]  114 	jra	00106$
+      00003E                        115 00105$:
+                                    116 ;	./relay.c: 73: } else if (getParamById (PARAM_RELAY_MODE) == 3) {
+      00003E 4B 00            [ 1]  117 	push	#0x00
+      000040 CDr00r00         [ 4]  118 	call	_getParamById
+      000043 84               [ 1]  119 	pop	a
+      000044 A3 00 03         [ 2]  120 	cpw	x, #0x0003
+      000047 26 08            [ 1]  121 	jrne	00102$
+                                    122 ;	./relay.c: 74: alarm_mode = 1;
+      000049 A6 01            [ 1]  123 	ld	a, #0x01
+      00004B 6B 0A            [ 1]  124 	ld	(0x0a, sp), a
+                                    125 ;	./relay.c: 75: mode = 0;
+      00004D 0F 01            [ 1]  126 	clr	(0x01, sp)
+      00004F 20 0D            [ 2]  127 	jra	00106$
+      000051                        128 00102$:
+                                    129 ;	./relay.c: 77: alarm_mode = 0;
+      000051 0F 0A            [ 1]  130 	clr	(0x0a, sp)
+                                    131 ;	./relay.c: 78: mode = getParamById (PARAM_RELAY_MODE);
+      000053 4B 00            [ 1]  132 	push	#0x00
+      000055 CDr00r00         [ 4]  133 	call	_getParamById
+      000058 84               [ 1]  134 	pop	a
+      000059 50               [ 2]  135 	negw	x
+      00005A 4F               [ 1]  136 	clr	a
+      00005B 49               [ 1]  137 	rlc	a
+      00005C 6B 01            [ 1]  138 	ld	(0x01, sp), a
+      00005E                        139 00106$:
+                                    140 ;	./relay.c: 81: if(sensor_fail == 0) {
+      00005E 1E 08            [ 2]  141 	ldw	x, (0x08, sp)
+      000060 27 03            [ 1]  142 	jreq	00210$
+      000062 CCr01rB9         [ 2]  143 	jp	00135$
+      000065                        144 00210$:
+                                    145 ;	./relay.c: 86: setRelay (!mode);
+      000065 7B 01            [ 1]  146 	ld	a, (0x01, sp)
+      000067 A8 01            [ 1]  147 	xor	a, #0x01
+      000069 6B 02            [ 1]  148 	ld	(0x02, sp), a
+                                    149 ;	./relay.c: 82: if (alarm_mode) {
+      00006B 0D 0A            [ 1]  150 	tnz	(0x0a, sp)
+      00006D 26 03            [ 1]  151 	jrne	00211$
+      00006F CCr00rF6         [ 2]  152 	jp	00129$
+      000072                        153 00211$:
+                                    154 ;	./relay.c: 83: if ((getTemperature() > (getParamById (PARAM_MIN_TEMPERATURE) * 10) ) &&
+      000072 CDr00r00         [ 4]  155 	call	_getTemperature
+      000075 1F 09            [ 2]  156 	ldw	(0x09, sp), x
+      000077 4B 03            [ 1]  157 	push	#0x03
+      000079 CDr00r00         [ 4]  158 	call	_getParamById
+      00007C 84               [ 1]  159 	pop	a
+      00007D 89               [ 2]  160 	pushw	x
+      00007E 58               [ 2]  161 	sllw	x
+      00007F 58               [ 2]  162 	sllw	x
+      000080 72 FB 01         [ 2]  163 	addw	x, (1, sp)
+      000083 58               [ 2]  164 	sllw	x
+      000084 5B 02            [ 2]  165 	addw	sp, #2
+      000086 13 09            [ 2]  166 	cpw	x, (0x09, sp)
+      000088 2E 27            [ 1]  167 	jrsge	00108$
+                                    168 ;	./relay.c: 84: (getTemperature() < (getParamById (PARAM_MAX_TEMPERATURE) * 10) ) ) {
+      00008A CDr00r00         [ 4]  169 	call	_getTemperature
+      00008D 1F 07            [ 2]  170 	ldw	(0x07, sp), x
+      00008F 4B 02            [ 1]  171 	push	#0x02
+      000091 CDr00r00         [ 4]  172 	call	_getParamById
+      000094 84               [ 1]  173 	pop	a
+      000095 89               [ 2]  174 	pushw	x
+      000096 58               [ 2]  175 	sllw	x
+      000097 58               [ 2]  176 	sllw	x
+      000098 72 FB 01         [ 2]  177 	addw	x, (1, sp)
+      00009B 58               [ 2]  178 	sllw	x
+      00009C 5B 02            [ 2]  179 	addw	sp, #2
+      00009E 1F 09            [ 2]  180 	ldw	(0x09, sp), x
+      0000A0 1E 07            [ 2]  181 	ldw	x, (0x07, sp)
+      0000A2 13 09            [ 2]  182 	cpw	x, (0x09, sp)
+      0000A4 2E 0B            [ 1]  183 	jrsge	00108$
+                                    184 ;	./relay.c: 85: state = false;
+      0000A6 72 5Fu00u02      [ 1]  185 	clr	_state+0
+                                    186 ;	./relay.c: 86: setRelay (!mode);
+      0000AA 7B 02            [ 1]  187 	ld	a, (0x02, sp)
+      0000AC 88               [ 1]  188 	push	a
+      0000AD CDr00r11         [ 4]  189 	call	_setRelay
+      0000B0 84               [ 1]  190 	pop	a
+      0000B1                        191 00108$:
+                                    192 ;	./relay.c: 89: if ((getTemperature() <= (getParamById (PARAM_MIN_TEMPERATURE) * 10) ) ||
+      0000B1 CDr00r00         [ 4]  193 	call	_getTemperature
+      0000B4 1F 09            [ 2]  194 	ldw	(0x09, sp), x
+      0000B6 4B 03            [ 1]  195 	push	#0x03
+      0000B8 CDr00r00         [ 4]  196 	call	_getParamById
+      0000BB 84               [ 1]  197 	pop	a
+      0000BC 89               [ 2]  198 	pushw	x
+      0000BD 58               [ 2]  199 	sllw	x
+      0000BE 58               [ 2]  200 	sllw	x
+      0000BF 72 FB 01         [ 2]  201 	addw	x, (1, sp)
+      0000C2 58               [ 2]  202 	sllw	x
+      0000C3 5B 02            [ 2]  203 	addw	sp, #2
+      0000C5 13 09            [ 2]  204 	cpw	x, (0x09, sp)
+      0000C7 2E 1F            [ 1]  205 	jrsge	00110$
+                                    206 ;	./relay.c: 90: (getTemperature() >= (getParamById (PARAM_MAX_TEMPERATURE) * 10) ) ) {
+      0000C9 CDr00r00         [ 4]  207 	call	_getTemperature
+      0000CC 1F 07            [ 2]  208 	ldw	(0x07, sp), x
+      0000CE 4B 02            [ 1]  209 	push	#0x02
+      0000D0 CDr00r00         [ 4]  210 	call	_getParamById
+      0000D3 84               [ 1]  211 	pop	a
+      0000D4 89               [ 2]  212 	pushw	x
+      0000D5 58               [ 2]  213 	sllw	x
+      0000D6 58               [ 2]  214 	sllw	x
+      0000D7 72 FB 01         [ 2]  215 	addw	x, (1, sp)
+      0000DA 58               [ 2]  216 	sllw	x
+      0000DB 5B 02            [ 2]  217 	addw	sp, #2
+      0000DD 1F 09            [ 2]  218 	ldw	(0x09, sp), x
+      0000DF 1E 07            [ 2]  219 	ldw	x, (0x07, sp)
+      0000E1 13 09            [ 2]  220 	cpw	x, (0x09, sp)
+      0000E3 2E 03            [ 1]  221 	jrsge	00215$
+      0000E5 CCr01rDA         [ 2]  222 	jp	00137$
+      0000E8                        223 00215$:
+      0000E8                        224 00110$:
+                                    225 ;	./relay.c: 91: state = true;
+      0000E8 35 01u00u02      [ 1]  226 	mov	_state+0, #0x01
+                                    227 ;	./relay.c: 92: setRelay (mode);
+      0000EC 7B 01            [ 1]  228 	ld	a, (0x01, sp)
+      0000EE 88               [ 1]  229 	push	a
+      0000EF CDr00r11         [ 4]  230 	call	_setRelay
+      0000F2 84               [ 1]  231 	pop	a
+      0000F3 CCr01rDA         [ 2]  232 	jp	00137$
+      0000F6                        233 00129$:
+                                    234 ;	./relay.c: 95: if (state) { // Relay state is enabled
+      0000F6 72 00u00u02 02   [ 2]  235 	btjt	_state+0, #0, 00216$
+      0000FB 20 63            [ 2]  236 	jra	00126$
+      0000FD                        237 00216$:
+                                    238 ;	./relay.c: 96: if (getTemperature() < (getParamById (PARAM_THRESHOLD)
+      0000FD CDr00r00         [ 4]  239 	call	_getTemperature
+      000100 1F 03            [ 2]  240 	ldw	(0x03, sp), x
+      000102 4B 09            [ 1]  241 	push	#0x09
+      000104 CDr00r00         [ 4]  242 	call	_getParamById
+      000107 84               [ 1]  243 	pop	a
+      000108 1F 05            [ 2]  244 	ldw	(0x05, sp), x
+                                    245 ;	./relay.c: 97: - (getParamById (PARAM_RELAY_HYSTERESIS) >> 3) ) ) {
+      00010A 4B 01            [ 1]  246 	push	#0x01
+      00010C CDr00r00         [ 4]  247 	call	_getParamById
+      00010F 84               [ 1]  248 	pop	a
+      000110 57               [ 2]  249 	sraw	x
+      000111 57               [ 2]  250 	sraw	x
+      000112 57               [ 2]  251 	sraw	x
+      000113 1F 07            [ 2]  252 	ldw	(0x07, sp), x
+      000115 1E 05            [ 2]  253 	ldw	x, (0x05, sp)
+      000117 72 F0 07         [ 2]  254 	subw	x, (0x07, sp)
+      00011A 1F 09            [ 2]  255 	ldw	(0x09, sp), x
+      00011C 1E 03            [ 2]  256 	ldw	x, (0x03, sp)
+      00011E 13 09            [ 2]  257 	cpw	x, (0x09, sp)
+      000120 2E 31            [ 1]  258 	jrsge	00117$
+                                    259 ;	./relay.c: 98: timer++;
+      000122 CEu00u00         [ 2]  260 	ldw	x, _timer+0
+      000125 5C               [ 1]  261 	incw	x
+      000126 CFu00u00         [ 2]  262 	ldw	_timer+0, x
+                                    263 ;	./relay.c: 100: if ( (getParamById (PARAM_RELAY_DELAY) << RELAY_TIMER_MULTIPLIER) < timer) {
+      000129 4B 05            [ 1]  264 	push	#0x05
+      00012B CDr00r00         [ 4]  265 	call	_getParamById
+      00012E 84               [ 1]  266 	pop	a
+      00012F 58               [ 2]  267 	sllw	x
+      000130 58               [ 2]  268 	sllw	x
+      000131 58               [ 2]  269 	sllw	x
+      000132 58               [ 2]  270 	sllw	x
+      000133 58               [ 2]  271 	sllw	x
+      000134 58               [ 2]  272 	sllw	x
+      000135 58               [ 2]  273 	sllw	x
+      000136 C3u00u00         [ 2]  274 	cpw	x, _timer+0
+      000139 24 0E            [ 1]  275 	jrnc	00114$
+                                    276 ;	./relay.c: 101: state = false;
+      00013B 72 5Fu00u02      [ 1]  277 	clr	_state+0
+                                    278 ;	./relay.c: 102: setRelay (mode);
+      00013F 7B 01            [ 1]  279 	ld	a, (0x01, sp)
+      000141 88               [ 1]  280 	push	a
+      000142 CDr00r11         [ 4]  281 	call	_setRelay
+      000145 84               [ 1]  282 	pop	a
+      000146 CCr01rDA         [ 2]  283 	jp	00137$
+      000149                        284 00114$:
+                                    285 ;	./relay.c: 104: setRelay (!mode);
+      000149 7B 02            [ 1]  286 	ld	a, (0x02, sp)
+      00014B 88               [ 1]  287 	push	a
+      00014C CDr00r11         [ 4]  288 	call	_setRelay
+      00014F 84               [ 1]  289 	pop	a
+      000150 CCr01rDA         [ 2]  290 	jp	00137$
+      000153                        291 00117$:
+                                    292 ;	./relay.c: 107: timer = 0;
+      000153 5F               [ 1]  293 	clrw	x
+      000154 CFu00u00         [ 2]  294 	ldw	_timer+0, x
+                                    295 ;	./relay.c: 108: setRelay (!mode);
+      000157 7B 02            [ 1]  296 	ld	a, (0x02, sp)
+      000159 88               [ 1]  297 	push	a
+      00015A CDr00r11         [ 4]  298 	call	_setRelay
+      00015D 84               [ 1]  299 	pop	a
+      00015E 20 7A            [ 2]  300 	jra	00137$
+      000160                        301 00126$:
+                                    302 ;	./relay.c: 112: if (getTemperature() > (getParamById (PARAM_THRESHOLD)
+      000160 CDr00r00         [ 4]  303 	call	_getTemperature
+      000163 1F 07            [ 2]  304 	ldw	(0x07, sp), x
+      000165 4B 09            [ 1]  305 	push	#0x09
+      000167 CDr00r00         [ 4]  306 	call	_getParamById
+      00016A 84               [ 1]  307 	pop	a
+      00016B 1F 09            [ 2]  308 	ldw	(0x09, sp), x
+                                    309 ;	./relay.c: 113: + (getParamById (PARAM_RELAY_HYSTERESIS) >> 3) ) ) {
+      00016D 4B 01            [ 1]  310 	push	#0x01
+      00016F CDr00r00         [ 4]  311 	call	_getParamById
+      000172 84               [ 1]  312 	pop	a
+      000173 57               [ 2]  313 	sraw	x
+      000174 57               [ 2]  314 	sraw	x
+      000175 57               [ 2]  315 	sraw	x
+      000176 72 FB 09         [ 2]  316 	addw	x, (0x09, sp)
+      000179 13 07            [ 2]  317 	cpw	x, (0x07, sp)
+      00017B 2E 2F            [ 1]  318 	jrsge	00123$
+                                    319 ;	./relay.c: 114: timer++;
+      00017D CEu00u00         [ 2]  320 	ldw	x, _timer+0
+      000180 5C               [ 1]  321 	incw	x
+      000181 CFu00u00         [ 2]  322 	ldw	_timer+0, x
+                                    323 ;	./relay.c: 116: if ( (getParamById (PARAM_RELAY_DELAY) << RELAY_TIMER_MULTIPLIER) < timer) {
+      000184 4B 05            [ 1]  324 	push	#0x05
+      000186 CDr00r00         [ 4]  325 	call	_getParamById
+      000189 84               [ 1]  326 	pop	a
+      00018A 58               [ 2]  327 	sllw	x
+      00018B 58               [ 2]  328 	sllw	x
+      00018C 58               [ 2]  329 	sllw	x
+      00018D 58               [ 2]  330 	sllw	x
+      00018E 58               [ 2]  331 	sllw	x
+      00018F 58               [ 2]  332 	sllw	x
+      000190 58               [ 2]  333 	sllw	x
+      000191 C3u00u00         [ 2]  334 	cpw	x, _timer+0
+      000194 24 0D            [ 1]  335 	jrnc	00120$
+                                    336 ;	./relay.c: 117: state = true;
+      000196 35 01u00u02      [ 1]  337 	mov	_state+0, #0x01
+                                    338 ;	./relay.c: 118: setRelay (!mode);
+      00019A 7B 02            [ 1]  339 	ld	a, (0x02, sp)
+      00019C 88               [ 1]  340 	push	a
+      00019D CDr00r11         [ 4]  341 	call	_setRelay
+      0001A0 84               [ 1]  342 	pop	a
+      0001A1 20 37            [ 2]  343 	jra	00137$
+      0001A3                        344 00120$:
+                                    345 ;	./relay.c: 120: setRelay (mode);
+      0001A3 7B 01            [ 1]  346 	ld	a, (0x01, sp)
+      0001A5 88               [ 1]  347 	push	a
+      0001A6 CDr00r11         [ 4]  348 	call	_setRelay
+      0001A9 84               [ 1]  349 	pop	a
+      0001AA 20 2E            [ 2]  350 	jra	00137$
+      0001AC                        351 00123$:
+                                    352 ;	./relay.c: 123: timer = 0;
+      0001AC 5F               [ 1]  353 	clrw	x
+      0001AD CFu00u00         [ 2]  354 	ldw	_timer+0, x
+                                    355 ;	./relay.c: 124: setRelay (mode);
+      0001B0 7B 01            [ 1]  356 	ld	a, (0x01, sp)
+      0001B2 88               [ 1]  357 	push	a
+      0001B3 CDr00r11         [ 4]  358 	call	_setRelay
+      0001B6 84               [ 1]  359 	pop	a
+      0001B7 20 21            [ 2]  360 	jra	00137$
+      0001B9                        361 00135$:
+                                    362 ;	./relay.c: 129: if (getParamById (PARAM_RELAY_MODE) == 2) {
+      0001B9 4B 00            [ 1]  363 	push	#0x00
+      0001BB CDr00r00         [ 4]  364 	call	_getParamById
+      0001BE 84               [ 1]  365 	pop	a
+      0001BF A3 00 02         [ 2]  366 	cpw	x, #0x0002
+      0001C2 26 0C            [ 1]  367 	jrne	00132$
+                                    368 ;	./relay.c: 130: state = true;
+      0001C4 35 01u00u02      [ 1]  369 	mov	_state+0, #0x01
+                                    370 ;	./relay.c: 131: setRelay (1);
+      0001C8 4B 01            [ 1]  371 	push	#0x01
+      0001CA CDr00r11         [ 4]  372 	call	_setRelay
+      0001CD 84               [ 1]  373 	pop	a
+      0001CE 20 0A            [ 2]  374 	jra	00137$
+      0001D0                        375 00132$:
+                                    376 ;	./relay.c: 133: state = false;
+      0001D0 72 5Fu00u02      [ 1]  377 	clr	_state+0
+                                    378 ;	./relay.c: 134: setRelay (0);
+      0001D4 4B 00            [ 1]  379 	push	#0x00
+      0001D6 CDr00r11         [ 4]  380 	call	_setRelay
+      0001D9 84               [ 1]  381 	pop	a
+      0001DA                        382 00137$:
+                                    383 ;	./relay.c: 137: }
+      0001DA 5B 0A            [ 2]  384 	addw	sp, #10
+      0001DC 81               [ 4]  385 	ret
+                                    386 	.area CODE
+                                    387 	.area CONST
+                                    388 	.area INITIALIZER
+                                    389 	.area CABS (ABS)

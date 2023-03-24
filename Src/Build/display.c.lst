@@ -1,0 +1,1094 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 4.0.0 #11528 (Linux)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module display
+                                      6 	.optsdcc -mstm8
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _Hex2CharMap
+                                     12 	.globl _setDisplayDot
+                                     13 	.globl _dimmerBrightness
+                                     14 	.globl _initDisplay
+                                     15 	.globl _refreshDisplay
+                                     16 	.globl _setDisplayTestMode
+                                     17 	.globl _setDisplayOff
+                                     18 	.globl _setDisplayStr
+                                     19 	.globl _enableDigit
+                                     20 ;--------------------------------------------------------
+                                     21 ; ram data
+                                     22 ;--------------------------------------------------------
+                                     23 	.area DATA
+      000000                         24 _activeDigitId:
+      000000                         25 	.ds 1
+      000001                         26 _displayAC:
+      000001                         27 	.ds 3
+      000004                         28 _displayD:
+      000004                         29 	.ds 3
+      000007                         30 _displayOff:
+      000007                         31 	.ds 1
+      000008                         32 _testMode:
+      000008                         33 	.ds 1
+                                     34 ;--------------------------------------------------------
+                                     35 ; ram data
+                                     36 ;--------------------------------------------------------
+                                     37 	.area INITIALIZED
+      000000                         38 _lowBrightness:
+      000000                         39 	.ds 1
+                                     40 ;--------------------------------------------------------
+                                     41 ; absolute external ram data
+                                     42 ;--------------------------------------------------------
+                                     43 	.area DABS (ABS)
+                                     44 
+                                     45 ; default segment ordering for linker
+                                     46 	.area HOME
+                                     47 	.area GSINIT
+                                     48 	.area GSFINAL
+                                     49 	.area CONST
+                                     50 	.area INITIALIZER
+                                     51 	.area CODE
+                                     52 
+                                     53 ;--------------------------------------------------------
+                                     54 ; global & static initialisations
+                                     55 ;--------------------------------------------------------
+                                     56 	.area HOME
+                                     57 	.area GSINIT
+                                     58 	.area GSFINAL
+                                     59 	.area GSINIT
+                                     60 ;--------------------------------------------------------
+                                     61 ; Home
+                                     62 ;--------------------------------------------------------
+                                     63 	.area HOME
+                                     64 	.area HOME
+                                     65 ;--------------------------------------------------------
+                                     66 ; code
+                                     67 ;--------------------------------------------------------
+                                     68 	.area CODE
+                                     69 ;	./display.c: 83: void dimmerBrightness(bool _state)
+                                     70 ;	-----------------------------------------
+                                     71 ;	 function dimmerBrightness
+                                     72 ;	-----------------------------------------
+      000000                         73 _dimmerBrightness:
+                                     74 ;	./display.c: 85: lowBrightness = _state;
+      000000 7B 03            [ 1]   75 	ld	a, (0x03, sp)
+      000002 C7u00u00         [ 1]   76 	ld	_lowBrightness+0, a
+                                     77 ;	./display.c: 86: }
+      000005 81               [ 4]   78 	ret
+                                     79 ;	./display.c: 92: void initDisplay()
+                                     80 ;	-----------------------------------------
+                                     81 ;	 function initDisplay
+                                     82 ;	-----------------------------------------
+      000006                         83 _initDisplay:
+                                     84 ;	./display.c: 94: PA_DDR |= SSD_SEG_B_BIT | SSD_SEG_F_BIT;
+      000006 C6 50 02         [ 1]   85 	ld	a, 0x5002
+      000009 AA 06            [ 1]   86 	or	a, #0x06
+      00000B C7 50 02         [ 1]   87 	ld	0x5002, a
+                                     88 ;	./display.c: 95: PA_CR1 |= SSD_SEG_B_BIT | SSD_SEG_F_BIT;
+      00000E C6 50 03         [ 1]   89 	ld	a, 0x5003
+      000011 AA 06            [ 1]   90 	or	a, #0x06
+      000013 C7 50 03         [ 1]   91 	ld	0x5003, a
+                                     92 ;	./display.c: 96: PB_DDR |= SSD_DIGIT_1_BIT | SSD_DIGIT_2_BIT;
+      000016 C6 50 07         [ 1]   93 	ld	a, 0x5007
+      000019 AA 30            [ 1]   94 	or	a, #0x30
+      00001B C7 50 07         [ 1]   95 	ld	0x5007, a
+                                     96 ;	./display.c: 97: PB_CR1 |= SSD_DIGIT_1_BIT | SSD_DIGIT_2_BIT;
+      00001E C6 50 08         [ 1]   97 	ld	a, 0x5008
+      000021 AA 30            [ 1]   98 	or	a, #0x30
+      000023 C7 50 08         [ 1]   99 	ld	0x5008, a
+                                    100 ;	./display.c: 98: PC_DDR |= SSD_SEG_C_BIT | SSD_SEG_G_BIT;
+      000026 C6 50 0C         [ 1]  101 	ld	a, 0x500c
+      000029 AA C0            [ 1]  102 	or	a, #0xc0
+      00002B C7 50 0C         [ 1]  103 	ld	0x500c, a
+                                    104 ;	./display.c: 99: PC_CR1 |= SSD_SEG_C_BIT | SSD_SEG_G_BIT;
+      00002E C6 50 0D         [ 1]  105 	ld	a, 0x500d
+      000031 AA C0            [ 1]  106 	or	a, #0xc0
+      000033 C7 50 0D         [ 1]  107 	ld	0x500d, a
+                                    108 ;	./display.c: 100: PD_DDR |= SSD_SEG_A_BIT | SSD_SEG_D_BIT | SSD_SEG_E_BIT | SSD_SEG_P_BIT | SSD_DIGIT_3_BIT;
+      000036 C6 50 11         [ 1]  109 	ld	a, 0x5011
+      000039 AA 3E            [ 1]  110 	or	a, #0x3e
+      00003B C7 50 11         [ 1]  111 	ld	0x5011, a
+                                    112 ;	./display.c: 101: PD_CR1 |= SSD_SEG_A_BIT | SSD_SEG_D_BIT | SSD_SEG_E_BIT | SSD_SEG_P_BIT | SSD_DIGIT_3_BIT;
+      00003E C6 50 12         [ 1]  113 	ld	a, 0x5012
+      000041 AA 3E            [ 1]  114 	or	a, #0x3e
+      000043 C7 50 12         [ 1]  115 	ld	0x5012, a
+                                    116 ;	./display.c: 102: displayOff = false;
+      000046 72 5Fu00u07      [ 1]  117 	clr	_displayOff+0
+                                    118 ;	./display.c: 103: activeDigitId = 0;
+      00004A 72 5Fu00u00      [ 1]  119 	clr	_activeDigitId+0
+                                    120 ;	./display.c: 104: setDisplayTestMode (true, "");
+      00004E 4Br10            [ 1]  121 	push	#<(___str_0 + 0)
+      000050 4Bs00            [ 1]  122 	push	#((___str_0 + 0) >> 8)
+      000052 4B 01            [ 1]  123 	push	#0x01
+      000054 CDr00rE7         [ 4]  124 	call	_setDisplayTestMode
+      000057 5B 03            [ 2]  125 	addw	sp, #3
+                                    126 ;	./display.c: 105: }
+      000059 81               [ 4]  127 	ret
+                                    128 ;	./display.c: 113: void refreshDisplay()
+                                    129 ;	-----------------------------------------
+                                    130 ;	 function refreshDisplay
+                                    131 ;	-----------------------------------------
+      00005A                        132 _refreshDisplay:
+      00005A 88               [ 1]  133 	push	a
+                                    134 ;	./display.c: 115: enableDigit (3);
+      00005B 4B 03            [ 1]  135 	push	#0x03
+      00005D CDr01rDD         [ 4]  136 	call	_enableDigit
+      000060 84               [ 1]  137 	pop	a
+                                    138 ;	./display.c: 117: if (displayOff) {
+      000061 72 00u00u07 02   [ 2]  139 	btjt	_displayOff+0, #0, 00139$
+      000066 20 02            [ 2]  140 	jra	00102$
+      000068                        141 00139$:
+                                    142 ;	./display.c: 118: return;
+      000068 20 7B            [ 2]  143 	jra	00111$
+      00006A                        144 00102$:
+                                    145 ;	./display.c: 121: SSD_SEG_BF_PORT &= ~SSD_BF_PORT_MASK;
+      00006A C6 50 00         [ 1]  146 	ld	a, 0x5000
+      00006D A4 F9            [ 1]  147 	and	a, #0xf9
+                                    148 ;	./display.c: 122: SSD_SEG_BF_PORT |= displayAC[activeDigitId] & SSD_BF_PORT_MASK;
+      00006F C7 50 00         [ 1]  149 	ld	0x5000, a
+      000072 6B 01            [ 1]  150 	ld	(0x01, sp), a
+      000074 5F               [ 1]  151 	clrw	x
+      000075 C6u00u00         [ 1]  152 	ld	a, _activeDigitId+0
+      000078 97               [ 1]  153 	ld	xl, a
+      000079 1Cr00r01         [ 2]  154 	addw	x, #(_displayAC + 0)
+      00007C F6               [ 1]  155 	ld	a, (x)
+      00007D A4 06            [ 1]  156 	and	a, #0x06
+      00007F 1A 01            [ 1]  157 	or	a, (0x01, sp)
+      000081 C7 50 00         [ 1]  158 	ld	0x5000, a
+                                    159 ;	./display.c: 123: SSD_SEG_CG_PORT &= ~SSD_CG_PORT_MASK;
+      000084 C6 50 0A         [ 1]  160 	ld	a, 0x500a
+      000087 A4 3F            [ 1]  161 	and	a, #0x3f
+                                    162 ;	./display.c: 124: SSD_SEG_CG_PORT |= displayAC[activeDigitId] & SSD_CG_PORT_MASK;
+      000089 C7 50 0A         [ 1]  163 	ld	0x500a, a
+      00008C 6B 01            [ 1]  164 	ld	(0x01, sp), a
+      00008E 5F               [ 1]  165 	clrw	x
+      00008F C6u00u00         [ 1]  166 	ld	a, _activeDigitId+0
+      000092 97               [ 1]  167 	ld	xl, a
+      000093 1Cr00r01         [ 2]  168 	addw	x, #(_displayAC + 0)
+      000096 F6               [ 1]  169 	ld	a, (x)
+      000097 A4 C0            [ 1]  170 	and	a, #0xc0
+      000099 1A 01            [ 1]  171 	or	a, (0x01, sp)
+      00009B C7 50 0A         [ 1]  172 	ld	0x500a, a
+                                    173 ;	./display.c: 125: SSD_SEG_AEDP_PORT &= ~SSD_AEDP_PORT_MASK;
+      00009E C6 50 0F         [ 1]  174 	ld	a, 0x500f
+      0000A1 A4 D1            [ 1]  175 	and	a, #0xd1
+                                    176 ;	./display.c: 126: SSD_SEG_AEDP_PORT |= displayD[activeDigitId];
+      0000A3 C7 50 0F         [ 1]  177 	ld	0x500f, a
+      0000A6 6B 01            [ 1]  178 	ld	(0x01, sp), a
+      0000A8 5F               [ 1]  179 	clrw	x
+      0000A9 C6u00u00         [ 1]  180 	ld	a, _activeDigitId+0
+      0000AC 97               [ 1]  181 	ld	xl, a
+      0000AD 1Cr00r04         [ 2]  182 	addw	x, #(_displayD + 0)
+      0000B0 F6               [ 1]  183 	ld	a, (x)
+      0000B1 1A 01            [ 1]  184 	or	a, (0x01, sp)
+      0000B3 C7 50 0F         [ 1]  185 	ld	0x500f, a
+                                    186 ;	./display.c: 127: enableDigit (activeDigitId);
+      0000B6 3Bu00u00         [ 1]  187 	push	_activeDigitId+0
+      0000B9 CDr01rDD         [ 4]  188 	call	_enableDigit
+      0000BC 84               [ 1]  189 	pop	a
+                                    190 ;	./display.c: 129: if (activeDigitId > 1) {
+      0000BD C6u00u00         [ 1]  191 	ld	a, _activeDigitId+0
+      0000C0 A1 01            [ 1]  192 	cp	a, #0x01
+      0000C2 23 06            [ 2]  193 	jrule	00104$
+                                    194 ;	./display.c: 130: activeDigitId = 0;
+      0000C4 72 5Fu00u00      [ 1]  195 	clr	_activeDigitId+0
+      0000C8 20 04            [ 2]  196 	jra	00105$
+      0000CA                        197 00104$:
+                                    198 ;	./display.c: 132: activeDigitId++;
+      0000CA 72 5Cu00u00      [ 1]  199 	inc	_activeDigitId+0
+      0000CE                        200 00105$:
+                                    201 ;	./display.c: 135: if(lowBrightness) {
+      0000CE 72 00u00u00 02   [ 2]  202 	btjt	_lowBrightness+0, #0, 00141$
+      0000D3 20 10            [ 2]  203 	jra	00111$
+      0000D5                        204 00141$:
+                                    205 ;	./display.c: 138: while(i--);
+      0000D5 AE 03 E8         [ 2]  206 	ldw	x, #0x03e8
+      0000D8                        207 00106$:
+      0000D8 90 93            [ 1]  208 	ldw	y, x
+      0000DA 5A               [ 2]  209 	decw	x
+      0000DB 90 5D            [ 2]  210 	tnzw	y
+      0000DD 26 F9            [ 1]  211 	jrne	00106$
+                                    212 ;	./display.c: 140: enableDigit (3);
+      0000DF 4B 03            [ 1]  213 	push	#0x03
+      0000E1 CDr01rDD         [ 4]  214 	call	_enableDigit
+      0000E4 84               [ 1]  215 	pop	a
+      0000E5                        216 00111$:
+                                    217 ;	./display.c: 142: }
+      0000E5 84               [ 1]  218 	pop	a
+      0000E6 81               [ 4]  219 	ret
+                                    220 ;	./display.c: 151: void setDisplayTestMode (bool val, char* str)
+                                    221 ;	-----------------------------------------
+                                    222 ;	 function setDisplayTestMode
+                                    223 ;	-----------------------------------------
+      0000E7                        224 _setDisplayTestMode:
+                                    225 ;	./display.c: 153: if (!testMode && val) {
+      0000E7 72 01u00u08 02   [ 2]  226 	btjf	_testMode+0, #0, 00124$
+      0000EC 20 1A            [ 2]  227 	jra	00105$
+      0000EE                        228 00124$:
+      0000EE 0D 03            [ 1]  229 	tnz	(0x03, sp)
+      0000F0 27 16            [ 1]  230 	jreq	00105$
+                                    231 ;	./display.c: 154: if (*str == 0) {
+      0000F2 1E 04            [ 2]  232 	ldw	x, (0x04, sp)
+      0000F4 F6               [ 1]  233 	ld	a, (x)
+      0000F5 26 0B            [ 1]  234 	jrne	00102$
+                                    235 ;	./display.c: 155: setDisplayStr ("888");
+      0000F7 4Br11            [ 1]  236 	push	#<(___str_1 + 0)
+      0000F9 4Bs00            [ 1]  237 	push	#((___str_1 + 0) >> 8)
+      0000FB CDr01r30         [ 4]  238 	call	_setDisplayStr
+      0000FE 5B 02            [ 2]  239 	addw	sp, #2
+      000100 20 06            [ 2]  240 	jra	00105$
+      000102                        241 00102$:
+                                    242 ;	./display.c: 157: setDisplayStr (str);
+      000102 89               [ 2]  243 	pushw	x
+      000103 CDr01r30         [ 4]  244 	call	_setDisplayStr
+      000106 5B 02            [ 2]  245 	addw	sp, #2
+      000108                        246 00105$:
+                                    247 ;	./display.c: 161: testMode = val;
+      000108 7B 03            [ 1]  248 	ld	a, (0x03, sp)
+      00010A C7u00u08         [ 1]  249 	ld	_testMode+0, a
+                                    250 ;	./display.c: 162: }
+      00010D 81               [ 4]  251 	ret
+                                    252 ;	./display.c: 169: void setDisplayOff (bool val)
+                                    253 ;	-----------------------------------------
+                                    254 ;	 function setDisplayOff
+                                    255 ;	-----------------------------------------
+      00010E                        256 _setDisplayOff:
+                                    257 ;	./display.c: 171: displayOff = val;
+      00010E 7B 03            [ 1]  258 	ld	a, (0x03, sp)
+      000110 C7u00u07         [ 1]  259 	ld	_displayOff+0, a
+                                    260 ;	./display.c: 172: }
+      000113 81               [ 4]  261 	ret
+                                    262 ;	./display.c: 182: void setDisplayDot (unsigned char id, bool val)
+                                    263 ;	-----------------------------------------
+                                    264 ;	 function setDisplayDot
+                                    265 ;	-----------------------------------------
+      000114                        266 _setDisplayDot:
+                                    267 ;	./display.c: 184: if (val) {
+      000114 0D 04            [ 1]  268 	tnz	(0x04, sp)
+      000116 27 0C            [ 1]  269 	jreq	00102$
+                                    270 ;	./display.c: 185: displayD[id] |= SSD_SEG_P_BIT;
+      000118 5F               [ 1]  271 	clrw	x
+      000119 7B 03            [ 1]  272 	ld	a, (0x03, sp)
+      00011B 97               [ 1]  273 	ld	xl, a
+      00011C 1Cr00r04         [ 2]  274 	addw	x, #(_displayD + 0)
+      00011F F6               [ 1]  275 	ld	a, (x)
+      000120 AA 04            [ 1]  276 	or	a, #0x04
+      000122 F7               [ 1]  277 	ld	(x), a
+      000123 81               [ 4]  278 	ret
+      000124                        279 00102$:
+                                    280 ;	./display.c: 187: displayD[id] &= ~SSD_SEG_P_BIT;
+      000124 5F               [ 1]  281 	clrw	x
+      000125 7B 03            [ 1]  282 	ld	a, (0x03, sp)
+      000127 97               [ 1]  283 	ld	xl, a
+      000128 1Cr00r04         [ 2]  284 	addw	x, #(_displayD + 0)
+      00012B F6               [ 1]  285 	ld	a, (x)
+      00012C A4 FB            [ 1]  286 	and	a, #0xfb
+      00012E F7               [ 1]  287 	ld	(x), a
+                                    288 ;	./display.c: 189: }
+      00012F 81               [ 4]  289 	ret
+                                    290 ;	./display.c: 196: void setDisplayStr (const unsigned char* val)
+                                    291 ;	-----------------------------------------
+                                    292 ;	 function setDisplayStr
+                                    293 ;	-----------------------------------------
+      000130                        294 _setDisplayStr:
+      000130 52 06            [ 2]  295 	sub	sp, #6
+                                    296 ;	./display.c: 201: for (i = 0, d = 0; * (val + i) != 0; i++, d++) {
+      000132 0F 06            [ 1]  297 	clr	(0x06, sp)
+      000134 0F 05            [ 1]  298 	clr	(0x05, sp)
+      000136                        299 00114$:
+      000136 5F               [ 1]  300 	clrw	x
+      000137 7B 05            [ 1]  301 	ld	a, (0x05, sp)
+      000139 97               [ 1]  302 	ld	xl, a
+      00013A 72 FB 09         [ 2]  303 	addw	x, (0x09, sp)
+      00013D F6               [ 1]  304 	ld	a, (x)
+      00013E 27 18            [ 1]  305 	jreq	00105$
+                                    306 ;	./display.c: 202: if (* (val + i) == '.' && i > 0 && * (val + i - 1) != '.') d--;
+      000140 A1 2E            [ 1]  307 	cp	a, #0x2e
+      000142 26 0E            [ 1]  308 	jrne	00115$
+      000144 0D 05            [ 1]  309 	tnz	(0x05, sp)
+      000146 27 0A            [ 1]  310 	jreq	00115$
+      000148 1C FF FF         [ 2]  311 	addw	x, #0xffff
+      00014B F6               [ 1]  312 	ld	a, (x)
+      00014C A1 2E            [ 1]  313 	cp	a, #0x2e
+      00014E 27 02            [ 1]  314 	jreq	00115$
+      000150 0A 06            [ 1]  315 	dec	(0x06, sp)
+      000152                        316 00115$:
+                                    317 ;	./display.c: 201: for (i = 0, d = 0; * (val + i) != 0; i++, d++) {
+      000152 0C 05            [ 1]  318 	inc	(0x05, sp)
+      000154 0C 06            [ 1]  319 	inc	(0x06, sp)
+      000156 20 DE            [ 2]  320 	jra	00114$
+      000158                        321 00105$:
+                                    322 ;	./display.c: 207: if (d > 3) {
+      000158 7B 06            [ 1]  323 	ld	a, (0x06, sp)
+      00015A A1 03            [ 1]  324 	cp	a, #0x03
+      00015C 23 04            [ 2]  325 	jrule	00107$
+                                    326 ;	./display.c: 208: d = 3;
+      00015E A6 03            [ 1]  327 	ld	a, #0x03
+      000160 6B 06            [ 1]  328 	ld	(0x06, sp), a
+      000162                        329 00107$:
+                                    330 ;	./display.c: 212: for (i = 3 - d; i > 0; i--) {
+      000162 7B 06            [ 1]  331 	ld	a, (0x06, sp)
+      000164 6B 05            [ 1]  332 	ld	(0x05, sp), a
+      000166 A6 03            [ 1]  333 	ld	a, #0x03
+      000168 10 05            [ 1]  334 	sub	a, (0x05, sp)
+      00016A 6B 05            [ 1]  335 	ld	(0x05, sp), a
+      00016C                        336 00117$:
+      00016C 0D 05            [ 1]  337 	tnz	(0x05, sp)
+      00016E 27 16            [ 1]  338 	jreq	00108$
+                                    339 ;	./display.c: 213: setDigit (3 - i, ' ', false);
+      000170 7B 05            [ 1]  340 	ld	a, (0x05, sp)
+      000172 6B 04            [ 1]  341 	ld	(0x04, sp), a
+      000174 A6 03            [ 1]  342 	ld	a, #0x03
+      000176 10 04            [ 1]  343 	sub	a, (0x04, sp)
+      000178 4B 00            [ 1]  344 	push	#0x00
+      00017A 4B 20            [ 1]  345 	push	#0x20
+      00017C 88               [ 1]  346 	push	a
+      00017D CDr02r2E         [ 4]  347 	call	_setDigit
+      000180 5B 03            [ 2]  348 	addw	sp, #3
+                                    349 ;	./display.c: 212: for (i = 3 - d; i > 0; i--) {
+      000182 0A 05            [ 1]  350 	dec	(0x05, sp)
+      000184 20 E6            [ 2]  351 	jra	00117$
+      000186                        352 00108$:
+                                    353 ;	./display.c: 217: for (i = 0; d != 0 && *val + i != 0; i++, d--) {
+      000186 0F 05            [ 1]  354 	clr	(0x05, sp)
+      000188                        355 00121$:
+      000188 0D 06            [ 1]  356 	tnz	(0x06, sp)
+      00018A 27 4E            [ 1]  357 	jreq	00123$
+      00018C 16 09            [ 2]  358 	ldw	y, (0x09, sp)
+      00018E 17 01            [ 2]  359 	ldw	(0x01, sp), y
+      000190 93               [ 1]  360 	ldw	x, y
+      000191 F6               [ 1]  361 	ld	a, (x)
+      000192 6B 04            [ 1]  362 	ld	(0x04, sp), a
+      000194 0F 03            [ 1]  363 	clr	(0x03, sp)
+      000196 7B 05            [ 1]  364 	ld	a, (0x05, sp)
+      000198 5F               [ 1]  365 	clrw	x
+      000199 97               [ 1]  366 	ld	xl, a
+      00019A 72 FB 03         [ 2]  367 	addw	x, (0x03, sp)
+      00019D 5D               [ 2]  368 	tnzw	x
+      00019E 27 3A            [ 1]  369 	jreq	00123$
+                                    370 ;	./display.c: 218: if (* (val + i + 1) == '.') {
+      0001A0 5F               [ 1]  371 	clrw	x
+      0001A1 7B 05            [ 1]  372 	ld	a, (0x05, sp)
+      0001A3 97               [ 1]  373 	ld	xl, a
+      0001A4 72 FB 01         [ 2]  374 	addw	x, (0x01, sp)
+      0001A7 90 93            [ 1]  375 	ldw	y, x
+      0001A9 90 E6 01         [ 1]  376 	ld	a, (0x1, y)
+      0001AC 6B 04            [ 1]  377 	ld	(0x04, sp), a
+                                    378 ;	./display.c: 219: setDigit (d - 1, * (val + i), true);
+      0001AE F6               [ 1]  379 	ld	a, (x)
+      0001AF 97               [ 1]  380 	ld	xl, a
+      0001B0 7B 06            [ 1]  381 	ld	a, (0x06, sp)
+      0001B2 4A               [ 1]  382 	dec	a
+      0001B3 95               [ 1]  383 	ld	xh, a
+                                    384 ;	./display.c: 218: if (* (val + i + 1) == '.') {
+      0001B4 7B 04            [ 1]  385 	ld	a, (0x04, sp)
+      0001B6 A1 2E            [ 1]  386 	cp	a, #0x2e
+      0001B8 26 0F            [ 1]  387 	jrne	00110$
+                                    388 ;	./display.c: 219: setDigit (d - 1, * (val + i), true);
+      0001BA 4B 01            [ 1]  389 	push	#0x01
+      0001BC 9F               [ 1]  390 	ld	a, xl
+      0001BD 88               [ 1]  391 	push	a
+      0001BE 9E               [ 1]  392 	ld	a, xh
+      0001BF 88               [ 1]  393 	push	a
+      0001C0 CDr02r2E         [ 4]  394 	call	_setDigit
+      0001C3 5B 03            [ 2]  395 	addw	sp, #3
+                                    396 ;	./display.c: 220: i++;
+      0001C5 0C 05            [ 1]  397 	inc	(0x05, sp)
+      0001C7 20 0B            [ 2]  398 	jra	00122$
+      0001C9                        399 00110$:
+                                    400 ;	./display.c: 222: setDigit (d - 1, * (val + i), false);
+      0001C9 4B 00            [ 1]  401 	push	#0x00
+      0001CB 9F               [ 1]  402 	ld	a, xl
+      0001CC 88               [ 1]  403 	push	a
+      0001CD 9E               [ 1]  404 	ld	a, xh
+      0001CE 88               [ 1]  405 	push	a
+      0001CF CDr02r2E         [ 4]  406 	call	_setDigit
+      0001D2 5B 03            [ 2]  407 	addw	sp, #3
+      0001D4                        408 00122$:
+                                    409 ;	./display.c: 217: for (i = 0; d != 0 && *val + i != 0; i++, d--) {
+      0001D4 0C 05            [ 1]  410 	inc	(0x05, sp)
+      0001D6 0A 06            [ 1]  411 	dec	(0x06, sp)
+      0001D8 20 AE            [ 2]  412 	jra	00121$
+      0001DA                        413 00123$:
+                                    414 ;	./display.c: 225: }
+      0001DA 5B 06            [ 2]  415 	addw	sp, #6
+      0001DC 81               [ 4]  416 	ret
+                                    417 ;	./display.c: 235: void enableDigit (unsigned char id)
+                                    418 ;	-----------------------------------------
+                                    419 ;	 function enableDigit
+                                    420 ;	-----------------------------------------
+      0001DD                        421 _enableDigit:
+                                    422 ;	./display.c: 237: switch (id) {
+      0001DD 7B 03            [ 1]  423 	ld	a, (0x03, sp)
+      0001DF A1 00            [ 1]  424 	cp	a, #0x00
+      0001E1 27 0D            [ 1]  425 	jreq	00101$
+      0001E3 7B 03            [ 1]  426 	ld	a, (0x03, sp)
+      0001E5 4A               [ 1]  427 	dec	a
+      0001E6 27 1A            [ 1]  428 	jreq	00102$
+      0001E8 7B 03            [ 1]  429 	ld	a, (0x03, sp)
+      0001EA A1 02            [ 1]  430 	cp	a, #0x02
+      0001EC 27 26            [ 1]  431 	jreq	00103$
+      0001EE 20 31            [ 2]  432 	jra	00104$
+                                    433 ;	./display.c: 238: case 0:
+      0001F0                        434 00101$:
+                                    435 ;	./display.c: 239: SSD_DIGIT_12_PORT &= ~SSD_DIGIT_1_BIT;
+      0001F0 C6 50 05         [ 1]  436 	ld	a, 0x5005
+      0001F3 A4 EF            [ 1]  437 	and	a, #0xef
+                                    438 ;	./display.c: 240: SSD_DIGIT_12_PORT |= SSD_DIGIT_2_BIT;
+      0001F5 C7 50 05         [ 1]  439 	ld	0x5005, a
+      0001F8 AA 20            [ 1]  440 	or	a, #0x20
+      0001FA C7 50 05         [ 1]  441 	ld	0x5005, a
+                                    442 ;	./display.c: 241: SSD_DIGIT_3_PORT |= SSD_DIGIT_3_BIT;
+      0001FD 72 18 50 0F      [ 1]  443 	bset	20495, #4
+                                    444 ;	./display.c: 242: break;
+      000201 81               [ 4]  445 	ret
+                                    446 ;	./display.c: 244: case 1:
+      000202                        447 00102$:
+                                    448 ;	./display.c: 245: SSD_DIGIT_12_PORT &= ~SSD_DIGIT_2_BIT;
+      000202 C6 50 05         [ 1]  449 	ld	a, 0x5005
+      000205 A4 DF            [ 1]  450 	and	a, #0xdf
+                                    451 ;	./display.c: 246: SSD_DIGIT_12_PORT |= SSD_DIGIT_1_BIT;
+      000207 C7 50 05         [ 1]  452 	ld	0x5005, a
+      00020A AA 10            [ 1]  453 	or	a, #0x10
+      00020C C7 50 05         [ 1]  454 	ld	0x5005, a
+                                    455 ;	./display.c: 247: SSD_DIGIT_3_PORT |= SSD_DIGIT_3_BIT;
+      00020F 72 18 50 0F      [ 1]  456 	bset	20495, #4
+                                    457 ;	./display.c: 248: break;
+      000213 81               [ 4]  458 	ret
+                                    459 ;	./display.c: 250: case 2:
+      000214                        460 00103$:
+                                    461 ;	./display.c: 251: SSD_DIGIT_3_PORT &= ~SSD_DIGIT_3_BIT;
+      000214 72 19 50 0F      [ 1]  462 	bres	20495, #4
+                                    463 ;	./display.c: 252: SSD_DIGIT_12_PORT |= SSD_DIGIT_1_BIT | SSD_DIGIT_2_BIT;
+      000218 C6 50 05         [ 1]  464 	ld	a, 0x5005
+      00021B AA 30            [ 1]  465 	or	a, #0x30
+      00021D C7 50 05         [ 1]  466 	ld	0x5005, a
+                                    467 ;	./display.c: 253: break;
+      000220 81               [ 4]  468 	ret
+                                    469 ;	./display.c: 255: default:
+      000221                        470 00104$:
+                                    471 ;	./display.c: 256: SSD_DIGIT_12_PORT |= SSD_DIGIT_1_BIT | SSD_DIGIT_2_BIT;
+      000221 C6 50 05         [ 1]  472 	ld	a, 0x5005
+      000224 AA 30            [ 1]  473 	or	a, #0x30
+      000226 C7 50 05         [ 1]  474 	ld	0x5005, a
+                                    475 ;	./display.c: 257: SSD_DIGIT_3_PORT |= SSD_DIGIT_3_BIT;
+      000229 72 18 50 0F      [ 1]  476 	bset	20495, #4
+                                    477 ;	./display.c: 259: }
+                                    478 ;	./display.c: 260: }
+      00022D 81               [ 4]  479 	ret
+                                    480 ;	./display.c: 290: static void setDigit (unsigned char id, unsigned char val, bool dot)
+                                    481 ;	-----------------------------------------
+                                    482 ;	 function setDigit
+                                    483 ;	-----------------------------------------
+      00022E                        484 _setDigit:
+                                    485 ;	./display.c: 293: if (id > 2) return;
+      00022E 7B 03            [ 1]  486 	ld	a, (0x03, sp)
+      000230 A1 02            [ 1]  487 	cp	a, #0x02
+      000232 23 01            [ 2]  488 	jrule	00102$
+      000234 81               [ 4]  489 	ret
+      000235                        490 00102$:
+                                    491 ;	./display.c: 295: if (testMode) return;
+      000235 72 00u00u08 02   [ 2]  492 	btjt	_testMode+0, #0, 00284$
+      00023A 20 01            [ 2]  493 	jra	00104$
+      00023C                        494 00284$:
+      00023C 81               [ 4]  495 	ret
+      00023D                        496 00104$:
+                                    497 ;	./display.c: 297: switch (val) {
+      00023D 7B 04            [ 1]  498 	ld	a, (0x04, sp)
+      00023F A1 20            [ 1]  499 	cp	a, #0x20
+      000241 26 03            [ 1]  500 	jrne	00286$
+      000243 CCr03r3E         [ 2]  501 	jp	00106$
+      000246                        502 00286$:
+      000246 7B 04            [ 1]  503 	ld	a, (0x04, sp)
+      000248 A1 2D            [ 1]  504 	cp	a, #0x2d
+      00024A 26 03            [ 1]  505 	jrne	00289$
+      00024C CCr03r2A         [ 2]  506 	jp	00105$
+      00024F                        507 00289$:
+      00024F 7B 04            [ 1]  508 	ld	a, (0x04, sp)
+      000251 A1 30            [ 1]  509 	cp	a, #0x30
+      000253 26 03            [ 1]  510 	jrne	00292$
+      000255 CCr03r51         [ 2]  511 	jp	00107$
+      000258                        512 00292$:
+      000258 7B 04            [ 1]  513 	ld	a, (0x04, sp)
+      00025A A1 31            [ 1]  514 	cp	a, #0x31
+      00025C 26 03            [ 1]  515 	jrne	00295$
+      00025E CCr03r66         [ 2]  516 	jp	00108$
+      000261                        517 00295$:
+      000261 7B 04            [ 1]  518 	ld	a, (0x04, sp)
+      000263 A1 32            [ 1]  519 	cp	a, #0x32
+      000265 26 03            [ 1]  520 	jrne	00298$
+      000267 CCr03r7A         [ 2]  521 	jp	00109$
+      00026A                        522 00298$:
+      00026A 7B 04            [ 1]  523 	ld	a, (0x04, sp)
+      00026C A1 33            [ 1]  524 	cp	a, #0x33
+      00026E 26 03            [ 1]  525 	jrne	00301$
+      000270 CCr03r8F         [ 2]  526 	jp	00110$
+      000273                        527 00301$:
+      000273 7B 04            [ 1]  528 	ld	a, (0x04, sp)
+      000275 A1 34            [ 1]  529 	cp	a, #0x34
+      000277 26 03            [ 1]  530 	jrne	00304$
+      000279 CCr03rA4         [ 2]  531 	jp	00111$
+      00027C                        532 00304$:
+      00027C 7B 04            [ 1]  533 	ld	a, (0x04, sp)
+      00027E A1 35            [ 1]  534 	cp	a, #0x35
+      000280 26 03            [ 1]  535 	jrne	00307$
+      000282 CCr03rB8         [ 2]  536 	jp	00113$
+      000285                        537 00307$:
+      000285 7B 04            [ 1]  538 	ld	a, (0x04, sp)
+      000287 A1 36            [ 1]  539 	cp	a, #0x36
+      000289 26 03            [ 1]  540 	jrne	00310$
+      00028B CCr03rCD         [ 2]  541 	jp	00114$
+      00028E                        542 00310$:
+      00028E 7B 04            [ 1]  543 	ld	a, (0x04, sp)
+      000290 A1 37            [ 1]  544 	cp	a, #0x37
+      000292 26 03            [ 1]  545 	jrne	00313$
+      000294 CCr03rE2         [ 2]  546 	jp	00115$
+      000297                        547 00313$:
+      000297 7B 04            [ 1]  548 	ld	a, (0x04, sp)
+      000299 A1 38            [ 1]  549 	cp	a, #0x38
+      00029B 26 03            [ 1]  550 	jrne	00316$
+      00029D CCr03rF7         [ 2]  551 	jp	00116$
+      0002A0                        552 00316$:
+      0002A0 7B 04            [ 1]  553 	ld	a, (0x04, sp)
+      0002A2 A1 39            [ 1]  554 	cp	a, #0x39
+      0002A4 26 03            [ 1]  555 	jrne	00319$
+      0002A6 CCr04r0C         [ 2]  556 	jp	00117$
+      0002A9                        557 00319$:
+      0002A9 7B 04            [ 1]  558 	ld	a, (0x04, sp)
+      0002AB A1 41            [ 1]  559 	cp	a, #0x41
+      0002AD 26 03            [ 1]  560 	jrne	00322$
+      0002AF CCr04r21         [ 2]  561 	jp	00118$
+      0002B2                        562 00322$:
+      0002B2 7B 04            [ 1]  563 	ld	a, (0x04, sp)
+      0002B4 A1 42            [ 1]  564 	cp	a, #0x42
+      0002B6 26 03            [ 1]  565 	jrne	00325$
+      0002B8 CCr04r36         [ 2]  566 	jp	00119$
+      0002BB                        567 00325$:
+      0002BB 7B 04            [ 1]  568 	ld	a, (0x04, sp)
+      0002BD A1 43            [ 1]  569 	cp	a, #0x43
+      0002BF 26 03            [ 1]  570 	jrne	00328$
+      0002C1 CCr04r4B         [ 2]  571 	jp	00120$
+      0002C4                        572 00328$:
+      0002C4 7B 04            [ 1]  573 	ld	a, (0x04, sp)
+      0002C6 A1 44            [ 1]  574 	cp	a, #0x44
+      0002C8 26 03            [ 1]  575 	jrne	00331$
+      0002CA CCr04r60         [ 2]  576 	jp	00121$
+      0002CD                        577 00331$:
+      0002CD 7B 04            [ 1]  578 	ld	a, (0x04, sp)
+      0002CF A1 45            [ 1]  579 	cp	a, #0x45
+      0002D1 26 03            [ 1]  580 	jrne	00334$
+      0002D3 CCr04r75         [ 2]  581 	jp	00122$
+      0002D6                        582 00334$:
+      0002D6 7B 04            [ 1]  583 	ld	a, (0x04, sp)
+      0002D8 A1 46            [ 1]  584 	cp	a, #0x46
+      0002DA 26 03            [ 1]  585 	jrne	00337$
+      0002DC CCr04r8A         [ 2]  586 	jp	00123$
+      0002DF                        587 00337$:
+      0002DF 7B 04            [ 1]  588 	ld	a, (0x04, sp)
+      0002E1 A1 48            [ 1]  589 	cp	a, #0x48
+      0002E3 26 03            [ 1]  590 	jrne	00340$
+      0002E5 CCr04r9F         [ 2]  591 	jp	00124$
+      0002E8                        592 00340$:
+      0002E8 7B 04            [ 1]  593 	ld	a, (0x04, sp)
+      0002EA A1 4C            [ 1]  594 	cp	a, #0x4c
+      0002EC 26 03            [ 1]  595 	jrne	00343$
+      0002EE CCr04rB4         [ 2]  596 	jp	00125$
+      0002F1                        597 00343$:
+      0002F1 7B 04            [ 1]  598 	ld	a, (0x04, sp)
+      0002F3 A1 4E            [ 1]  599 	cp	a, #0x4e
+      0002F5 26 03            [ 1]  600 	jrne	00346$
+      0002F7 CCr04rC9         [ 2]  601 	jp	00126$
+      0002FA                        602 00346$:
+      0002FA 7B 04            [ 1]  603 	ld	a, (0x04, sp)
+      0002FC A1 4F            [ 1]  604 	cp	a, #0x4f
+      0002FE 26 03            [ 1]  605 	jrne	00349$
+      000300 CCr04rDD         [ 2]  606 	jp	00127$
+      000303                        607 00349$:
+      000303 7B 04            [ 1]  608 	ld	a, (0x04, sp)
+      000305 A1 50            [ 1]  609 	cp	a, #0x50
+      000307 26 03            [ 1]  610 	jrne	00352$
+      000309 CCr04rF1         [ 2]  611 	jp	00128$
+      00030C                        612 00352$:
+      00030C 7B 04            [ 1]  613 	ld	a, (0x04, sp)
+      00030E A1 52            [ 1]  614 	cp	a, #0x52
+      000310 26 03            [ 1]  615 	jrne	00355$
+      000312 CCr05r05         [ 2]  616 	jp	00129$
+      000315                        617 00355$:
+      000315 7B 04            [ 1]  618 	ld	a, (0x04, sp)
+      000317 A1 53            [ 1]  619 	cp	a, #0x53
+      000319 26 03            [ 1]  620 	jrne	00358$
+      00031B CCr03rB8         [ 2]  621 	jp	00113$
+      00031E                        622 00358$:
+      00031E 7B 04            [ 1]  623 	ld	a, (0x04, sp)
+      000320 A1 54            [ 1]  624 	cp	a, #0x54
+      000322 26 03            [ 1]  625 	jrne	00361$
+      000324 CCr05r19         [ 2]  626 	jp	00130$
+      000327                        627 00361$:
+      000327 CCr05r2D         [ 2]  628 	jp	00131$
+                                    629 ;	./display.c: 298: case '-':
+      00032A                        630 00105$:
+                                    631 ;	./display.c: 299: displayAC[id] = SSD_SEG_G_BIT;
+      00032A 5F               [ 1]  632 	clrw	x
+      00032B 7B 03            [ 1]  633 	ld	a, (0x03, sp)
+      00032D 97               [ 1]  634 	ld	xl, a
+      00032E A6 40            [ 1]  635 	ld	a, #0x40
+      000330 D7u00u01         [ 1]  636 	ld	((_displayAC + 0), x), a
+                                    637 ;	./display.c: 300: displayD[id] = 0;
+      000333 5F               [ 1]  638 	clrw	x
+      000334 7B 03            [ 1]  639 	ld	a, (0x03, sp)
+      000336 97               [ 1]  640 	ld	xl, a
+      000337 72 4Fu00u04      [ 1]  641 	clr	((_displayD + 0), x)
+                                    642 ;	./display.c: 301: break;
+      00033B CCr05r3E         [ 2]  643 	jp	00132$
+                                    644 ;	./display.c: 303: case ' ':
+      00033E                        645 00106$:
+                                    646 ;	./display.c: 304: displayAC[id] = 0;
+      00033E 5F               [ 1]  647 	clrw	x
+      00033F 7B 03            [ 1]  648 	ld	a, (0x03, sp)
+      000341 97               [ 1]  649 	ld	xl, a
+      000342 72 4Fu00u01      [ 1]  650 	clr	((_displayAC + 0), x)
+                                    651 ;	./display.c: 305: displayD[id] = 0;
+      000346 5F               [ 1]  652 	clrw	x
+      000347 7B 03            [ 1]  653 	ld	a, (0x03, sp)
+      000349 97               [ 1]  654 	ld	xl, a
+      00034A 72 4Fu00u04      [ 1]  655 	clr	((_displayD + 0), x)
+                                    656 ;	./display.c: 306: break;
+      00034E CCr05r3E         [ 2]  657 	jp	00132$
+                                    658 ;	./display.c: 308: case '0':
+      000351                        659 00107$:
+                                    660 ;	./display.c: 309: displayAC[id] = SSD_SEG_B_BIT | SSD_SEG_F_BIT | SSD_SEG_C_BIT;
+      000351 5F               [ 1]  661 	clrw	x
+      000352 7B 03            [ 1]  662 	ld	a, (0x03, sp)
+      000354 97               [ 1]  663 	ld	xl, a
+      000355 A6 86            [ 1]  664 	ld	a, #0x86
+      000357 D7u00u01         [ 1]  665 	ld	((_displayAC + 0), x), a
+                                    666 ;	./display.c: 310: displayD[id] = SSD_SEG_A_BIT | SSD_SEG_D_BIT | SSD_SEG_E_BIT;
+      00035A 5F               [ 1]  667 	clrw	x
+      00035B 7B 03            [ 1]  668 	ld	a, (0x03, sp)
+      00035D 97               [ 1]  669 	ld	xl, a
+      00035E A6 2A            [ 1]  670 	ld	a, #0x2a
+      000360 D7u00u04         [ 1]  671 	ld	((_displayD + 0), x), a
+                                    672 ;	./display.c: 311: break;
+      000363 CCr05r3E         [ 2]  673 	jp	00132$
+                                    674 ;	./display.c: 313: case '1':
+      000366                        675 00108$:
+                                    676 ;	./display.c: 314: displayAC[id] = SSD_SEG_B_BIT | SSD_SEG_C_BIT;
+      000366 5F               [ 1]  677 	clrw	x
+      000367 7B 03            [ 1]  678 	ld	a, (0x03, sp)
+      000369 97               [ 1]  679 	ld	xl, a
+      00036A A6 84            [ 1]  680 	ld	a, #0x84
+      00036C D7u00u01         [ 1]  681 	ld	((_displayAC + 0), x), a
+                                    682 ;	./display.c: 315: displayD[id] = 0;
+      00036F 5F               [ 1]  683 	clrw	x
+      000370 7B 03            [ 1]  684 	ld	a, (0x03, sp)
+      000372 97               [ 1]  685 	ld	xl, a
+      000373 72 4Fu00u04      [ 1]  686 	clr	((_displayD + 0), x)
+                                    687 ;	./display.c: 316: break;
+      000377 CCr05r3E         [ 2]  688 	jp	00132$
+                                    689 ;	./display.c: 318: case '2':
+      00037A                        690 00109$:
+                                    691 ;	./display.c: 319: displayAC[id] = SSD_SEG_B_BIT | SSD_SEG_G_BIT;
+      00037A 5F               [ 1]  692 	clrw	x
+      00037B 7B 03            [ 1]  693 	ld	a, (0x03, sp)
+      00037D 97               [ 1]  694 	ld	xl, a
+      00037E A6 44            [ 1]  695 	ld	a, #0x44
+      000380 D7u00u01         [ 1]  696 	ld	((_displayAC + 0), x), a
+                                    697 ;	./display.c: 320: displayD[id] = SSD_SEG_A_BIT | SSD_SEG_D_BIT | SSD_SEG_E_BIT;
+      000383 5F               [ 1]  698 	clrw	x
+      000384 7B 03            [ 1]  699 	ld	a, (0x03, sp)
+      000386 97               [ 1]  700 	ld	xl, a
+      000387 A6 2A            [ 1]  701 	ld	a, #0x2a
+      000389 D7u00u04         [ 1]  702 	ld	((_displayD + 0), x), a
+                                    703 ;	./display.c: 321: break;
+      00038C CCr05r3E         [ 2]  704 	jp	00132$
+                                    705 ;	./display.c: 323: case '3':
+      00038F                        706 00110$:
+                                    707 ;	./display.c: 324: displayAC[id] = SSD_SEG_B_BIT | SSD_SEG_C_BIT | SSD_SEG_G_BIT;
+      00038F 5F               [ 1]  708 	clrw	x
+      000390 7B 03            [ 1]  709 	ld	a, (0x03, sp)
+      000392 97               [ 1]  710 	ld	xl, a
+      000393 A6 C4            [ 1]  711 	ld	a, #0xc4
+      000395 D7u00u01         [ 1]  712 	ld	((_displayAC + 0), x), a
+                                    713 ;	./display.c: 325: displayD[id] = SSD_SEG_A_BIT | SSD_SEG_D_BIT;
+      000398 5F               [ 1]  714 	clrw	x
+      000399 7B 03            [ 1]  715 	ld	a, (0x03, sp)
+      00039B 97               [ 1]  716 	ld	xl, a
+      00039C A6 28            [ 1]  717 	ld	a, #0x28
+      00039E D7u00u04         [ 1]  718 	ld	((_displayD + 0), x), a
+                                    719 ;	./display.c: 326: break;
+      0003A1 CCr05r3E         [ 2]  720 	jp	00132$
+                                    721 ;	./display.c: 328: case '4':
+      0003A4                        722 00111$:
+                                    723 ;	./display.c: 329: displayAC[id] = SSD_SEG_B_BIT | SSD_SEG_C_BIT | SSD_SEG_F_BIT | SSD_SEG_G_BIT;
+      0003A4 5F               [ 1]  724 	clrw	x
+      0003A5 7B 03            [ 1]  725 	ld	a, (0x03, sp)
+      0003A7 97               [ 1]  726 	ld	xl, a
+      0003A8 A6 C6            [ 1]  727 	ld	a, #0xc6
+      0003AA D7u00u01         [ 1]  728 	ld	((_displayAC + 0), x), a
+                                    729 ;	./display.c: 330: displayD[id] = 0;
+      0003AD 5F               [ 1]  730 	clrw	x
+      0003AE 7B 03            [ 1]  731 	ld	a, (0x03, sp)
+      0003B0 97               [ 1]  732 	ld	xl, a
+      0003B1 72 4Fu00u04      [ 1]  733 	clr	((_displayD + 0), x)
+                                    734 ;	./display.c: 331: break;
+      0003B5 CCr05r3E         [ 2]  735 	jp	00132$
+                                    736 ;	./display.c: 334: case 'S':
+      0003B8                        737 00113$:
+                                    738 ;	./display.c: 335: displayAC[id] = SSD_SEG_C_BIT | SSD_SEG_F_BIT | SSD_SEG_G_BIT;
+      0003B8 5F               [ 1]  739 	clrw	x
+      0003B9 7B 03            [ 1]  740 	ld	a, (0x03, sp)
+      0003BB 97               [ 1]  741 	ld	xl, a
+      0003BC A6 C2            [ 1]  742 	ld	a, #0xc2
+      0003BE D7u00u01         [ 1]  743 	ld	((_displayAC + 0), x), a
+                                    744 ;	./display.c: 336: displayD[id] = SSD_SEG_A_BIT | SSD_SEG_D_BIT;
+      0003C1 5F               [ 1]  745 	clrw	x
+      0003C2 7B 03            [ 1]  746 	ld	a, (0x03, sp)
+      0003C4 97               [ 1]  747 	ld	xl, a
+      0003C5 A6 28            [ 1]  748 	ld	a, #0x28
+      0003C7 D7u00u04         [ 1]  749 	ld	((_displayD + 0), x), a
+                                    750 ;	./display.c: 337: break;
+      0003CA CCr05r3E         [ 2]  751 	jp	00132$
+                                    752 ;	./display.c: 339: case '6':
+      0003CD                        753 00114$:
+                                    754 ;	./display.c: 340: displayAC[id] = SSD_SEG_C_BIT | SSD_SEG_F_BIT | SSD_SEG_G_BIT;
+      0003CD 5F               [ 1]  755 	clrw	x
+      0003CE 7B 03            [ 1]  756 	ld	a, (0x03, sp)
+      0003D0 97               [ 1]  757 	ld	xl, a
+      0003D1 A6 C2            [ 1]  758 	ld	a, #0xc2
+      0003D3 D7u00u01         [ 1]  759 	ld	((_displayAC + 0), x), a
+                                    760 ;	./display.c: 341: displayD[id] = SSD_SEG_A_BIT | SSD_SEG_D_BIT | SSD_SEG_E_BIT;
+      0003D6 5F               [ 1]  761 	clrw	x
+      0003D7 7B 03            [ 1]  762 	ld	a, (0x03, sp)
+      0003D9 97               [ 1]  763 	ld	xl, a
+      0003DA A6 2A            [ 1]  764 	ld	a, #0x2a
+      0003DC D7u00u04         [ 1]  765 	ld	((_displayD + 0), x), a
+                                    766 ;	./display.c: 342: break;
+      0003DF CCr05r3E         [ 2]  767 	jp	00132$
+                                    768 ;	./display.c: 344: case '7':
+      0003E2                        769 00115$:
+                                    770 ;	./display.c: 345: displayAC[id] = SSD_SEG_B_BIT | SSD_SEG_C_BIT;
+      0003E2 5F               [ 1]  771 	clrw	x
+      0003E3 7B 03            [ 1]  772 	ld	a, (0x03, sp)
+      0003E5 97               [ 1]  773 	ld	xl, a
+      0003E6 A6 84            [ 1]  774 	ld	a, #0x84
+      0003E8 D7u00u01         [ 1]  775 	ld	((_displayAC + 0), x), a
+                                    776 ;	./display.c: 346: displayD[id] = SSD_SEG_A_BIT;
+      0003EB 5F               [ 1]  777 	clrw	x
+      0003EC 7B 03            [ 1]  778 	ld	a, (0x03, sp)
+      0003EE 97               [ 1]  779 	ld	xl, a
+      0003EF A6 20            [ 1]  780 	ld	a, #0x20
+      0003F1 D7u00u04         [ 1]  781 	ld	((_displayD + 0), x), a
+                                    782 ;	./display.c: 347: break;
+      0003F4 CCr05r3E         [ 2]  783 	jp	00132$
+                                    784 ;	./display.c: 349: case '8':
+      0003F7                        785 00116$:
+                                    786 ;	./display.c: 350: displayAC[id] = SSD_SEG_B_BIT | SSD_SEG_C_BIT | SSD_SEG_F_BIT | SSD_SEG_G_BIT;
+      0003F7 5F               [ 1]  787 	clrw	x
+      0003F8 7B 03            [ 1]  788 	ld	a, (0x03, sp)
+      0003FA 97               [ 1]  789 	ld	xl, a
+      0003FB A6 C6            [ 1]  790 	ld	a, #0xc6
+      0003FD D7u00u01         [ 1]  791 	ld	((_displayAC + 0), x), a
+                                    792 ;	./display.c: 351: displayD[id] = SSD_SEG_A_BIT | SSD_SEG_D_BIT | SSD_SEG_E_BIT;
+      000400 5F               [ 1]  793 	clrw	x
+      000401 7B 03            [ 1]  794 	ld	a, (0x03, sp)
+      000403 97               [ 1]  795 	ld	xl, a
+      000404 A6 2A            [ 1]  796 	ld	a, #0x2a
+      000406 D7u00u04         [ 1]  797 	ld	((_displayD + 0), x), a
+                                    798 ;	./display.c: 352: break;
+      000409 CCr05r3E         [ 2]  799 	jp	00132$
+                                    800 ;	./display.c: 354: case '9':
+      00040C                        801 00117$:
+                                    802 ;	./display.c: 355: displayAC[id] = SSD_SEG_B_BIT | SSD_SEG_C_BIT | SSD_SEG_F_BIT | SSD_SEG_G_BIT;
+      00040C 5F               [ 1]  803 	clrw	x
+      00040D 7B 03            [ 1]  804 	ld	a, (0x03, sp)
+      00040F 97               [ 1]  805 	ld	xl, a
+      000410 A6 C6            [ 1]  806 	ld	a, #0xc6
+      000412 D7u00u01         [ 1]  807 	ld	((_displayAC + 0), x), a
+                                    808 ;	./display.c: 356: displayD[id] = SSD_SEG_A_BIT | SSD_SEG_D_BIT;
+      000415 5F               [ 1]  809 	clrw	x
+      000416 7B 03            [ 1]  810 	ld	a, (0x03, sp)
+      000418 97               [ 1]  811 	ld	xl, a
+      000419 A6 28            [ 1]  812 	ld	a, #0x28
+      00041B D7u00u04         [ 1]  813 	ld	((_displayD + 0), x), a
+                                    814 ;	./display.c: 357: break;
+      00041E CCr05r3E         [ 2]  815 	jp	00132$
+                                    816 ;	./display.c: 359: case 'A':
+      000421                        817 00118$:
+                                    818 ;	./display.c: 360: displayAC[id] = SSD_SEG_B_BIT | SSD_SEG_C_BIT | SSD_SEG_F_BIT | SSD_SEG_G_BIT;
+      000421 5F               [ 1]  819 	clrw	x
+      000422 7B 03            [ 1]  820 	ld	a, (0x03, sp)
+      000424 97               [ 1]  821 	ld	xl, a
+      000425 A6 C6            [ 1]  822 	ld	a, #0xc6
+      000427 D7u00u01         [ 1]  823 	ld	((_displayAC + 0), x), a
+                                    824 ;	./display.c: 361: displayD[id] = SSD_SEG_A_BIT | SSD_SEG_E_BIT;
+      00042A 5F               [ 1]  825 	clrw	x
+      00042B 7B 03            [ 1]  826 	ld	a, (0x03, sp)
+      00042D 97               [ 1]  827 	ld	xl, a
+      00042E A6 22            [ 1]  828 	ld	a, #0x22
+      000430 D7u00u04         [ 1]  829 	ld	((_displayD + 0), x), a
+                                    830 ;	./display.c: 362: break;
+      000433 CCr05r3E         [ 2]  831 	jp	00132$
+                                    832 ;	./display.c: 364: case 'B':
+      000436                        833 00119$:
+                                    834 ;	./display.c: 365: displayAC[id] = SSD_SEG_C_BIT | SSD_SEG_F_BIT | SSD_SEG_G_BIT;
+      000436 5F               [ 1]  835 	clrw	x
+      000437 7B 03            [ 1]  836 	ld	a, (0x03, sp)
+      000439 97               [ 1]  837 	ld	xl, a
+      00043A A6 C2            [ 1]  838 	ld	a, #0xc2
+      00043C D7u00u01         [ 1]  839 	ld	((_displayAC + 0), x), a
+                                    840 ;	./display.c: 366: displayD[id] = SSD_SEG_D_BIT | SSD_SEG_E_BIT;
+      00043F 5F               [ 1]  841 	clrw	x
+      000440 7B 03            [ 1]  842 	ld	a, (0x03, sp)
+      000442 97               [ 1]  843 	ld	xl, a
+      000443 A6 0A            [ 1]  844 	ld	a, #0x0a
+      000445 D7u00u04         [ 1]  845 	ld	((_displayD + 0), x), a
+                                    846 ;	./display.c: 367: break;
+      000448 CCr05r3E         [ 2]  847 	jp	00132$
+                                    848 ;	./display.c: 369: case 'C':
+      00044B                        849 00120$:
+                                    850 ;	./display.c: 370: displayAC[id] = SSD_SEG_F_BIT;
+      00044B 5F               [ 1]  851 	clrw	x
+      00044C 7B 03            [ 1]  852 	ld	a, (0x03, sp)
+      00044E 97               [ 1]  853 	ld	xl, a
+      00044F A6 02            [ 1]  854 	ld	a, #0x02
+      000451 D7u00u01         [ 1]  855 	ld	((_displayAC + 0), x), a
+                                    856 ;	./display.c: 371: displayD[id] = SSD_SEG_A_BIT | SSD_SEG_D_BIT | SSD_SEG_E_BIT;
+      000454 5F               [ 1]  857 	clrw	x
+      000455 7B 03            [ 1]  858 	ld	a, (0x03, sp)
+      000457 97               [ 1]  859 	ld	xl, a
+      000458 A6 2A            [ 1]  860 	ld	a, #0x2a
+      00045A D7u00u04         [ 1]  861 	ld	((_displayD + 0), x), a
+                                    862 ;	./display.c: 372: break;
+      00045D CCr05r3E         [ 2]  863 	jp	00132$
+                                    864 ;	./display.c: 374: case 'D':
+      000460                        865 00121$:
+                                    866 ;	./display.c: 375: displayAC[id] = SSD_SEG_B_BIT | SSD_SEG_C_BIT | SSD_SEG_G_BIT;
+      000460 5F               [ 1]  867 	clrw	x
+      000461 7B 03            [ 1]  868 	ld	a, (0x03, sp)
+      000463 97               [ 1]  869 	ld	xl, a
+      000464 A6 C4            [ 1]  870 	ld	a, #0xc4
+      000466 D7u00u01         [ 1]  871 	ld	((_displayAC + 0), x), a
+                                    872 ;	./display.c: 376: displayD[id] = SSD_SEG_D_BIT | SSD_SEG_E_BIT;
+      000469 5F               [ 1]  873 	clrw	x
+      00046A 7B 03            [ 1]  874 	ld	a, (0x03, sp)
+      00046C 97               [ 1]  875 	ld	xl, a
+      00046D A6 0A            [ 1]  876 	ld	a, #0x0a
+      00046F D7u00u04         [ 1]  877 	ld	((_displayD + 0), x), a
+                                    878 ;	./display.c: 377: break;
+      000472 CCr05r3E         [ 2]  879 	jp	00132$
+                                    880 ;	./display.c: 379: case 'E':
+      000475                        881 00122$:
+                                    882 ;	./display.c: 380: displayAC[id] = SSD_SEG_F_BIT | SSD_SEG_G_BIT;
+      000475 5F               [ 1]  883 	clrw	x
+      000476 7B 03            [ 1]  884 	ld	a, (0x03, sp)
+      000478 97               [ 1]  885 	ld	xl, a
+      000479 A6 42            [ 1]  886 	ld	a, #0x42
+      00047B D7u00u01         [ 1]  887 	ld	((_displayAC + 0), x), a
+                                    888 ;	./display.c: 381: displayD[id] = SSD_SEG_A_BIT | SSD_SEG_D_BIT | SSD_SEG_E_BIT;
+      00047E 5F               [ 1]  889 	clrw	x
+      00047F 7B 03            [ 1]  890 	ld	a, (0x03, sp)
+      000481 97               [ 1]  891 	ld	xl, a
+      000482 A6 2A            [ 1]  892 	ld	a, #0x2a
+      000484 D7u00u04         [ 1]  893 	ld	((_displayD + 0), x), a
+                                    894 ;	./display.c: 382: break;
+      000487 CCr05r3E         [ 2]  895 	jp	00132$
+                                    896 ;	./display.c: 384: case 'F':
+      00048A                        897 00123$:
+                                    898 ;	./display.c: 385: displayAC[id] = SSD_SEG_F_BIT | SSD_SEG_G_BIT;
+      00048A 5F               [ 1]  899 	clrw	x
+      00048B 7B 03            [ 1]  900 	ld	a, (0x03, sp)
+      00048D 97               [ 1]  901 	ld	xl, a
+      00048E A6 42            [ 1]  902 	ld	a, #0x42
+      000490 D7u00u01         [ 1]  903 	ld	((_displayAC + 0), x), a
+                                    904 ;	./display.c: 386: displayD[id] = SSD_SEG_A_BIT | SSD_SEG_E_BIT;
+      000493 5F               [ 1]  905 	clrw	x
+      000494 7B 03            [ 1]  906 	ld	a, (0x03, sp)
+      000496 97               [ 1]  907 	ld	xl, a
+      000497 A6 22            [ 1]  908 	ld	a, #0x22
+      000499 D7u00u04         [ 1]  909 	ld	((_displayD + 0), x), a
+                                    910 ;	./display.c: 387: break;
+      00049C CCr05r3E         [ 2]  911 	jp	00132$
+                                    912 ;	./display.c: 389: case 'H':
+      00049F                        913 00124$:
+                                    914 ;	./display.c: 390: displayAC[id] = SSD_SEG_B_BIT | SSD_SEG_C_BIT | SSD_SEG_F_BIT | SSD_SEG_G_BIT;
+      00049F 5F               [ 1]  915 	clrw	x
+      0004A0 7B 03            [ 1]  916 	ld	a, (0x03, sp)
+      0004A2 97               [ 1]  917 	ld	xl, a
+      0004A3 A6 C6            [ 1]  918 	ld	a, #0xc6
+      0004A5 D7u00u01         [ 1]  919 	ld	((_displayAC + 0), x), a
+                                    920 ;	./display.c: 391: displayD[id] = SSD_SEG_E_BIT;
+      0004A8 5F               [ 1]  921 	clrw	x
+      0004A9 7B 03            [ 1]  922 	ld	a, (0x03, sp)
+      0004AB 97               [ 1]  923 	ld	xl, a
+      0004AC A6 02            [ 1]  924 	ld	a, #0x02
+      0004AE D7u00u04         [ 1]  925 	ld	((_displayD + 0), x), a
+                                    926 ;	./display.c: 392: break;
+      0004B1 CCr05r3E         [ 2]  927 	jp	00132$
+                                    928 ;	./display.c: 394: case 'L':
+      0004B4                        929 00125$:
+                                    930 ;	./display.c: 395: displayAC[id] = SSD_SEG_F_BIT;
+      0004B4 5F               [ 1]  931 	clrw	x
+      0004B5 7B 03            [ 1]  932 	ld	a, (0x03, sp)
+      0004B7 97               [ 1]  933 	ld	xl, a
+      0004B8 A6 02            [ 1]  934 	ld	a, #0x02
+      0004BA D7u00u01         [ 1]  935 	ld	((_displayAC + 0), x), a
+                                    936 ;	./display.c: 396: displayD[id] = SSD_SEG_D_BIT | SSD_SEG_E_BIT;
+      0004BD 5F               [ 1]  937 	clrw	x
+      0004BE 7B 03            [ 1]  938 	ld	a, (0x03, sp)
+      0004C0 97               [ 1]  939 	ld	xl, a
+      0004C1 A6 0A            [ 1]  940 	ld	a, #0x0a
+      0004C3 D7u00u04         [ 1]  941 	ld	((_displayD + 0), x), a
+                                    942 ;	./display.c: 397: break;
+      0004C6 CCr05r3E         [ 2]  943 	jp	00132$
+                                    944 ;	./display.c: 399: case 'N':
+      0004C9                        945 00126$:
+                                    946 ;	./display.c: 400: displayAC[id] = SSD_SEG_B_BIT | SSD_SEG_F_BIT | SSD_SEG_C_BIT;
+      0004C9 5F               [ 1]  947 	clrw	x
+      0004CA 7B 03            [ 1]  948 	ld	a, (0x03, sp)
+      0004CC 97               [ 1]  949 	ld	xl, a
+      0004CD A6 86            [ 1]  950 	ld	a, #0x86
+      0004CF D7u00u01         [ 1]  951 	ld	((_displayAC + 0), x), a
+                                    952 ;	./display.c: 401: displayD[id] = SSD_SEG_A_BIT | SSD_SEG_E_BIT;
+      0004D2 5F               [ 1]  953 	clrw	x
+      0004D3 7B 03            [ 1]  954 	ld	a, (0x03, sp)
+      0004D5 97               [ 1]  955 	ld	xl, a
+      0004D6 A6 22            [ 1]  956 	ld	a, #0x22
+      0004D8 D7u00u04         [ 1]  957 	ld	((_displayD + 0), x), a
+                                    958 ;	./display.c: 402: break;
+      0004DB 20 61            [ 2]  959 	jra	00132$
+                                    960 ;	./display.c: 404: case 'O':
+      0004DD                        961 00127$:
+                                    962 ;	./display.c: 405: displayAC[id] = SSD_SEG_B_BIT | SSD_SEG_F_BIT | SSD_SEG_C_BIT;
+      0004DD 5F               [ 1]  963 	clrw	x
+      0004DE 7B 03            [ 1]  964 	ld	a, (0x03, sp)
+      0004E0 97               [ 1]  965 	ld	xl, a
+      0004E1 A6 86            [ 1]  966 	ld	a, #0x86
+      0004E3 D7u00u01         [ 1]  967 	ld	((_displayAC + 0), x), a
+                                    968 ;	./display.c: 406: displayD[id] = SSD_SEG_A_BIT | SSD_SEG_D_BIT | SSD_SEG_E_BIT;
+      0004E6 5F               [ 1]  969 	clrw	x
+      0004E7 7B 03            [ 1]  970 	ld	a, (0x03, sp)
+      0004E9 97               [ 1]  971 	ld	xl, a
+      0004EA A6 2A            [ 1]  972 	ld	a, #0x2a
+      0004EC D7u00u04         [ 1]  973 	ld	((_displayD + 0), x), a
+                                    974 ;	./display.c: 407: break;
+      0004EF 20 4D            [ 2]  975 	jra	00132$
+                                    976 ;	./display.c: 409: case 'P':
+      0004F1                        977 00128$:
+                                    978 ;	./display.c: 410: displayAC[id] = SSD_SEG_B_BIT | SSD_SEG_F_BIT | SSD_SEG_G_BIT;
+      0004F1 5F               [ 1]  979 	clrw	x
+      0004F2 7B 03            [ 1]  980 	ld	a, (0x03, sp)
+      0004F4 97               [ 1]  981 	ld	xl, a
+      0004F5 A6 46            [ 1]  982 	ld	a, #0x46
+      0004F7 D7u00u01         [ 1]  983 	ld	((_displayAC + 0), x), a
+                                    984 ;	./display.c: 411: displayD[id] = SSD_SEG_A_BIT | SSD_SEG_E_BIT;
+      0004FA 5F               [ 1]  985 	clrw	x
+      0004FB 7B 03            [ 1]  986 	ld	a, (0x03, sp)
+      0004FD 97               [ 1]  987 	ld	xl, a
+      0004FE A6 22            [ 1]  988 	ld	a, #0x22
+      000500 D7u00u04         [ 1]  989 	ld	((_displayD + 0), x), a
+                                    990 ;	./display.c: 412: break;
+      000503 20 39            [ 2]  991 	jra	00132$
+                                    992 ;	./display.c: 414: case 'R':
+      000505                        993 00129$:
+                                    994 ;	./display.c: 415: displayAC[id] = SSD_SEG_G_BIT;
+      000505 5F               [ 1]  995 	clrw	x
+      000506 7B 03            [ 1]  996 	ld	a, (0x03, sp)
+      000508 97               [ 1]  997 	ld	xl, a
+      000509 A6 40            [ 1]  998 	ld	a, #0x40
+      00050B D7u00u01         [ 1]  999 	ld	((_displayAC + 0), x), a
+                                   1000 ;	./display.c: 416: displayD[id] = SSD_SEG_E_BIT;
+      00050E 5F               [ 1] 1001 	clrw	x
+      00050F 7B 03            [ 1] 1002 	ld	a, (0x03, sp)
+      000511 97               [ 1] 1003 	ld	xl, a
+      000512 A6 02            [ 1] 1004 	ld	a, #0x02
+      000514 D7u00u04         [ 1] 1005 	ld	((_displayD + 0), x), a
+                                   1006 ;	./display.c: 417: break;
+      000517 20 25            [ 2] 1007 	jra	00132$
+                                   1008 ;	./display.c: 419: case 'T':
+      000519                       1009 00130$:
+                                   1010 ;	./display.c: 420: displayAC[id] = SSD_SEG_F_BIT | SSD_SEG_G_BIT;
+      000519 5F               [ 1] 1011 	clrw	x
+      00051A 7B 03            [ 1] 1012 	ld	a, (0x03, sp)
+      00051C 97               [ 1] 1013 	ld	xl, a
+      00051D A6 42            [ 1] 1014 	ld	a, #0x42
+      00051F D7u00u01         [ 1] 1015 	ld	((_displayAC + 0), x), a
+                                   1016 ;	./display.c: 421: displayD[id] = SSD_SEG_D_BIT | SSD_SEG_E_BIT;
+      000522 5F               [ 1] 1017 	clrw	x
+      000523 7B 03            [ 1] 1018 	ld	a, (0x03, sp)
+      000525 97               [ 1] 1019 	ld	xl, a
+      000526 A6 0A            [ 1] 1020 	ld	a, #0x0a
+      000528 D7u00u04         [ 1] 1021 	ld	((_displayD + 0), x), a
+                                   1022 ;	./display.c: 422: break;
+      00052B 20 11            [ 2] 1023 	jra	00132$
+                                   1024 ;	./display.c: 424: default:
+      00052D                       1025 00131$:
+                                   1026 ;	./display.c: 425: displayAC[id] = 0;
+      00052D 5F               [ 1] 1027 	clrw	x
+      00052E 7B 03            [ 1] 1028 	ld	a, (0x03, sp)
+      000530 97               [ 1] 1029 	ld	xl, a
+      000531 72 4Fu00u01      [ 1] 1030 	clr	((_displayAC + 0), x)
+                                   1031 ;	./display.c: 426: displayD[id] = SSD_SEG_D_BIT;
+      000535 5F               [ 1] 1032 	clrw	x
+      000536 7B 03            [ 1] 1033 	ld	a, (0x03, sp)
+      000538 97               [ 1] 1034 	ld	xl, a
+      000539 A6 08            [ 1] 1035 	ld	a, #0x08
+      00053B D7u00u04         [ 1] 1036 	ld	((_displayD + 0), x), a
+                                   1037 ;	./display.c: 427: }
+      00053E                       1038 00132$:
+                                   1039 ;	./display.c: 429: if (dot) {
+      00053E 0D 05            [ 1] 1040 	tnz	(0x05, sp)
+      000540 27 0C            [ 1] 1041 	jreq	00134$
+                                   1042 ;	./display.c: 430: displayD[id] |= SSD_SEG_P_BIT;
+      000542 5F               [ 1] 1043 	clrw	x
+      000543 7B 03            [ 1] 1044 	ld	a, (0x03, sp)
+      000545 97               [ 1] 1045 	ld	xl, a
+      000546 1Cr00r04         [ 2] 1046 	addw	x, #(_displayD + 0)
+      000549 F6               [ 1] 1047 	ld	a, (x)
+      00054A AA 04            [ 1] 1048 	or	a, #0x04
+      00054C F7               [ 1] 1049 	ld	(x), a
+      00054D 81               [ 4] 1050 	ret
+      00054E                       1051 00134$:
+                                   1052 ;	./display.c: 432: displayD[id] &= ~SSD_SEG_P_BIT;
+      00054E 5F               [ 1] 1053 	clrw	x
+      00054F 7B 03            [ 1] 1054 	ld	a, (0x03, sp)
+      000551 97               [ 1] 1055 	ld	xl, a
+      000552 1Cr00r04         [ 2] 1056 	addw	x, #(_displayD + 0)
+      000555 F6               [ 1] 1057 	ld	a, (x)
+      000556 A4 FB            [ 1] 1058 	and	a, #0xfb
+      000558 F7               [ 1] 1059 	ld	(x), a
+                                   1060 ;	./display.c: 435: return;
+                                   1061 ;	./display.c: 436: }
+      000559 81               [ 4] 1062 	ret
+                                   1063 	.area CODE
+                                   1064 	.area CONST
+      000000                       1065 _Hex2CharMap:
+      000000 30                    1066 	.db #0x30	; 48	'0'
+      000001 31                    1067 	.db #0x31	; 49	'1'
+      000002 32                    1068 	.db #0x32	; 50	'2'
+      000003 33                    1069 	.db #0x33	; 51	'3'
+      000004 34                    1070 	.db #0x34	; 52	'4'
+      000005 35                    1071 	.db #0x35	; 53	'5'
+      000006 36                    1072 	.db #0x36	; 54	'6'
+      000007 37                    1073 	.db #0x37	; 55	'7'
+      000008 38                    1074 	.db #0x38	; 56	'8'
+      000009 39                    1075 	.db #0x39	; 57	'9'
+      00000A 41                    1076 	.db #0x41	; 65	'A'
+      00000B 42                    1077 	.db #0x42	; 66	'B'
+      00000C 43                    1078 	.db #0x43	; 67	'C'
+      00000D 44                    1079 	.db #0x44	; 68	'D'
+      00000E 45                    1080 	.db #0x45	; 69	'E'
+      00000F 46                    1081 	.db #0x46	; 70	'F'
+                                   1082 	.area CONST
+      000010                       1083 ___str_0:
+      000010 00                    1084 	.db 0x00
+                                   1085 	.area CODE
+                                   1086 	.area CONST
+      000011                       1087 ___str_1:
+      000011 38 38 38              1088 	.ascii "888"
+      000014 00                    1089 	.db 0x00
+                                   1090 	.area CODE
+                                   1091 	.area INITIALIZER
+      000000                       1092 __xinit__lowBrightness:
+      000000 00                    1093 	.db #0x00	;  0
+                                   1094 	.area CABS (ABS)

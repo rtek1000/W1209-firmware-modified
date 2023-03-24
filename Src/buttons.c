@@ -146,7 +146,7 @@ bool debounce()
 {
     unsigned long _debounce = getUptime();
     
-    if((_debounce - debounce_buttons) > 70) {
+    if((_debounce - debounce_buttons) > 75) {
         debounce_buttons = _debounce;
         return true;
     } else {

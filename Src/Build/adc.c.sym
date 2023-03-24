@@ -1,0 +1,40 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (STMicroelectronics STM8), page 1.
+Hexadecimal [24-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  002710 L
+    .__.ABS.                                                    =  000000 G
+    .__.CPU.                                                    =  000000 L
+    .__.H$L.                                                    =  000001 L
+  9 _ADC1_EOC_handler                                              0000F2 GR
+  1 _averaged                                                      000006 R
+  9 _getAdcAveraged                                                00002E GR
+  9 _getAdcResult                                                  00002A GR
+    _getParamById                                                  ****** GX
+  9 _getSensorFail                                                 0001EC GR
+  9 _getTemperature                                                000042 GR
+  9 _initADC                                                       000000 GR
+  7 _rawAdc                                                        000000 GR
+  1 _result                                                        000000 R
+  1 _result_fail                                                   000002 R
+  9 _startADC                                                      000025 GR
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (STMicroelectronics STM8), page 2.
+Hexadecimal [24-Bits]
+
+Area Table
+
+   0 _CODE                                      size      0   flags    0
+   1 DATA                                       size      A   flags    0
+   2 INITIALIZED                                size      0   flags    0
+   3 DABS                                       size      0   flags    8
+   4 HOME                                       size      0   flags    0
+   5 GSINIT                                     size      0   flags    0
+   6 GSFINAL                                    size      0   flags    0
+   7 CONST                                      size    14A   flags    0
+   8 INITIALIZER                                size      0   flags    0
+   9 CODE                                       size    234   flags    0
+   A CABS                                       size      0   flags    8
+

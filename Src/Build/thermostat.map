@@ -1,0 +1,219 @@
+ASxxxx Linker V03.00 + NoICE + sdld,  page 1.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+.  .ABS.                            00000000    00000000 =           0. bytes (ABS,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     FFFFFFFF  s_SSEG                          
+     00000000  .__.ABS.                           
+     00000000  l_CABS                          
+     00000000  l_DABS                          
+     00000000  l__CODE                         
+     00000000  s_CABS                          
+     00000000  s_DABS                          
+     00000000  s__CODE                         
+     00000001  l_SSEG                          
+     00000001  s_DATA                          
+     00000003  l_GSFINAL                       
+     00000007  l_INITIALIZED                   
+     00000007  l_INITIALIZER                   
+     0000001A  l_GSINIT                        
+     00000043  l_DATA                          
+     00000044  s_INITIALIZED                   
+     0000006B  l_HOME                          
+     000001BC  l_CONST                         
+     00001752  l_CODE                          
+     00008000  s_HOME                          
+     0000806B  s_GSINIT                        
+     00008085  s_GSFINAL                       
+     00008088  s_CONST                         
+     00008244  s_INITIALIZER                   
+     0000824B  s_CODE                          
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+DATA                                00000001    00000043 =          67. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+INITIALIZED                         00000044    00000007 =           7. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+SSEG                                FFFFFFFF    00000001 =           1. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+ASxxxx Linker V03.00 + NoICE + sdld,  page 5.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+HOME                                00008000    0000006B =         107. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+ASxxxx Linker V03.00 + NoICE + sdld,  page 6.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+GSINIT                              0000806B    0000001A =          26. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+ASxxxx Linker V03.00 + NoICE + sdld,  page 7.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+GSFINAL                             00008085    00000003 =           3. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+ASxxxx Linker V03.00 + NoICE + sdld,  page 8.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+CONST                               00008088    000001BC =         444. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     000080A9  _Hex2CharMap                       display
+     000080BE  _rawAdc                            adc
+     00008208  _paramMin                          params
+     0000821C  _paramMax                          params
+     00008230  _paramDefault                      params
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 9.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+INITIALIZER                         00008244    00000007 =           7. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+ASxxxx Linker V03.00 + NoICE + sdld,  page 10.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+CODE                                0000824B    00001752 =        5970. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     0000824B  _main                              main
+     0000848F  _dimmerBrightness                  display
+     00008495  _initDisplay                       display
+     000084E9  _refreshDisplay                    display
+     00008576  _setDisplayTestMode                display
+     0000859D  _setDisplayOff                     display
+     000085A3  _setDisplayDot                     display
+     000085BF  _setDisplayStr                     display
+     0000866C  _enableDigit                       display
+     000089E9  _initTimer                         timer
+     00008A00  _resetUptime                       timer
+     00008A08  _getUptime                         timer
+     00008A10  _getUptimeTicks                    timer
+     00008A18  _getUptimeSeconds                  timer
+     00008A2B  _getUptimeMinutes                  timer
+     00008A32  _getUptimeHours                    timer
+     00008A3C  _getUptimeDays                     timer
+     00008A4B  _TIM4_UPD_handler                  timer
+     00008B70  _initButtons                       buttons
+     00008B96  _getButton                         buttons
+     00008B9A  _getButtonDiff                     buttons
+     00008B9E  _getButton1                        buttons
+     00008BA6  _getButton2                        buttons
+     00008BB0  _getButton3                        buttons
+     00008BB8  _isButton1                         buttons
+     00008BC8  _isButton2                         buttons
+     00008BD8  _isButton3                         buttons
+     00008BE8  _debounce                          buttons
+     00008C25  _EXTI2_handler                     buttons
+     00008C8C  _initADC                           adc
+     00008CB1  _startADC                          adc
+     00008CB6  _getAdcResult                      adc
+     00008CBA  _getAdcAveraged                    adc
+     00008CCE  _getTemperature                    adc
+     00008D7E  _ADC1_EOC_handler                  adc
+     00008E78  _getSensorFail                     adc
+     00008EC0  _initMenu                          menu
+     00008ECD  _getMenuDisplay                    menu
+     00008ED1  _setMenuDisplay                    menu
+     00008ED7  _feedMenu                          menu
+     0000935B  _refreshMenu                       menu
+     00009369  _initParamsEEPROM                  params
+     000093E4  _getParamById                      params
+     000093F7  _setParamById                      params
+     00009409  _getParam                          params
+     00009414  _setParam                          params
+     00009420  _incParam                          params
+     0000946A  _decParam                          params
+     000094B4  _getParamId                        params
+     000094B8  _setParamId                        params
+ASxxxx Linker V03.00 + NoICE + sdld,  page 11.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+CODE                                0000824B    00001752 =        5970. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     000094C5  _incParamId                        params
+     000094D6  _decParamId                        params
+     000094E6  _paramToString                     params
+     0000963F  _storeParams                       params
+     00009694  _itofpa                            params
+     00009796  _initRelay                         relay
+     000097A7  _setRelay                          relay
+     000097BA  _refreshRelay                      relay
+     00009973  __modsint                          
+     00009989  __divsint                          
+ASxxxx Linker V03.00 + NoICE + sdld,  page 12.
+
+Files Linked                              [ module(s) ]
+
+./Build/main.c.rel                        [ main ]
+./Build/display.c.rel                     [ display ]
+./Build/timer.c.rel                       [ timer ]
+./Build/buttons.c.rel                     [ buttons ]
+./Build/adc.c.rel                         [ adc ]
+./Build/menu.c.rel                        [ menu ]
+./Build/params.c.rel                      [ params ]
+./Build/relay.c.rel                       [ relay ]
+
+
+Libraries Linked                          [ object file ]
+
+/usr/bin/../share/sdcc/lib/stm8/stm8.lib  [ _modsint.rel ]
+/usr/bin/../share/sdcc/lib/stm8/stm8.lib  [ _divsint.rel ]
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 13.
+
+User Base Address Definitions
+
+HOME = 0x8000
+DATA = 0x0001
+SSEG = 0xffffffff
+
+

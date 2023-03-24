@@ -1,0 +1,342 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 4.0.0 #11528 (Linux)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module buttons
+                                      6 	.optsdcc -mstm8
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _debounce
+                                     12 	.globl _getUptime
+                                     13 	.globl _feedMenu
+                                     14 	.globl _initButtons
+                                     15 	.globl _getButton
+                                     16 	.globl _getButtonDiff
+                                     17 	.globl _getButton1
+                                     18 	.globl _getButton2
+                                     19 	.globl _getButton3
+                                     20 	.globl _isButton1
+                                     21 	.globl _isButton2
+                                     22 	.globl _isButton3
+                                     23 	.globl _EXTI2_handler
+                                     24 ;--------------------------------------------------------
+                                     25 ; ram data
+                                     26 ;--------------------------------------------------------
+                                     27 	.area DATA
+      000000                         28 _status:
+      000000                         29 	.ds 1
+      000001                         30 _diff:
+      000001                         31 	.ds 1
+                                     32 ;--------------------------------------------------------
+                                     33 ; ram data
+                                     34 ;--------------------------------------------------------
+                                     35 	.area INITIALIZED
+      000000                         36 _debounce_buttons:
+      000000                         37 	.ds 4
+                                     38 ;--------------------------------------------------------
+                                     39 ; absolute external ram data
+                                     40 ;--------------------------------------------------------
+                                     41 	.area DABS (ABS)
+                                     42 
+                                     43 ; default segment ordering for linker
+                                     44 	.area HOME
+                                     45 	.area GSINIT
+                                     46 	.area GSFINAL
+                                     47 	.area CONST
+                                     48 	.area INITIALIZER
+                                     49 	.area CODE
+                                     50 
+                                     51 ;--------------------------------------------------------
+                                     52 ; global & static initialisations
+                                     53 ;--------------------------------------------------------
+                                     54 	.area HOME
+                                     55 	.area GSINIT
+                                     56 	.area GSFINAL
+                                     57 	.area GSINIT
+                                     58 ;--------------------------------------------------------
+                                     59 ; Home
+                                     60 ;--------------------------------------------------------
+                                     61 	.area HOME
+                                     62 	.area HOME
+                                     63 ;--------------------------------------------------------
+                                     64 ; code
+                                     65 ;--------------------------------------------------------
+                                     66 	.area CODE
+                                     67 ;	./buttons.c: 48: void initButtons()
+                                     68 ;	-----------------------------------------
+                                     69 ;	 function initButtons
+                                     70 ;	-----------------------------------------
+      000000                         71 _initButtons:
+                                     72 ;	./buttons.c: 50: PC_CR1 |= BUTTON1_BIT | BUTTON2_BIT | BUTTON3_BIT;
+      000000 C6 50 0D         [ 1]   73 	ld	a, 0x500d
+      000003 AA 38            [ 1]   74 	or	a, #0x38
+      000005 C7 50 0D         [ 1]   75 	ld	0x500d, a
+                                     76 ;	./buttons.c: 51: PC_CR2 |= BUTTON1_BIT | BUTTON2_BIT | BUTTON3_BIT;
+      000008 C6 50 0E         [ 1]   77 	ld	a, 0x500e
+      00000B AA 38            [ 1]   78 	or	a, #0x38
+      00000D C7 50 0E         [ 1]   79 	ld	0x500e, a
+                                     80 ;	./buttons.c: 52: status = ~ (BUTTONS_PORT & (BUTTON1_BIT | BUTTON2_BIT | BUTTON3_BIT) );
+      000010 C6 50 0B         [ 1]   81 	ld	a, 0x500b
+      000013 A4 38            [ 1]   82 	and	a, #0x38
+      000015 43               [ 1]   83 	cpl	a
+      000016 C7u00u00         [ 1]   84 	ld	_status+0, a
+                                     85 ;	./buttons.c: 53: diff = 0;
+      000019 72 5Fu00u01      [ 1]   86 	clr	_diff+0
+                                     87 ;	./buttons.c: 54: EXTI_CR1 |= 0x30;   // generate interrupt on falling and rising front.
+      00001D C6 50 A0         [ 1]   88 	ld	a, 0x50a0
+      000020 AA 30            [ 1]   89 	or	a, #0x30
+      000022 C7 50 A0         [ 1]   90 	ld	0x50a0, a
+                                     91 ;	./buttons.c: 55: }
+      000025 81               [ 4]   92 	ret
+                                     93 ;	./buttons.c: 62: unsigned char getButton()
+                                     94 ;	-----------------------------------------
+                                     95 ;	 function getButton
+                                     96 ;	-----------------------------------------
+      000026                         97 _getButton:
+                                     98 ;	./buttons.c: 64: return status;
+      000026 C6u00u00         [ 1]   99 	ld	a, _status+0
+                                    100 ;	./buttons.c: 65: }
+      000029 81               [ 4]  101 	ret
+                                    102 ;	./buttons.c: 71: unsigned char getButtonDiff()
+                                    103 ;	-----------------------------------------
+                                    104 ;	 function getButtonDiff
+                                    105 ;	-----------------------------------------
+      00002A                        106 _getButtonDiff:
+                                    107 ;	./buttons.c: 73: return diff;
+      00002A C6u00u01         [ 1]  108 	ld	a, _diff+0
+                                    109 ;	./buttons.c: 74: }
+      00002D 81               [ 4]  110 	ret
+                                    111 ;	./buttons.c: 80: bool getButton1()
+                                    112 ;	-----------------------------------------
+                                    113 ;	 function getButton1
+                                    114 ;	-----------------------------------------
+      00002E                        115 _getButton1:
+                                    116 ;	./buttons.c: 82: return status & BUTTON1_BIT;
+      00002E C6u00u00         [ 1]  117 	ld	a, _status+0
+      000031 4E               [ 1]  118 	swap	a
+      000032 48               [ 1]  119 	sll	a
+      000033 4F               [ 1]  120 	clr	a
+      000034 49               [ 1]  121 	rlc	a
+                                    122 ;	./buttons.c: 83: }
+      000035 81               [ 4]  123 	ret
+                                    124 ;	./buttons.c: 89: bool getButton2()
+                                    125 ;	-----------------------------------------
+                                    126 ;	 function getButton2
+                                    127 ;	-----------------------------------------
+      000036                        128 _getButton2:
+                                    129 ;	./buttons.c: 91: return status & BUTTON2_BIT;
+      000036 C6u00u00         [ 1]  130 	ld	a, _status+0
+      000039 44               [ 1]  131 	srl	a
+      00003A 44               [ 1]  132 	srl	a
+      00003B 44               [ 1]  133 	srl	a
+      00003C 44               [ 1]  134 	srl	a
+      00003D A4 01            [ 1]  135 	and	a, #0x01
+                                    136 ;	./buttons.c: 92: }
+      00003F 81               [ 4]  137 	ret
+                                    138 ;	./buttons.c: 98: bool getButton3()
+                                    139 ;	-----------------------------------------
+                                    140 ;	 function getButton3
+                                    141 ;	-----------------------------------------
+      000040                        142 _getButton3:
+                                    143 ;	./buttons.c: 100: return status & BUTTON3_BIT;
+      000040 C6u00u00         [ 1]  144 	ld	a, _status+0
+      000043 4E               [ 1]  145 	swap	a
+      000044 44               [ 1]  146 	srl	a
+      000045 A4 01            [ 1]  147 	and	a, #0x01
+                                    148 ;	./buttons.c: 101: }
+      000047 81               [ 4]  149 	ret
+                                    150 ;	./buttons.c: 107: bool isButton1()
+                                    151 ;	-----------------------------------------
+                                    152 ;	 function isButton1
+                                    153 ;	-----------------------------------------
+      000048                        154 _isButton1:
+                                    155 ;	./buttons.c: 109: if (diff & BUTTON1_BIT) {
+      000048 C6u00u01         [ 1]  156 	ld	a, _diff+0
+      00004B A5 08            [ 1]  157 	bcp	a, #0x08
+      00004D 27 07            [ 1]  158 	jreq	00102$
+                                    159 ;	./buttons.c: 110: diff &= ~BUTTON1_BIT;
+      00004F 72 17u00u01      [ 1]  160 	bres	_diff+0, #3
+                                    161 ;	./buttons.c: 111: return true;
+      000053 A6 01            [ 1]  162 	ld	a, #0x01
+      000055 81               [ 4]  163 	ret
+      000056                        164 00102$:
+                                    165 ;	./buttons.c: 114: return false;
+      000056 4F               [ 1]  166 	clr	a
+                                    167 ;	./buttons.c: 115: }
+      000057 81               [ 4]  168 	ret
+                                    169 ;	./buttons.c: 121: bool isButton2()
+                                    170 ;	-----------------------------------------
+                                    171 ;	 function isButton2
+                                    172 ;	-----------------------------------------
+      000058                        173 _isButton2:
+                                    174 ;	./buttons.c: 123: if (diff & BUTTON2_BIT) {
+      000058 C6u00u01         [ 1]  175 	ld	a, _diff+0
+      00005B A5 10            [ 1]  176 	bcp	a, #0x10
+      00005D 27 07            [ 1]  177 	jreq	00102$
+                                    178 ;	./buttons.c: 124: diff &= ~BUTTON2_BIT;
+      00005F 72 19u00u01      [ 1]  179 	bres	_diff+0, #4
+                                    180 ;	./buttons.c: 125: return true;
+      000063 A6 01            [ 1]  181 	ld	a, #0x01
+      000065 81               [ 4]  182 	ret
+      000066                        183 00102$:
+                                    184 ;	./buttons.c: 128: return false;
+      000066 4F               [ 1]  185 	clr	a
+                                    186 ;	./buttons.c: 129: }
+      000067 81               [ 4]  187 	ret
+                                    188 ;	./buttons.c: 135: bool isButton3()
+                                    189 ;	-----------------------------------------
+                                    190 ;	 function isButton3
+                                    191 ;	-----------------------------------------
+      000068                        192 _isButton3:
+                                    193 ;	./buttons.c: 137: if (diff & BUTTON3_BIT) {
+      000068 C6u00u01         [ 1]  194 	ld	a, _diff+0
+      00006B A5 20            [ 1]  195 	bcp	a, #0x20
+      00006D 27 07            [ 1]  196 	jreq	00102$
+                                    197 ;	./buttons.c: 138: diff &= ~BUTTON3_BIT;
+      00006F 72 1Bu00u01      [ 1]  198 	bres	_diff+0, #5
+                                    199 ;	./buttons.c: 139: return true;
+      000073 A6 01            [ 1]  200 	ld	a, #0x01
+      000075 81               [ 4]  201 	ret
+      000076                        202 00102$:
+                                    203 ;	./buttons.c: 142: return false;
+      000076 4F               [ 1]  204 	clr	a
+                                    205 ;	./buttons.c: 143: }
+      000077 81               [ 4]  206 	ret
+                                    207 ;	./buttons.c: 145: bool debounce()
+                                    208 ;	-----------------------------------------
+                                    209 ;	 function debounce
+                                    210 ;	-----------------------------------------
+      000078                        211 _debounce:
+      000078 52 08            [ 2]  212 	sub	sp, #8
+                                    213 ;	./buttons.c: 147: unsigned long _debounce = getUptime();
+      00007A CDr00r00         [ 4]  214 	call	_getUptime
+      00007D 1F 03            [ 2]  215 	ldw	(0x03, sp), x
+      00007F 17 01            [ 2]  216 	ldw	(0x01, sp), y
+                                    217 ;	./buttons.c: 149: if((_debounce - debounce_buttons) > 75) {
+      000081 1E 03            [ 2]  218 	ldw	x, (0x03, sp)
+      000083 72 B0u00u02      [ 2]  219 	subw	x, _debounce_buttons+2
+      000087 1F 07            [ 2]  220 	ldw	(0x07, sp), x
+      000089 7B 02            [ 1]  221 	ld	a, (0x02, sp)
+      00008B C2u00u01         [ 1]  222 	sbc	a, _debounce_buttons+1
+      00008E 6B 06            [ 1]  223 	ld	(0x06, sp), a
+      000090 7B 01            [ 1]  224 	ld	a, (0x01, sp)
+      000092 C2u00u00         [ 1]  225 	sbc	a, _debounce_buttons+0
+      000095 6B 05            [ 1]  226 	ld	(0x05, sp), a
+      000097 AE 00 4B         [ 2]  227 	ldw	x, #0x004b
+      00009A 13 07            [ 2]  228 	cpw	x, (0x07, sp)
+      00009C 4F               [ 1]  229 	clr	a
+      00009D 12 06            [ 1]  230 	sbc	a, (0x06, sp)
+      00009F 4F               [ 1]  231 	clr	a
+      0000A0 12 05            [ 1]  232 	sbc	a, (0x05, sp)
+      0000A2 24 0D            [ 1]  233 	jrnc	00102$
+                                    234 ;	./buttons.c: 150: debounce_buttons = _debounce;
+      0000A4 1E 03            [ 2]  235 	ldw	x, (0x03, sp)
+      0000A6 CFu00u02         [ 2]  236 	ldw	_debounce_buttons+2, x
+      0000A9 1E 01            [ 2]  237 	ldw	x, (0x01, sp)
+      0000AB CFu00u00         [ 2]  238 	ldw	_debounce_buttons+0, x
+                                    239 ;	./buttons.c: 151: return true;
+      0000AE A6 01            [ 1]  240 	ld	a, #0x01
+                                    241 ;	./buttons.c: 153: return false;
+      0000B0 21                     242 	.byte 0x21
+      0000B1                        243 00102$:
+      0000B1 4F               [ 1]  244 	clr	a
+      0000B2                        245 00104$:
+                                    246 ;	./buttons.c: 155: }
+      0000B2 5B 08            [ 2]  247 	addw	sp, #8
+      0000B4 81               [ 4]  248 	ret
+                                    249 ;	./buttons.c: 161: void EXTI2_handler() __interrupt (5)
+                                    250 ;	-----------------------------------------
+                                    251 ;	 function EXTI2_handler
+                                    252 ;	-----------------------------------------
+      0000B5                        253 _EXTI2_handler:
+      0000B5 4F               [ 1]  254 	clr	a
+      0000B6 62               [ 2]  255 	div	x, a
+                                    256 ;	./buttons.c: 164: diff = status ^ ~ (BUTTONS_PORT & (BUTTON1_BIT | BUTTON2_BIT | BUTTON3_BIT) );
+      0000B7 C6 50 0B         [ 1]  257 	ld	a, 0x500b
+      0000BA A4 38            [ 1]  258 	and	a, #0x38
+      0000BC 43               [ 1]  259 	cpl	a
+      0000BD C8u00u00         [ 1]  260 	xor	a, _status+0
+      0000C0 C7u00u01         [ 1]  261 	ld	_diff+0, a
+                                    262 ;	./buttons.c: 165: status = ~ (BUTTONS_PORT & (BUTTON1_BIT | BUTTON2_BIT | BUTTON3_BIT) );
+      0000C3 C6 50 0B         [ 1]  263 	ld	a, 0x500b
+      0000C6 A4 38            [ 1]  264 	and	a, #0x38
+      0000C8 43               [ 1]  265 	cpl	a
+      0000C9 C7u00u00         [ 1]  266 	ld	_status+0, a
+                                    267 ;	./buttons.c: 168: if (isButton1() ) {
+      0000CC CDr00r48         [ 4]  268 	call	_isButton1
+      0000CF 4D               [ 1]  269 	tnz	a
+      0000D0 27 13            [ 1]  270 	jreq	00126$
+                                    271 ;	./buttons.c: 169: if(debounce()) {
+      0000D2 CDr00r78         [ 4]  272 	call	_debounce
+      0000D5 4D               [ 1]  273 	tnz	a
+      0000D6 27 43            [ 1]  274 	jreq	00128$
+                                    275 ;	./buttons.c: 170: if (getButton1() ) {
+      0000D8 CDr00r2E         [ 4]  276 	call	_getButton1
+      0000DB 4D               [ 1]  277 	tnz	a
+      0000DC 27 03            [ 1]  278 	jreq	00102$
+                                    279 ;	./buttons.c: 171: event = MENU_EVENT_PUSH_BUTTON1;
+      0000DE 4F               [ 1]  280 	clr	a
+      0000DF 20 35            [ 2]  281 	jra	00127$
+      0000E1                        282 00102$:
+                                    283 ;	./buttons.c: 173: event = MENU_EVENT_RELEASE_BUTTON1;
+      0000E1 A6 03            [ 1]  284 	ld	a, #0x03
+                                    285 ;	./buttons.c: 176: return;
+      0000E3 20 31            [ 2]  286 	jra	00127$
+      0000E5                        287 00126$:
+                                    288 ;	./buttons.c: 178: } else if (isButton2() ) {
+      0000E5 CDr00r58         [ 4]  289 	call	_isButton2
+      0000E8 4D               [ 1]  290 	tnz	a
+      0000E9 27 14            [ 1]  291 	jreq	00123$
+                                    292 ;	./buttons.c: 179: if(debounce()) {
+      0000EB CDr00r78         [ 4]  293 	call	_debounce
+      0000EE 4D               [ 1]  294 	tnz	a
+      0000EF 27 2A            [ 1]  295 	jreq	00128$
+                                    296 ;	./buttons.c: 180: if (getButton2() ) {
+      0000F1 CDr00r36         [ 4]  297 	call	_getButton2
+      0000F4 4D               [ 1]  298 	tnz	a
+      0000F5 27 04            [ 1]  299 	jreq	00108$
+                                    300 ;	./buttons.c: 181: event = MENU_EVENT_PUSH_BUTTON2;
+      0000F7 A6 01            [ 1]  301 	ld	a, #0x01
+      0000F9 20 1B            [ 2]  302 	jra	00127$
+      0000FB                        303 00108$:
+                                    304 ;	./buttons.c: 183: event = MENU_EVENT_RELEASE_BUTTON2;
+      0000FB A6 04            [ 1]  305 	ld	a, #0x04
+                                    306 ;	./buttons.c: 186: return;
+      0000FD 20 17            [ 2]  307 	jra	00127$
+      0000FF                        308 00123$:
+                                    309 ;	./buttons.c: 188: } else if (isButton3() ) {
+      0000FF CDr00r68         [ 4]  310 	call	_isButton3
+      000102 4D               [ 1]  311 	tnz	a
+      000103 27 16            [ 1]  312 	jreq	00128$
+                                    313 ;	./buttons.c: 189: if(debounce()) {
+      000105 CDr00r78         [ 4]  314 	call	_debounce
+      000108 4D               [ 1]  315 	tnz	a
+      000109 27 10            [ 1]  316 	jreq	00128$
+                                    317 ;	./buttons.c: 190: if (getButton3() ) {
+      00010B CDr00r40         [ 4]  318 	call	_getButton3
+      00010E 4D               [ 1]  319 	tnz	a
+      00010F 27 03            [ 1]  320 	jreq	00114$
+                                    321 ;	./buttons.c: 191: event = MENU_EVENT_PUSH_BUTTON3;
+      000111 A6 02            [ 1]  322 	ld	a, #0x02
+                                    323 ;	./buttons.c: 193: event = MENU_EVENT_RELEASE_BUTTON3;
+                                    324 ;	./buttons.c: 196: return;
+                                    325 ;	./buttons.c: 199: return;
+      000113 C5                     326 	.byte 0xc5
+      000114                        327 00114$:
+      000114 A6 05            [ 1]  328 	ld	a, #0x05
+      000116                        329 00127$:
+                                    330 ;	./buttons.c: 202: feedMenu (event);
+      000116 88               [ 1]  331 	push	a
+      000117 CDr00r00         [ 4]  332 	call	_feedMenu
+      00011A 84               [ 1]  333 	pop	a
+      00011B                        334 00128$:
+                                    335 ;	./buttons.c: 203: }
+      00011B 80               [11]  336 	iret
+                                    337 	.area CODE
+                                    338 	.area CONST
+                                    339 	.area INITIALIZER
+      000000                        340 __xinit__debounce_buttons:
+      000000 00 00 00 00            341 	.byte #0x00, #0x00, #0x00, #0x00	; 0
+                                    342 	.area CABS (ABS)

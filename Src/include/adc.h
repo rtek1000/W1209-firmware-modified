@@ -28,4 +28,4 @@ unsigned int getAdcResult();
 unsigned int getAdcAveraged();
 void ADC1_EOC_handler() __interrupt (22);
 
-#endif
+#endif // #ifndef ADC_H
