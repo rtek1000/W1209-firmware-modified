@@ -23,6 +23,7 @@
 #include "buttons.h"
 #include "stm8s003/gpio.h"
 #include "menu.h"
+#include "timer.h"
 
 /* Definition for buttons */
 // Port C control input from buttons.
@@ -36,6 +37,8 @@
 
 static unsigned char status;
 static unsigned char diff;
+
+static unsigned long debounce_buttons = 0;
 
 /**
  * @brief Configure approptiate pins of MCU as digital inputs. Set
@@ -139,6 +142,18 @@ bool isButton3()
     return false;
 }
 
+bool debounce()
+{
+    unsigned long _debounce = getUptime();
+    
+    if((_debounce - debounce_buttons) > 70) {
+        debounce_buttons = _debounce;
+        return true;
+    } else {
+        return false;
+    }
+}
+
 /**
  * @brief This function is button's interrupt request handler
  * so keep it extremely small and fast.
@@ -151,22 +166,34 @@ void EXTI2_handler() __interrupt (5)
 
     // Send appropriate event to menu.
     if (isButton1() ) {
-        if (getButton1() ) {
-            event = MENU_EVENT_PUSH_BUTTON1;
+        if(debounce()) {
+            if (getButton1() ) {
+                event = MENU_EVENT_PUSH_BUTTON1;
+            } else {
+                event = MENU_EVENT_RELEASE_BUTTON1;
+            }
         } else {
-            event = MENU_EVENT_RELEASE_BUTTON1;
+            return;
         }
     } else if (isButton2() ) {
-        if (getButton2() ) {
-            event = MENU_EVENT_PUSH_BUTTON2;
+        if(debounce()) {
+            if (getButton2() ) {
+                event = MENU_EVENT_PUSH_BUTTON2;
+            } else {
+                event = MENU_EVENT_RELEASE_BUTTON2;
+            }
         } else {
-            event = MENU_EVENT_RELEASE_BUTTON2;
+            return;
         }
     } else if (isButton3() ) {
-        if (getButton3() ) {
-            event = MENU_EVENT_PUSH_BUTTON3;
+        if(debounce()) {
+            if (getButton3() ) {
+                event = MENU_EVENT_PUSH_BUTTON3;
+            } else {
+                event = MENU_EVENT_RELEASE_BUTTON3;
+            }
         } else {
-            event = MENU_EVENT_RELEASE_BUTTON3;
+            return;
         }
     } else {
         return;
