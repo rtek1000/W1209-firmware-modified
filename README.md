@@ -3,7 +3,7 @@
 
 This repository is a fork of the ![original](https://github.com/mister-grumbler/w1209-firmware).
 
-# Modifications:
+# Modifications (W1209 Usage):
 - Shows "HHH" or "LLL" on display if sensor fails, display flashing:
 - - If the sensor is disconnected, it shows "LLL".
 - - If the sensor is short circuited, it shows "HHH".
@@ -36,9 +36,18 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 - - Brightness returns to maximum when you press any key.
 - - Note, the brightness of LED1 cannot be controlled via software as it is the same control pin as the relay.
 
+- Note:
+- - To enter the main configuration parameters menu:
+- - - Press the SET key for a long time (for more than 5 seconds).
+- - - Press the + or - keys to toggle between parameters P0 through P8.
+- - - Short press SET key to enter the parameter.
+- - - - Press the + or - keys to change values.
+- - Long press SET key or no press for 10 seconds, confirm and return automatically.
+
 - Table of adjustable parameters:
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/Doc/Table_params_W1209_modified_5.png)
 
+# W1209 hardware (variation):
 - R2 is not the same for all boards:
 ![image](https://raw.githubusercontent.com/rtek1000/w1209-firmware/master/Doc/w1209.png)
 
@@ -55,7 +64,7 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 
 - Note: This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
 
-# Usage:
+# Code usage:
 - Build procedure (Run the 'make' command inside the Src folder, using the command-line shell):
 - - make
 
@@ -78,12 +87,20 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 - - - cd stm8flash
 - - - make
 - - - sudo make install
+- - Note: If you have errors in the code, when executing the make command, messages referring to the files and lines appear, similar to the warnings of the Arduino IDE. You can use different terminal windows (command-line shell) for compiling (make) and uploading (stm8flash).
 
 - Upload tool:
 - - STlink V2
 - - Wires (At least 3 wires)
 - - Single row pin bar 2.54mm pitch (At least 3 pins)
 - Note: the STlink cable can interfere with the W1209 operation, if the display shows 888 or remains off, remove the cable from the W1209 board.
+
+- Editing tool:
+- - Any editor can be used to modify the files, as suggested in the original repository, you can use CodeLite, it is lightweight and has color and plugins that help in reading the code.
+![image](https://github.com/rtek1000/W1209-firmware-modified/blob/master/Doc/CodeLite%20IDE.png)
+- - CodeLite install:
+- - - sudo apt-get install codelite
+- - - sudo apt-get install codelite-plugins
 
 # Original description:
 - w1209-firmware
