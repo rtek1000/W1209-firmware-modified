@@ -7,6 +7,8 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 - Shows FFF on display if sensor fails:
 - - If the sensor is disconnected.
 - - If the sensor is short circuited.
+- - Note 1: in the C (Cooling) and Heating modes of parameter [P0], the relay is deactivated when the sensor fails (open contacts [K0 K1]).
+- - Note 2: in mode A (Alarm) of parameter [P0], the relay is activated when the sensor fails (closed contacts [K0-K1]).
 
 - Value outside the maximum or minimum range: display flashes.
 - - In the original code it shows HHH for higher value and shows LLL for lower value.
