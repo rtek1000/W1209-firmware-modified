@@ -19,6 +19,7 @@
  * Implementation of application menu.
  */
 
+#include "adc.h"
 #include "menu.h"
 #include "buttons.h"
 #include "display.h"
@@ -141,6 +142,14 @@ void feedMenu (unsigned char event)
                         lowBrightness = true;
                         dimmerBrightness(lowBrightness);
                     }
+                }
+            }
+
+            if(lowBrightness) {
+                if(getSensorFail() > 0) {
+                    lowBrightness = false;
+                    dimmerBrightness(lowBrightness);
+                    timer = 0;
                 }
             }
 
