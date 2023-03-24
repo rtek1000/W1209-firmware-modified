@@ -24,6 +24,7 @@ This repository is a fork of the ![original](https://github.com/mister-grumbler/
 
 - Added automatic brightness reduction [P8: ON/OFF]: When activated (ON), after 15 seconds in IDLE, the brightness of the display is reduced.
 - - Brightness returns to maximum when you press any key.
+- - Note, the brightness of LED1 cannot be controlled via software as it is the same control pin as the relay.
 
 - Table of adjustable parameters:
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/Doc/Table_params_W1209_modified_3.png)
