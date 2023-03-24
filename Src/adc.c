@@ -25,6 +25,9 @@
 #include "stm8s003/adc.h"
 #include "params.h"
 
+//#define rawAdc_R2_5k1 1
+#define rawAdc_R2_20k 1
+
 // Averaging bits
 #define ADC_AVERAGING_BITS      4
 #define ADC_AVERAGING_FAIL_BITS 1
@@ -32,6 +35,7 @@
 // Base temperature in tenth of degrees of Celsius.
 #define ADC_RAW_TABLE_BASE_TEMP -520
 
+#ifdef rawAdc_R2_5k1
 /* The lookup table contains raw ADC values for every degree of Celsius
    from -52C to 112C. [677 = 25°C; ] (R2 = 5.1k Ohms)*/
 const unsigned int rawAdc[] = {
@@ -53,10 +57,11 @@ const unsigned int rawAdc[] = {
     130, 126, 123, 120, 117, 114, 112, 109, 106, 104,
     101, 99, 96, 94, 92
 };
+#endif
 
+#ifdef rawAdc_R2_20k
 /* The lookup table contains raw ADC values for every degree of Celsius
    from -52C to 112C. [341 = 25°C; ] (R2 = 20k Ohms) */
-/*
 const unsigned int rawAdc[] = {
     974, 971, 967, 964, 960, 956, 953, 948, 944, 940,
     935, 930, 925, 920, 914, 909, 903, 897, 891, 884,
@@ -76,7 +81,7 @@ const unsigned int rawAdc[] = {
     61, 60, 58, 57, 56, 55, 54, 53, 52, 51,
     49, 48, 47, 47, 46
 };
-*/
+#endif
 
 static unsigned int result;
 static unsigned long result_fail;
