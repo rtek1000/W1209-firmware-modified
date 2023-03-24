@@ -25,10 +25,12 @@
 #endif
 
 void initDisplay();
+void dimmerBrightness(bool _state);
 void refreshDisplay();
 void setDisplayInt (int);
 void setDisplayOff (bool val);
 void setDisplayStr (const unsigned char*);
 void setDisplayTestMode (bool, char* str);
+void enableDigit (unsigned char id);
 
 #endif

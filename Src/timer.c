@@ -55,7 +55,7 @@ void initTimer()
 {
     CLK_CKDIVR = 0x00;  // Set the frequency to 16 MHz
     TIM4_PSCR = 0x07;   // CLK / 128 = 125KHz
-    TIM4_ARR = 0xFA;    // 125KHz /  250(0xFA) = 500Hz
+    TIM4_ARR = 0xFA;    // 125KHz /  250(0xFA) = 500
     TIM4_IER = 0x01;    // Enable interrupt on update event
     TIM4_CR1 = 0x05;    // Enable timer
     resetUptime();

@@ -73,11 +73,17 @@ static unsigned char activeDigitId;
 static unsigned char displayAC[3];
 static unsigned char displayD[3];
 
-static void enableDigit (unsigned char);
 static void setDigit (unsigned char, unsigned char, bool);
 
 static bool displayOff;
 static bool testMode;
+
+static bool lowBrightness = false;
+
+void dimmerBrightness(bool _state)
+{
+    lowBrightness = _state;
+}
 
 /**
  * @brief Configure appropriate bits for GPIO ports, initialize static
@@ -124,6 +130,14 @@ void refreshDisplay()
         activeDigitId = 0;
     } else {
         activeDigitId++;
+    }
+
+    if(lowBrightness) {
+        int i = 1000;
+
+        while(i--);
+
+        enableDigit (3);
     }
 }
 
@@ -218,7 +232,7 @@ void setDisplayStr (const unsigned char* val)
  * The ID = 0 corresponds to the right most digit on the display.
  * Accepted values are: 0, 1, 2, any other value will disable display.
  */
-static void enableDigit (unsigned char id)
+void enableDigit (unsigned char id)
 {
     switch (id) {
     case 0:

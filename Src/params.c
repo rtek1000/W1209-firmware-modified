@@ -30,6 +30,7 @@
  * P5 - | 0 | 0 ... 10 Relay switching delay in minutes
  * P6 - |Off| On/Off Indication of overheating
  * P7 - |Off| On/Off Buttons lock
+ * P8 - |Off| On/Off Automatic brightness reduction (IDLE >15 seconds)
  * TH - | 28| Threshold value
  */
 
@@ -47,6 +48,8 @@ static int paramCache[paramLen];
 const int paramMin[] = {0, 1, -45, -50, -70, 0, 0, 0, 0, -500};
 const int paramMax[] = {2, 150, 110, 105, 70, 10, 1, 0, 0, 1100};
 const int paramDefault[] = {0, 20, 110, -50, 0, 0, 0, 0, 0, 280};
+
+#define paramIdMax 8
 
 /**
  * @brief Check values in the EEPROM to be correct then load them into
@@ -122,9 +125,10 @@ void setParam (int val)
 void incParam()
 {
     // if (paramId == PARAM_RELAY_MODE || paramId == PARAM_OVERHEAT_INDICATION || paramId == PARAM_LOCK_BUTTONS) {
-    if (paramId == PARAM_OVERHEAT_INDICATION || paramId == PARAM_LOCK_BUTTONS) {
+    if (paramId == PARAM_OVERHEAT_INDICATION ||
+        paramId == PARAM_LOCK_BUTTONS || paramId == PARAM_AUTO_BRIGHT) {
         paramCache[paramId] = ~paramCache[paramId] & 0x0001;
-    } else if (paramCache[paramId] < paramMax[paramId]) { 
+    } else if (paramCache[paramId] < paramMax[paramId]) {
         paramCache[paramId]++;
     }
 }
@@ -135,7 +139,8 @@ void incParam()
 void decParam()
 {
     // if (paramId == PARAM_RELAY_MODE || paramId == PARAM_OVERHEAT_INDICATION || paramId == PARAM_LOCK_BUTTONS) {
-    if (paramId == PARAM_OVERHEAT_INDICATION || paramId == PARAM_LOCK_BUTTONS) {
+    if (paramId == PARAM_OVERHEAT_INDICATION ||
+        paramId == PARAM_LOCK_BUTTONS || paramId == PARAM_AUTO_BRIGHT) {
         paramCache[paramId] = ~paramCache[paramId] & 0x0001;
     } else if (paramCache[paramId] > paramMin[paramId]) {
         paramCache[paramId]--;
@@ -167,7 +172,7 @@ void setParamId (unsigned char val)
  */
 void incParamId()
 {
-    if (paramId < 7) {
+    if (paramId < paramIdMax) {
         paramId++;
     } else {
         paramId = 0;
@@ -182,7 +187,7 @@ void decParamId()
     if (paramId > 0) {
         paramId--;
     } else {
-        paramId = 7;
+        paramId = paramIdMax;
     }
 }
 
@@ -230,6 +235,7 @@ void paramToString (unsigned char id, unsigned char* strBuff)
 
     case PARAM_OVERHEAT_INDICATION:
     case PARAM_LOCK_BUTTONS:
+    case PARAM_AUTO_BRIGHT:
         ( (unsigned char*) strBuff) [0] = 'O';
 
         if (paramCache[id]) {

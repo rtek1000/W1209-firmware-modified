@@ -28,11 +28,14 @@
 #define MENU_1_SEC_PASSED   32
 #define MENU_3_SEC_PASSED   MENU_1_SEC_PASSED * 3
 #define MENU_5_SEC_PASSED   MENU_1_SEC_PASSED * 5
+#define MENU_15_SEC_PASSED   MENU_1_SEC_PASSED * 15
 #define MENU_AUTOINC_DELAY  MENU_1_SEC_PASSED / 8
 
 static unsigned char menuDisplay;
 static unsigned char menuState;
 static unsigned int timer;
+static bool autoBrightness = true;
+static bool lowBrightness = false;
 
 /**
  * @brief Initialization of local variables.
@@ -83,6 +86,12 @@ void feedMenu (unsigned char event)
                 menuDisplay = MENU_SET_THRESHOLD;
             }
             setDisplayOff (0);
+
+            if(getParamById (PARAM_AUTO_BRIGHT) ) {
+                lowBrightness = false;
+                dimmerBrightness(lowBrightness);
+            }
+
             break;
 
         case MENU_EVENT_RELEASE_BUTTON1:
@@ -97,6 +106,25 @@ void feedMenu (unsigned char event)
             timer = 0;
             break;
 
+        case MENU_EVENT_PUSH_BUTTON2:
+            if(getParamById (PARAM_AUTO_BRIGHT) ) {
+                lowBrightness = false;
+                dimmerBrightness(lowBrightness);
+            }
+        case MENU_EVENT_RELEASE_BUTTON2:
+            timer = 0;
+            break;
+
+        case MENU_EVENT_PUSH_BUTTON3:
+            if(getParamById (PARAM_AUTO_BRIGHT) ) {
+                lowBrightness = false;
+                dimmerBrightness(lowBrightness);
+            }
+
+        case MENU_EVENT_RELEASE_BUTTON3:
+            timer = 0;
+            break;
+
         case MENU_EVENT_CHECK_TIMER:
             if (getButton1() ) {
                 if (timer > MENU_3_SEC_PASSED) {
@@ -107,12 +135,21 @@ void feedMenu (unsigned char event)
                 }
             }
 
+            if(timer > MENU_15_SEC_PASSED) {
+                if(getParamById (PARAM_AUTO_BRIGHT) ) {
+                    if ((autoBrightness) && (!lowBrightness)) {
+                        lowBrightness = true;
+                        dimmerBrightness(lowBrightness);
+                    }
+                }
+            }
+
             break;
 
         default:
             if (timer > MENU_5_SEC_PASSED) {
-                timer = 0;
                 menuState = menuDisplay = MENU_ROOT;
+                timer = 0;
             }
 
             break;
