@@ -124,7 +124,6 @@ void refreshRelay()
             }
         }
     } else {
-
         if (getParamById (PARAM_RELAY_MODE) == 2) {
             state = true;
             setRelay (1);
