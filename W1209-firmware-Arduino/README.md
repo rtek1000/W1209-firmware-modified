@@ -94,6 +94,7 @@
    - - - Due to its file extension (or lack thereof), "W1209-firmware-Arduino-table_R2_5k1_NTC_10k_B3950.hex" is considered as INTEL HEX format!
    - - - 8136 bytes at 0x8000... OK
    - - - Bytes written: 8136
+   - Note: When flashing the microcontroller, the original firmware will be overwritten, and cannot be undone.
 
 
    - References:
