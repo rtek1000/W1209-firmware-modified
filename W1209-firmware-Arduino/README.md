@@ -45,43 +45,43 @@
    - - Parameter P8: ON/OFF
    - - - (Automatic brightness reduction after 15 seconds)
    - - Output status indication:
-         - Decimal point (DOT) right side off:
+   - - - Decimal point (DOT) right side off:
            Relay deactivated (contacts open)
-         - Decimal point (DOT) right side blinking:
+   - - - Decimal point (DOT) right side blinking:
            Relay deactivated (contacts open), but
            Waiting delay time programmed in Parameter P5
-     --> Factory reset:
-         - Set Parameter P7 in OFF
-         - Turn power supply Off
-         - Press and hold Up "+" and Down "-" keys
-         - Turn power supply On
-         - Wait for "rSt" to appear on the display
-         - Release all keys
-         - Wait for the current temperature to appear
-     --> Troubleshoot:
-         - Microcontroller resetting:
+   - - Factory reset:
+   - - - Set Parameter P7 in OFF
+   - - - Turn power supply Off
+   - - - Press and hold Up "+" and Down "-" keys
+   - - - Turn power supply On
+   - - - Wait for "rSt" to appear on the display
+   - - - Release all keys
+   - - - Wait for the current temperature to appear
+   - Troubleshoot:
+   - - Microcontroller resetting:
            Try using a pull up resistor on the reset line
-         - Microcontroller no longer responds:
+   - - Microcontroller no longer responds:
            High voltage return may have occurred through the relay LED
-         - The temperature does not correspond to the real:
+   - - The temperature does not correspond to the real:
            Try adjusting the offset Parameter P5
            Try to replace the sensor
            Test using a resistor of NTC equivalent value for 25°C (10k)
            Try modifying the lookup table corresponding to the sensor
-         - Display flickering:
+   - - Display flickering:
            Disconnect STlink programmer from SWIM port (next to display)
            
    - Note for Arduino IDE and Sduino core:
      Track the size of the code when uploading,
      The maximum I got was 93%
-     --> (Sketch uses 7589 bytes (92%))
-     --> (Bytes written: 8136)
-     --> (Maximum is 8192 bytes)
+   - - (Sketch uses 7589 bytes (92%))
+   - - (Bytes written: 8136)
+   - - (Maximum is 8192 bytes)
    - Sduino core:
-     --> Select STM8S Board / STM8S103F3 Breadout Board
-     --> Programmer ST-link/V2
-     --> Connect STlink: GND/SWIM/RST 
+   - - Select STM8S Board / STM8S103F3 Breadout Board
+   - - Programmer ST-link/V2
+   - - Connect STlink: GND/SWIM/RST 
 
-   References:
-   - https://github.com/rtek1000/NTC_Lookup_Table_Generator
-   - https://github.com/rtek1000/W1209-firmware-modified
+   - References:
+   - - https://github.com/rtek1000/NTC_Lookup_Table_Generator
+   - - https://github.com/rtek1000/W1209-firmware-modified
