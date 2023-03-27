@@ -87,6 +87,13 @@
    - ST-Link V2 Programming Example on Linux (check Bin folder):
    - - stm8flash -c stlinkv2 -p stm8s003?3 -w W1209-firmware-Arduino-table_R2_5k1_NTC_10k_B3950.hex 
 
+   - - - Determine FLASH area
+   - - - STLink: v2, JTAG: v40, SWIM: v7, VID: 8304, PID: 4837
+   - - - Due to its file extension (or lack thereof), "W1209-firmware-Arduino-table_R2_5k1_NTC_10k_B3950.hex" is considered as INTEL HEX format!
+   - - - 8136 bytes at 0x8000... OK
+   - - - Bytes written: 8136
+
+
    - References:
    - - https://github.com/rtek1000/NTC_Lookup_Table_Generator
    - - https://github.com/rtek1000/W1209-firmware-modified
