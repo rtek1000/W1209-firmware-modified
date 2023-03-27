@@ -26,9 +26,9 @@
    - - - C1: Cooler mode (hysteresis above Threshold)
    - - - C2: Cooler mode (hysteresis below Threshold)
    - - - C3: Cooler mode (hysteresis above and below Threshold)
-   - - - H1: Cooler mode (hysteresis below Threshold)
-   - - - H2: Cooler mode (hysteresis above Threshold)
-   - - - H3: Cooler mode (hysteresis above and below Threshold)
+   - - - H1: Heater mode (hysteresis below Threshold)
+   - - - H2: Heater mode (hysteresis above Threshold)
+   - - - H3: Heater mode (hysteresis above and below Threshold)
    - - Parameter P1: Hysteresis
    - - Parameter P2: Up limit
    - - - (Used in the alert indication; Activated in Parameter P6)
