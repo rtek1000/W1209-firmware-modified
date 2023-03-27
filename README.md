@@ -10,45 +10,87 @@
 - Shows "HHH" or "LLL" on display if sensor fails, display flashing:
 - - If the sensor is disconnected, it shows "LLL".
 - - If the sensor is short circuited, it shows "HHH".
-- - Note 1: in the "C" (Cooling) and "H" (Heating) modes of parameter "P0", the relay is deactivated when the sensor fails (open contacts "K0" and "K1").
-- - Note 2: in mode "A1" (Alarm 1) of parameter "P0", the relay is activated when the sensor fails (closed contacts "K0" and "K1").
-- - Note 3: in mode "A2" (Alarm 2) of parameter "P0", the relay is disabled when the sensor fails (open contacts "K0" and "K1").
+- Code adaptation for Arduino IDE sketch.ino
+   - Some bug fixes
+   - Some functions added
+   - - Parameter P0: C1/C2/C3/H1/H2/H3/A1/A2
+   - - - C1: Cooler mode (hysteresis above Threshold)
+   - - - C2: Cooler mode (hysteresis below Threshold)
+   - - - C3: Cooler mode (hysteresis above and below Threshold)
+   - - - H1: Cooler mode (hysteresis below Threshold)
+   - - - H2: Cooler mode (hysteresis above Threshold)
+   - - - H3: Cooler mode (hysteresis above and below Threshold)
+   - - Parameter P1: Hysteresis
+   - - Parameter P2: Up limit
+   - - - (Used in the alert indication; Activated in Parameter P6)
+   - - - (Used in Alarm mode Parameter P0: A1 and A2; Activated in Parameter P6)
+   - - Parameter P3: Down limit
+   - - - (Used in the alert indication; Activated in P6)
+   - - - (Used in Alarm mode Parameter P0: A1 and A2; Activated in Parameter P6)
+   - - Parameter P4: Temperature sensor offset
+   - - - (From -7.0 up to +7.0)
+   - - Parameter P5: Delay time before activating the relay
+   - - - (From 0 to 10 minutes)
+   - - - (Does not affect relay deactivation, deactivation is immediate)
+   - - Parameter P6: ON/OFF
+   - - - (Alarm mode; Need setup Parameter P2 and P3)
+   - - Parameter P7: ON/OFF
+   - - - (Threshold value change access blocking)
+   - - - (Factory reset lockout with Up "+" and Down "-" keys)
+   - - Parameter P8: ON/OFF
+   - - - (Automatic brightness reduction after 15 seconds)
+   - Output status indication:
+   - - Decimal point (DOT) right side off:
+           Relay deactivated (contacts open)
+   - - Decimal point (DOT) right side blinking:
+           Relay deactivated (contacts open), but
+           Waiting delay time programmed in Parameter P5
+   - - Decimal point (DOT) right side on:
+           Relay activated (contacts close)           
+   - - Factory reset:
+   - - - Set Parameter P7 in OFF
+   - - - Turn power supply Off
+   - - - Press and hold Up "+" and Down "-" keys
+   - - - Turn power supply On
+   - - - Wait for "rSt" to appear on the display
+   - - - Release all keys
+   - - - Wait for the current temperature to appear
+   - Troubleshoot:
+   - - Microcontroller resetting:
+           Try using a pull up resistor on the reset line
+   - - Microcontroller no longer responds:
+           High voltage return may have occurred through the relay LED
+   - - The temperature does not correspond to the real:
+           Try adjusting the offset Parameter P5
+           Try to replace the sensor
+           Test using a resistor of NTC equivalent value for 25°C (10k)
+           Try modifying the lookup table corresponding to the sensor
+   - - Display flickering:
+           Disconnect STlink programmer from SWIM port (next to display)
+           
+   - Note for Arduino IDE and Sduino core:
+     Track the size of the code when uploading,
+     The maximum I got was 93%
+   - - (Sketch uses 7589 bytes (92%))
+   - - (Bytes written: 8136)
+   - - (Maximum is 8192 bytes)
+   - Sduino core:
+   - - Select STM8S Board / STM8S103F3 Breadout Board
+   - - Programmer ST-link/V2
+   - - Connect STlink: GND/SWIM/RST 
 
-- [P0: C/H/A1/A2] Operation mode for alarm:
-- - When in "A1" mode (Alarm): cause relay activation using the maximum "P2" and minimum parameters "P3".
-- - - Temperature greater than the maximum value "P2": relay activated.
-- - - Temperature lower than the minimum value "P3": relay activated.
-- - When in "A2" mode (Alarm): cause relay activation using the maximum "P2" and minimum parameters "P3".
-- - - Temperature greater than the maximum value "P2": relay disabled.
-- - - Temperature lower than the minimum value "P3": relay disabled.
-- - When in "C" mode (Cooler): cause relay activation using the SETPOINT parameter (Threshold in the source code).
-- - - Temperature greater than the SETPOINT: relay activated (closed contacts "K0" and "K1").
-- - When in "H" mode (Heater): cause relay activation using the SETPOINT parameter (Threshold in the source code).
-- - - Temperature greater than the SETPOINT: relay disabled (open contacts "K0" and "K1").
+   - ST-Link V2 Programming Example on Linux (check Bin folder):
+   - - stm8flash -c stlinkv2 -p stm8s003?3 -w W1209-firmware-Arduino-table_R2_5k1_NTC_10k_B3950.hex 
+   - - - Determine FLASH area
+   - - - STLink: v2, JTAG: v40, SWIM: v7, VID: 8304, PID: 4837
+   - - - Due to its file extension (or lack thereof), "W1209-firmware-Arduino-table_R2_5k1_NTC_10k_B3950.hex" is considered as INTEL HEX format!
+   - - - 8136 bytes at 0x8000... OK
+   - - - Bytes written: 8136
 
-- [P1: 0.1/15] Degree hysteresis (°C) to toggle relay.
-- [P2: -50/110] Maximum limit:
-- - Used for Alert on the display (blinking) and Alarm mode ("P0" parameter in "A1" or "A2").
-- [P3: -50/110] Minimum limit:
-- - Used for Alert on the display (blinking) and Alarm mode ("P0" parameter in "A1" or "A2").
-- [P4: -7.0/+7.0] Temperature offset.
-- - Used to compensate for temperature deviations.
-- [P5: 0/10] Delay before activating the relay:
-- - Used for applications such as refrigerator compressor motor.
 
-- [P6: ON/OFF] Alert parameter: When activated (ON) if the value is beyond the maximum and minimum range: the display flashes.
-- - In the original code it shows HHH for higher value and shows LLL for lower value.
-
-- [P7: ON/OFF] Lock parameter: When activated (ON):
-- - The SETPOINT parameter (Threshold in the source code) cannot be modified.
-- - - When trying to change the SETPIONT, the display shows: "LOC"
-- - - When power is started, the display shows: "P7" and "LOC"
-- - If parameter "P0" is "A1" (Alarm 1) or "A2" (Alarm 2), using the + or - keys it shows the minimum and maximum values. 
-- - The RECOVERY parameter (data restoration to factory mode) cannot be performed.
-
-- [P8: ON/OFF] Automatic brightness reduction: When activated (ON), after 15 seconds in IDLE, the brightness of the display is reduced.
-- - Brightness returns to maximum when you press any key.
-- - Note, the brightness of "LED1" (see board) cannot be controlled via software as it is the same control pin as the relay.
+   - References:
+   - - https://github.com/rtek1000/NTC_Lookup_Table_Generator
+   - - https://github.com/rtek1000/W1209-firmware-modified
 
 - Note:
 - - To enter the main configuration parameters menu:
