@@ -314,7 +314,8 @@ void mainDisplay(void) {
         blinkSpeed = blink_disp_enabled = true;
 
       } else {
-        setDisplayInt(getTemperature());
+        temp = getTemperature();
+        setDisplayInt(temp);
 
         if (getParamById (PARAM_OVERHEAT_INDICATION) ) {
           if ((temp < (getParamById (PARAM_MIN_TEMPERATURE) * 10) ) ||
