@@ -67,16 +67,20 @@
    - Shows "HHH" or "LLL" on display if sensor fails, display flashing:
    - - If the sensor is disconnected, it shows "LLL".
    - - If the sensor is short circuited, it shows "HHH".
+   
    - Troubleshoot:
    - - Microcontroller resetting:
    - - - Try using a pull up resistor on the reset line
+   
    - - Microcontroller no longer responds:
    - - - High voltage return may have occurred through the relay LED
+   
    - - The temperature does not correspond to the real:
    - - - Try adjusting the offset Parameter P5
    - - - Try to replace the sensor
    - - - Test using a resistor of NTC equivalent value for 25°C (10k)
    - - - Try modifying the lookup table corresponding to the sensor
+   
    - - Display flickering:
    - - - Disconnect STlink programmer from SWIM port (next to display)
            
