@@ -75,7 +75,7 @@
    - - If the sensor is short circuited, it shows "HHH".
    
    - Troubleshoot:
-   - - After updating the firmware, perform a reset to adjust the variables within the range of values expected by the new firmware.
+   - - After updating the firmware, perform a Factory reset to adjust the variables within the range of values expected by the new firmware.
    - - Microcontroller resetting:
    - - - Try using a pull up resistor on the reset line
    
