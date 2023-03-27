@@ -60,6 +60,10 @@
    - - - Wait for "rSt" to appear on the display
    - - - Release all keys
    - - - Wait for the current temperature to appear
+   - Shows "HHH" or "LLL" on display if sensor fails, display flashing:
+- - If the sensor is disconnected, it shows "LLL".
+- - If the sensor is short circuited, it shows "HHH".
+   
    - Troubleshoot:
    - - Microcontroller resetting:
            Try using a pull up resistor on the reset line
