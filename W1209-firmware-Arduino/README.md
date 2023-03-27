@@ -18,33 +18,33 @@
    - Code adaptation for Arduino IDE sketch.ino
    - Some bug fixes
    - Some functions added
-     --> Parameter P0: C1/C2/C3/H1/H2/H3/A1/A2
-         - C1: Cooler mode (hysteresis above Threshold)
-         - C2: Cooler mode (hysteresis below Threshold)
-         - C3: Cooler mode (hysteresis above and below Threshold)
-         - H1: Cooler mode (hysteresis below Threshold)
-         - H2: Cooler mode (hysteresis above Threshold)
-         - H3: Cooler mode (hysteresis above and below Threshold)
-     --> Parameter P1: Hysteresis
-     --> Parameter P2: Up limit
-         (Used in the alert indication; Activated in Parameter P6)
-         (Used in Alarm mode Parameter P0: A1 and A2; Activated in Parameter P6)
-     --> Parameter P3: Down limit
-         (Used in the alert indication; Activated in P6)
-         (Used in Alarm mode Parameter P0: A1 and A2; Activated in Parameter P6)
-     --> Parameter P4: Temperature sensor offset
-         (From -7.0 up to +7.0)
-     --> Parameter P5: Delay time before activating the relay
-         (From 0 to 10 minutes)
-         (Does not affect relay deactivation, deactivation is immediate)
-     --> Parameter P6: ON/OFF
-         (Alarm mode; Need setup Parameter P2 and P3)
-     --> Parameter P7: ON/OFF
-         (Threshold value change access blocking)
-         (Factory reset lockout with Up "+" and Down "-" keys)
-     --> Parameter P8: ON/OFF
-         (Automatic brightness reduction after 15 seconds)
-     --> Output status indication:
+   - - Parameter P0: C1/C2/C3/H1/H2/H3/A1/A2
+   - - - C1: Cooler mode (hysteresis above Threshold)
+   - - - C2: Cooler mode (hysteresis below Threshold)
+   - - - C3: Cooler mode (hysteresis above and below Threshold)
+   - - - H1: Cooler mode (hysteresis below Threshold)
+   - - - H2: Cooler mode (hysteresis above Threshold)
+   - - - H3: Cooler mode (hysteresis above and below Threshold)
+   - - Parameter P1: Hysteresis
+   - - Parameter P2: Up limit
+   - - - (Used in the alert indication; Activated in Parameter P6)
+   - - - (Used in Alarm mode Parameter P0: A1 and A2; Activated in Parameter P6)
+   - - Parameter P3: Down limit
+   - - - (Used in the alert indication; Activated in P6)
+   - - - (Used in Alarm mode Parameter P0: A1 and A2; Activated in Parameter P6)
+   - - Parameter P4: Temperature sensor offset
+   - - - (From -7.0 up to +7.0)
+   - - Parameter P5: Delay time before activating the relay
+   - - - (From 0 to 10 minutes)
+   - - - (Does not affect relay deactivation, deactivation is immediate)
+   - - Parameter P6: ON/OFF
+   - - - (Alarm mode; Need setup Parameter P2 and P3)
+   - - Parameter P7: ON/OFF
+   - - - (Threshold value change access blocking)
+   - - - (Factory reset lockout with Up "+" and Down "-" keys)
+   - - Parameter P8: ON/OFF
+   - - - (Automatic brightness reduction after 15 seconds)
+   - - Output status indication:
          - Decimal point (DOT) right side off:
            Relay deactivated (contacts open)
          - Decimal point (DOT) right side blinking:
