@@ -2,7 +2,8 @@
 
 - I found some bugs related to menu navigation, I haven't found the cause yet.
 
-# Code adaptation for Arduino IDE sketch.ino (apparently all functions working): [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Arduino).
+# Code adaptation for Arduino IDE sketch.ino:
+- (apparently all functions working): ckeck it [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Arduino).
 
 This repository is a fork of the ![original](https://github.com/mister-grumbler/w1209-firmware).
 
