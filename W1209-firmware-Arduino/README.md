@@ -44,12 +44,14 @@
    - - - (Factory reset lockout with Up "+" and Down "-" keys)
    - - Parameter P8: ON/OFF
    - - - (Automatic brightness reduction after 15 seconds)
-   - - Output status indication:
-   - - - Decimal point (DOT) right side off:
+   - Output status indication:
+   - - Decimal point (DOT) right side off:
            Relay deactivated (contacts open)
-   - - - Decimal point (DOT) right side blinking:
+   - - Decimal point (DOT) right side blinking:
            Relay deactivated (contacts open), but
            Waiting delay time programmed in Parameter P5
+   - - Decimal point (DOT) right side on:
+           Relay activated (contacts close)           
    - - Factory reset:
    - - - Set Parameter P7 in OFF
    - - - Turn power supply Off
