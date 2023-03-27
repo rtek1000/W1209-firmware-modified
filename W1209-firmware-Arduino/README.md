@@ -84,7 +84,7 @@
    - - Programmer ST-link/V2
    - - Connect STlink: GND/SWIM/RST 
 
-   - ST-Link V2 programming on Linux example (check Bin folder):
+   - ST-Link V2 Programming Example on Linux (check Bin folder):
    - - stm8flash -c stlinkv2 -p stm8s003?3 -w W1209-firmware-Arduino-table_R2_5k1_NTC_10k_B3950.hex 
 
    - References:
