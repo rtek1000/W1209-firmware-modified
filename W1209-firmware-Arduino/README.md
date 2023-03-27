@@ -30,11 +30,11 @@
    - - - H2: Heater mode (hysteresis above Threshold)
    - - - H3: Heater mode (hysteresis above and below Threshold)
    - - - A1: Alarm mode (cause relay activation using the maximum "P2" and minimum parameters "P3")
-   - - - - Temperature greater than the maximum value "P2": relay activated.
-   - - - - Temperature lower than the minimum value "P3": relay activated.
+   - - - - Temperature greater than the maximum value "P2": relay activated
+   - - - - Temperature lower than the minimum value "P3": relay activated
    - - - A2: Alarm mode (cause relay activation using the maximum "P2" and minimum parameters "P3")
-   - - - - Temperature greater than the maximum value "P2": relay disabled.
-   - - - - Temperature lower than the minimum value "P3": relay disabled.
+   - - - - Temperature greater than the maximum value "P2": relay disabled
+   - - - - Temperature lower than the minimum value "P3": relay disabled
    - - Parameter P1: Hysteresis (Degree hysteresis (°C) to toggle relay)
    - - Parameter P2: Up limit
    - - - (Used in the alert indication; Activated in Parameter P6)
@@ -71,8 +71,8 @@
    - - - Release all keys
    - - - Wait for the current temperature to appear
    - Shows "HHH" or "LLL" on display if sensor fails, display flashing:
-   - - If the sensor is disconnected, it shows "LLL".
-   - - If the sensor is short circuited, it shows "HHH".
+   - - If the sensor is disconnected, it shows "LLL"
+   - - If the sensor is short circuited, it shows "HHH"
    
    - Troubleshoot:
    - - After updating the firmware, perform a Factory reset to adjust the variables within the range of values expected by the new firmware.
@@ -109,7 +109,7 @@
    - - - Due to its file extension (or lack thereof), "W1209-firmware-Arduino-table_R2_5k1_NTC_10k_B3950.hex" is considered as INTEL HEX format!
    - - - 8136 bytes at 0x8000... OK
    - - - Bytes written: 8136
-   - Note: When flashing the microcontroller, the original firmware will be overwritten, and cannot be undone.
+   - Note: When flashing the microcontroller, the original firmware will be overwritten, and cannot be undone
 
 
    - References:
