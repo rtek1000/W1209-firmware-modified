@@ -32,10 +32,10 @@
    - - Parameter P1: Hysteresis
    - - Parameter P2: Up limit
    - - - (Used in the alert indication; Activated in Parameter P6)
-   - - - (Used in Alarm mode Parameter P0: A1 and A2; Activated in Parameter P6)
+   - - - (Used in Alarm mode Parameter P0: A1 and A2)
    - - Parameter P3: Down limit
    - - - (Used in the alert indication; Activated in P6)
-   - - - (Used in Alarm mode Parameter P0: A1 and A2; Activated in Parameter P6)
+   - - - (Used in Alarm mode Parameter P0: A1 and A2)
    - - Parameter P4: Temperature sensor offset
    - - - (From -7.0 up to +7.0)
    - - Parameter P5: Delay time before activating the relay
