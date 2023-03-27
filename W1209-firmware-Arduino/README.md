@@ -48,7 +48,7 @@
    - - - (From 0 to 10 minutes)
    - - - (Does not affect relay deactivation, deactivation is immediate)
    - - Parameter P6: ON/OFF
-   - - - (Alarm mode; Need setup Parameter P2 and P3)
+   - - - (Alert mode; Need setup Parameter P2 and P3; The display flashes when the temperature is outside the configured range.)
    - - Parameter P7: ON/OFF
    - - - (Threshold value change access blocking)
    - - - (Factory reset lockout with Up "+" and Down "-" keys)
