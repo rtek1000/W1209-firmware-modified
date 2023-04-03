@@ -88,13 +88,13 @@ IC pinout:
 20. NC
 
 [SN74HC595]
-1. Display pin 2 (Seg D)
-2. Display pin 3 (Seg DP)
-3. Display pin 4 (Seg C)
-4. Display pin 11 (Seg A)
-5. Display pin 10 (Seg F)
-6. Display pin 5 (Seg G)
-7. Display pin 7 (Seg B)
+1. Display pin 2 (Seg D) (220R)
+2. Display pin 3 (Seg DP) (220R)
+3. Display pin 4 (Seg C) (220R)
+4. Display pin 11 (Seg A) (220R)
+5. Display pin 10 (Seg F) (220R)
+6. Display pin 5 (Seg G) (220R)
+7. Display pin 7 (Seg B) (220R)
 8. GND
 
 9. NC
@@ -103,7 +103,7 @@ IC pinout:
 12. STM8S pin 18
 13. GND
 14. STM8S pin 5
-15. Display pin 1 (Seg E)
+15. Display pin 1 (Seg E) (220R)
 16. VDD (3V3)
 
 
