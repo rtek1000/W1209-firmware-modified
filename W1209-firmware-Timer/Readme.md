@@ -30,9 +30,11 @@ Time range: automatically switch the range. The default range is seconds. Decrea
 - - X X X---time range 1s
 - - X.X.X---time range 1min
 
-For example: set T1=8.88, the controller counts down at 0.01s, T2=8.8.8, the controller counts down at 1 minute.
-Working mode setting: 6 working modes for users to set.
-Long press the setting key to enter the P-0 parameter, and set the required working mode by pressing the key plus or minus on the current interface.
+- For example:
+- - Set T1=8.88, the controller counts down at 0.01s, T2=8.8.8, the controller counts down at 1 minute.
+- Working mode setting:
+- - Six working modes for users to set.
+- Long press the setting key to enter the P-0 parameter, and set the required working mode by pressing the key plus or minus on the current interface.
 
 - P-0: The relay is turned off after a delay of T1, and ends
 - P-1: The relay is closed after a delay of T1 time and ends
@@ -41,9 +43,9 @@ Long press the setting key to enter the P-0 parameter, and set the required work
 - P-4: The relay is closed after a delay of T1 time, and then opened after a delay of T2 time, loop
 - P-5: The relay opens after a delay of T1 time, and then closes after a delay of T2 time, and loops
 
-Typical application: First, let the relay open after a delay of 4.05s, then close after a delay of 10 minutes, and end
-
-Firstly set the time, T1=4.05 T2=0.1.0 Secondly set the working mode P-3, it will be automatically memorized 5s after setting, and start to run.
+- Typical application:
+- - First, let the relay open after a delay of 4.05s, then close after a delay of 10 minutes, and end
+- - - Firstly set the time, T1=4.05 T2=0.1.0 Secondly set the working mode P-3, it will be automatically memorized 5s after setting, and start to run.
 
 
 Source: https://www.aliexpress.com/item/1005001830924875.html
