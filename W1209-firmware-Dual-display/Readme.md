@@ -6,7 +6,7 @@ Alternative version W3230 (12V/24V/110V-220V):
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Dual-display/Doc/Polish_20230403_122459081.jpg)
 
 - P6: Maximum temperature [Off/-55~120]
-- P7: Lock settings
+- P7: Lock settings [On/Off]
 - Button (-) long press: Factory reset
 - Botton Restart long press: On/Off
 
