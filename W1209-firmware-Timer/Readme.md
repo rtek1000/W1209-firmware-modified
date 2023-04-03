@@ -106,5 +106,8 @@ IC pinout:
 15. Display pin 1 (Seg E) (220R)
 16. VDD (3V3)
 
+[LED]
+Anode: 3V3
+Catode: (1k) to Relay coil (5V)
 
 Source: https://www.aliexpress.com/item/1005001830924875.html
