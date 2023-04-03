@@ -1,6 +1,6 @@
 To-Do:
 
-- Add Timer function:
+- Add Timer function
 
 Basic description:
 
