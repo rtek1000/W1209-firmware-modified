@@ -106,7 +106,7 @@
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/Doc/Table_params_W1209_modified_6.png)
 
 # W1209 hardware (variation):
-There is an error in the electronic circuit that can kill the microcontroller, make the modification as soon as possible. Avoid using the board without modifying it. See ![here](https://github.com/mister-grumbler/w1209-firmware/issues/22).
+There is an error in the electronic circuit that can kill the microcontroller, make the modification as soon as possible. Avoid using the board without modifying it. See [here](https://github.com/mister-grumbler/w1209-firmware/issues/22).
 ![image](https://user-images.githubusercontent.com/1465701/163829267-9fa689e8-70c2-4991-9749-82f886b1b8a6.jpg)
 
 - Other details can be seen in this [post](https://github.com/TG9541/stm8ef/wiki/W1209-Identifying-'compliant'-boards).
