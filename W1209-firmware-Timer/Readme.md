@@ -29,7 +29,11 @@ Directly press the plus or minus button to set T1, the data will be automaticall
 - T2 time setting:
 Short press the setting button, the digital tube flashes, at this time, press the button to increase or decrease to set T2, 5 seconds after the setting is completed, the automatic memory starts to run.
 
-Time range: automatically switch the range. The default range is seconds. Decrease the number to 0, continue to press the button to decrease, the range will automatically switch to 99.9s; add the number to 999, continue to press the button to increase, the range will automatically switch to 0.0.0
+Time range:
+- Automatically switch the range.
+- The default range is seconds.
+- Decrease the number to 0, continue to press the button to decrease, the range will automatically switch to 99.9s;
+- Increase the number to 999, continue to press the button to increase, the range will automatically switch to 0.0.0
 
 - The number format is as follows
 - - X.X X---time range 0.01s
