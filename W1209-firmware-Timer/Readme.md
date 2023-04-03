@@ -65,46 +65,46 @@ Board image:
 
 IC pinout:
 [STM8S003F3P6]
-1- NC
-2- NC (NTC)
-3- Relay
-4- Reset
-5- HC595 pin 14
-6- BTN Dn
-7- GND
-8- Vcap
-9- VDD (3V3)
-10- HC595 pin 11
+1. NC
+2. NC (NTC)
+3. Relay
+4. Reset
+5. HC595 pin 14
+6. BTN Dn
+7. GND
+8. Vcap
+9. VDD (3V3)
+10. HC595 pin 11
 
-11- BTN Up
-12- BTN IO (On/Off)
-13- NC (Opto OG1 - Input - Trigger)
-14- BTN Set
-15- Display pin 8 (Dig 3)
-16- Display pin 9 (Dig 2)
-17- Display pin 12 (Dig 1)
-18- HC595 pin 12 (SWIM)
-19- NC
-20- NC
+11. BTN Up
+12. BTN IO (On/Off)
+13. NC (Opto OG1 - Input - Trigger)
+14. BTN Set
+15. Display pin 8 (Dig 3)
+16. Display pin 9 (Dig 2)
+17. Display pin 12 (Dig 1)
+18. HC595 pin 12 (SWIM)
+19. NC
+20. NC
 
 [SN74HC595]
-1- Display pin 2 (Seg D)
-2- Display pin 3 (Seg DP)
-3- Display pin 4 (Seg C)
-4- Display pin 11 (Seg A)
-5- Display pin 10 (Seg F)
-6- Display pin 5 (Seg G)
-7- Display pin 7 (Seg B)
-8- GND
+1. Display pin 2 (Seg D)
+2. Display pin 3 (Seg DP)
+3. Display pin 4 (Seg C)
+4. Display pin 11 (Seg A)
+5. Display pin 10 (Seg F)
+6. Display pin 5 (Seg G)
+7. Display pin 7 (Seg B)
+8. GND
 
-9- NC
-10- VDD
-11- STM8S pin 10
-12- STM8S pin 18
-13- GND
-14- STM8S pin 5
-15- Display pin 1 (Seg E)
-16- VDD (3V3)
+9. NC
+10. VDD
+11. STM8S pin 10
+12. STM8S pin 18
+13. GND
+14. STM8S pin 5
+15. Display pin 1 (Seg E)
+16. VDD (3V3)
 
 
 Source: https://www.aliexpress.com/item/1005001830924875.html
