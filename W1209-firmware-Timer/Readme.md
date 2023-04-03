@@ -107,8 +107,8 @@ IC pinout:
 16. VDD (3V3)
 
 [LED]
-Anode: 3V3
-Catode: (1k) to Relay coil (5V)
-- For 12/24V version: do not use the board without modifying the LED circuit.  Relay voltage can bounce back across the LED and damage the STM8 microcontroller
+- Anode: 3V3 (STM8 VDD)
+- Catode: (1k) to Relay coil (5V)
+- - For 12/24V version: do not use the board without modifying the LED circuit.  Relay voltage can bounce back across the LED and damage the STM8 microcontroller
 
 Source: https://www.aliexpress.com/item/1005001830924875.html
