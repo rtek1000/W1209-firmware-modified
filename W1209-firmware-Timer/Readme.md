@@ -57,7 +57,8 @@ Long press the setting key to enter the P-0 parameter, and set the required work
 
 Typical application:
 - First, let the relay open after a delay of 4.05s, then close after a delay of 10 minutes, and end
-- - Firstly set the time, T1=4.05 T2=0.1.0 Secondly set the working mode P-3, it will be automatically memorized 5s after setting, and start to run.
+- - Firstly set the time, T1=4.05 T2=0.1.0
+- - Secondly set the working mode P-3, it will be automatically memorized 5s after setting, and start to run.
 
 
 Source: https://www.aliexpress.com/item/1005001830924875.html
