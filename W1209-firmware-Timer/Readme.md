@@ -76,8 +76,8 @@ IC pinout:
 9. VDD (3V3)
 10. HC595 pin 11
 
-11. BTN Up
-12. BTN IO (On/Off)
+11. BTN Up (10k Pull-Up)
+12. BTN IO (On/Off) (10k Pull-Up)
 13. NC (Opto OG1 - Input - Trigger)
 14. BTN Set
 15. Display pin 8 (Dig 3)
