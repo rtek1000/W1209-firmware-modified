@@ -17,18 +17,18 @@ Precautions
 2. If you need to stop during operation, press the stop button to stop the relay and reset the data. Press the stop button again to trigger again.
 3. When the relay finishes normally, press the stop button to trigger the start again.
 
-T1 time setting:
+- T1 time setting:
 Directly press the plus or minus button to set T1, the data will be automatically memorized 5s after setting, and the timing will start.
-T2 time setting:
+- T2 time setting:
 Short press the setting button, the digital tube flashes, at this time, press the button to increase or decrease to set T2, 5 seconds after the setting is completed, the automatic memory starts to run.
 
 Time range: automatically switch the range. The default range is seconds. Decrease the number to 0, continue to press the button to decrease, the range will automatically switch to 99.9s; add the number to 999, continue to press the button to increase, the range will automatically switch to 0.0.0
 
-The number format is as follows
-X.X X---time range 0.01s
-X X.X---time range 0.1s
-X X X---time range 1s
-X.X.X---time range 1min
+- The number format is as follows
+- - X.X X---time range 0.01s
+- - X X.X---time range 0.1s
+- - X X X---time range 1s
+- - X.X.X---time range 1min
 
 For example: set T1=8.88, the controller counts down at 0.01s, T2=8.8.8, the controller counts down at 1 minute.
 Working mode setting: 6 working modes for users to set.
