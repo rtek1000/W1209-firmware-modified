@@ -4,8 +4,15 @@ To-Do:
 
 Basic description:
 
-Range selection: 0.01 second, 0.1 second, 1 second, 1 minute
-Timing range: minimum 0.01 second maximum 999 minutes
+- Range selection:
+- - 0.01 second,
+- - 0.1 second,
+- - 1 second,
+- - 1 minute
+
+- Timing range:
+- - Minimum 0.01 second
+- - Maximum 999 minutes
 
 --------------------------
 User's Guide:
