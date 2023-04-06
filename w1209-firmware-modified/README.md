@@ -1,7 +1,11 @@
+# Note
+- Eclipse project is the original forked code of the [original](https://github.com/mister-grumbler/w1209-firmware).
+
 # Note: The code in this repository has been modified and is not an identical copy of the files.
+- Bin folder is the compiled code to be used ST-Link V2
 
 - I found some bugs related to menu navigation, I haven't found the cause yet.
-- This repository is a fork of the ![original](https://github.com/mister-grumbler/w1209-firmware).
+- This repository is a fork of the [original](https://github.com/mister-grumbler/w1209-firmware).
 
 # Code adaptation for Arduino IDE sketch.ino:
 - (apparently all functions working): ckeck it [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Arduino).
@@ -64,10 +68,10 @@
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/Doc/Table_params_W1209_modified_6.png)
 
 # W1209 hardware (variation):
-There is an error in the electronic circuit that can kill the microcontroller, make the modification as soon as possible. Avoid using the board without modifying it. See ![here](https://github.com/mister-grumbler/w1209-firmware/issues/22).
+There is an error in the electronic circuit that can kill the microcontroller, make the modification as soon as possible. Avoid using the board without modifying it. See [here](https://github.com/mister-grumbler/w1209-firmware/issues/22).
 ![image](https://user-images.githubusercontent.com/1465701/163829267-9fa689e8-70c2-4991-9749-82f886b1b8a6.jpg)
 
-- Other details can be seen in this ![post](https://github.com/TG9541/stm8ef/wiki/W1209-Identifying-'compliant'-boards).
+- Other details can be seen in this [post](https://github.com/TG9541/stm8ef/wiki/W1209-Identifying-'compliant'-boards).
 
 - R2 is not the same for all boards:
 ![image](https://raw.githubusercontent.com/rtek1000/w1209-firmware/master/Doc/w1209.png)
