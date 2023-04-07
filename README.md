@@ -5,7 +5,7 @@
 
 # Code adaptation for Eclipse IDE:
 - Uses less program memory than the Arduino IDE.
-- Makefile compilation mode, similar to the original way.
+- Makefile compilation mode, similar to the [original](https://github.com/mister-grumbler/w1209-firmware) way.
 - Navigation between files and references is easier than in the Arduino IDE.
 - (apparently all functions working): ckeck it [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Eclipse).
 
