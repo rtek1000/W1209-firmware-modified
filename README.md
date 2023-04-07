@@ -3,6 +3,12 @@
 - I found some bugs related to menu navigation, I haven't found the cause yet.
 - This repository is a fork of the [original](https://github.com/mister-grumbler/w1209-firmware).
 
+# Code adaptation for Eclipse IDE ():
+- Uses less program memory than the Arduino IDE.
+- Makefile compilation mode, similar to the original way.
+- Navigation between files and references is easier than in the Arduino IDE.
+- (apparently all functions working): ckeck it [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Eclipse).
+
 # Code adaptation for Arduino IDE sketch.ino:
 - (apparently all functions working): ckeck it [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Arduino).
 
