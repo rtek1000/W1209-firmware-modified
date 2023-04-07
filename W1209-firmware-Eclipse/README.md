@@ -92,15 +92,7 @@
    
    - - Display flickering:
    - - - Disconnect STlink programmer from SWIM port (next to display)
-           
-   - Note for Arduino IDE and Sduino core:
-     Track the size of the code when uploading,
-     The maximum I got was 93%
-   - - (Sketch uses 7589 bytes (92%))
-   - - (Bytes written: 8136)
-   - - (Maximum is 8192 bytes)
-   - [Sduino core](https://github.com/tenbaht/sduino):
-   - - Select STM8S Board / STM8S103F3 Breadout Board
+
    - - Programmer ST-link/V2
    - - Connect STlink: GND/SWIM/RST 
 
