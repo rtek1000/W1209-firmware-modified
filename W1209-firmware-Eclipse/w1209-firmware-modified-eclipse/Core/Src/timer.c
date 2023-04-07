@@ -43,9 +43,9 @@
 #include "display.h"
 #include "relay.h"
 
-extern volatile unsigned long millis_counter;
-
 volatile unsigned int counter_250ms = 0;
+
+volatile unsigned long millis_counter = 0;
 
 void initTimer() {
 //	CLK_CKDIVR = 0x00;  // Set the frequency to 16 MHz
@@ -55,6 +55,16 @@ void initTimer() {
 	TIM4_CR1 = 0x05;    // Enable timer
 
 	(void) millis_counter;
+}
+
+unsigned long millis(void) {
+	return millis_counter;
+}
+
+void delay(unsigned long value) {
+	unsigned long millis_old = millis();
+
+	while((millis() - millis_old) < value);
 }
 
 void TIM4_UPD_handler()

@@ -94,142 +94,37 @@
  */
 
 /**
- Control functions for main routines.
- - Menu (and Button) tree
- - Display tree
- - Timer tree (using millis() and micros())
+ Button routines.
  */
 
-// #include "stm8.h"
-#include "main.h"
-#include "timer.h"
-#include "adc.h"
-#include "display.h"
-#include "menu.h"
-#include "params.h"
-#include "relay.h"
 #include "button.h"
 
-#define INTERRUPT_ENABLE    __asm rim __endasm;
-#define INTERRUPT_DISABLE   __asm sim __endasm;
-#define WAIT_FOR_INTERRUPT  __asm wfi __endasm;
+void button_init(void) {
+	PC_DDR &= ~(BUTTON1_BIT | BUTTON2_BIT | BUTTON3_BIT);
+	PC_CR1 |= BUTTON1_BIT | BUTTON2_BIT | BUTTON3_BIT;
 
-// #define SWIM_pin PD1 // In use on display
-
-bool factoryMode;
-
-unsigned long millis_5ms;
-unsigned long millis_base;
-unsigned long millis_250ms;
-unsigned long millis_display1 = 0;
-
-const unsigned char timeoutDisplayDimmRecall = 60; // 250ms x20 = 15s
-byte timeoutDisplayDimm = 0;
-
-extern byte menuDisplay;
-extern const unsigned char timeoutRecall;
-
-extern byte menuState;
-
-extern byte timeout;
-
-extern bool blink_disp_enabled;
-
-//static unsigned char status;
-
-void main(void) {
-	/*
-	 Pin PD1 in use for Display
-	 CFG->GCR |= 0x01; // disable SWIM interface enabled at wiring-init.c file SDUINO core
-
-	 Free the SWIM pin (STlink port) to be used as a general I/O-Pin
-	 https://github.com/tenbaht/sduino/blob/development/sduino/stm8/cores/sduino/wiring-init.c
-
-	 Do not arbitrarily disable this function SWIM in STM8S001 (has no RESET pin)
-
-	 */
-
-	CLK_CKDIVR = 0x00;  // Set the frequency to 16 MHz
-
-	initTimer();
-
-	initMainControl();
-
-	INTERRUPT_ENABLE
-
-	button_init();
-
-	factoryMode = buttons_pressed12(); //(!digitalRead(BTN2_pin)) && (!digitalRead(BTN3_pin));
-
-	initParamsEEPROM(factoryMode);
-
-	initDisplay();
-
-	if (factoryMode == true) {
-		menuDisplay = menuState = MENU_EEPROM_RESET;
-
-	} else if (getParamById(PARAM_LOCK_BUTTONS)) {
-		menuDisplay = menuState = MENU_EEPROM_LOCKED;
-
-	}
-
-	// timeout = timeoutRecall / 3;
-
-	initADC();
-
-	initRelay();
-
-	while (1) {
-		// put your main code here, to run repeatedly:
-		millis_base = millis();
-
-		if ((millis_base - millis_5ms) >= 5) {
-			millis_5ms = millis_base;
-
-			refreshDisplay();
-
-			ADC_handler();
-
-			mainControl();
-
-			refreshRelay();
-		} else {
-			if ((millis_base - millis_250ms) >= 250) {
-				millis_250ms = millis_base;
-
-				if (menuState > MENU_ROOT) {
-					if (!((timeout--) > 0)) {
-
-						if (menuState == MENU_EEPROM_LOCKED) {
-							menuDisplay = menuState = MENU_EEPROM_LOCKED2;
-
-							timeout = timeoutRecall / 3;
-
-						} else {
-							menuDisplay = menuState = MENU_ROOT;
-
-						}
-
-						blink_disp_enabled = false;
-
-					}
-				}
-
-				if (getParamById(PARAM_AUTO_BRIGHT)) {
-					if (timeoutDisplayDimm == timeoutDisplayDimmRecall) {
-						dimmerBrightness(brightnessHigh); // clearer
-					}
-
-					if (timeoutDisplayDimm > 0) {
-						timeoutDisplayDimm--;
-					} else {
-						dimmerBrightness(brightnessLow); // darker
-					}
-				}
-			}
-
-			mainDisplay();
-		}
-	}
+	//  pinMode(BTN1_pin, INPUT_PULLUP);
+	//  pinMode(BTN2_pin, INPUT_PULLUP);
+	//  pinMode(BTN3_pin, INPUT_PULLUP);
 }
 
+bool buttons_pressed12(void) {
+	return (!get_Button2()) && (!get_Button3());
+}
+
+bool buttons_pressed123(void) {
+	return (((!get_Button1()) && (!get_Button2()))
+			|| ((!get_Button1()) && (!get_Button3())) || buttons_pressed12());
+}
+
+bool get_Button1(void) {
+	return ((PC_IDR & BUTTON1_BIT) == BUTTON1_BIT);
+}
+
+bool get_Button2(void) {
+	return ((PC_IDR & BUTTON2_BIT) == BUTTON2_BIT);
+}
+
+bool get_Button3(void) {
+	return ((PC_IDR & BUTTON3_BIT) == BUTTON3_BIT);
+}

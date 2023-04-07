@@ -43,6 +43,7 @@ enum brightness_enum {
 };
 
 void initDisplay();
+void mainDisplay(void);
 void controlDot(bool _state);
 void dimmerBrightness(bool _state);
 void refreshDisplay();

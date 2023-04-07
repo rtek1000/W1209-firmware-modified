@@ -35,6 +35,8 @@
 #ifndef MENU_H
 #define MENU_H
 
+#include "main.h"
+
 /* Menu sections */
 enum menu_enum {
   MENU_ROOT,              // 0
@@ -59,10 +61,7 @@ enum menu_enum {
 #define MENU_EVENT_CHECK_TIMER      6
 #define MENU_EVENT_IDLE             7
 
-void initMenu();
-void refreshMenu();
-unsigned char getMenuDisplay();
-void setMenuDisplay(unsigned char _menu);
-void feedMenu (unsigned char event);
+void initMainControl(void);
+void mainControl(void);
 
 #endif

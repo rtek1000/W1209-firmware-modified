@@ -43,7 +43,8 @@
 #define TIMER_H_
 
 void initTimer();
-
+unsigned long millis(void);
+void delay(unsigned long value);
 void TIM4_UPD_handler() __interrupt (23);
 
 #endif /* TIMER_H_ */

@@ -39,6 +39,10 @@
 //#include <Arduino.h>
 #include "display.h"
 #include "params.h"
+#include "menu.h"
+#include "relay.h"
+#include "adc.h"
+
 //#include "stm8s003/gpio.h"
 
 /* Definitions for display */
@@ -103,6 +107,14 @@ static bool lowBrightness = false;
 
 unsigned char *stringBuffer1;
 
+byte menuDisplay = 0;
+bool blink_disp = false;
+bool blink_disp_enabled = false;
+bool blinkSpeed = false;
+unsigned char *stringBuffer;
+
+unsigned long millis_display2 = 0;
+
 void setDisplayDot(unsigned char id, bool val);
 
 void dimmerBrightness(bool _state) {
@@ -147,6 +159,121 @@ void initDisplay() {
 	}
 
 	setDisplayTestMode(false); //, "");
+}
+
+void mainDisplay(void) {
+	int temp = 0;
+	unsigned char sensor_fail = 0;
+	unsigned char paramMsg[] = "P0";
+	unsigned char alarmMsg[] = "AL1";
+
+	if ((millis() - millis_display2) < (500 >> blinkSpeed)) {
+		return;
+	} else {
+		millis_display2 = millis();
+	}
+
+	blink_disp = !blink_disp;
+
+	controlDot(getRelayState(blink_disp));
+
+	setDisplayOff(!blink_disp && blink_disp_enabled);
+
+	switch (menuDisplay) {
+	case MENU_ROOT:
+		sensor_fail = getSensorFail();
+
+		if (sensor_fail != sensor_ok) {
+			if (sensor_fail == sensor_fail_HHH) {
+				setDisplayStr("HHH");
+
+			} else {
+				setDisplayStr("LLL");
+			}
+
+			blinkSpeed = blink_disp_enabled = true;
+
+		} else {
+			temp = getTemperature();
+			setDisplayInt(temp);
+
+			if (getParamById(PARAM_OVERHEAT_INDICATION)) {
+				if ((temp < (getParamById(PARAM_MIN_TEMPERATURE) * 10))
+						|| (temp >= (getParamById(PARAM_MAX_TEMPERATURE) * 10))) {
+					blinkSpeed = blink_disp_enabled = true;
+				} else {
+					blinkSpeed = blink_disp_enabled = false;
+				}
+			} else {
+				setDisplayOff(0);
+			}
+
+		}
+
+		break;
+
+	case MENU_SET_THRESHOLD:
+		paramToString(PARAM_THRESHOLD, stringBuffer);
+
+		setDisplayStr(stringBuffer);
+
+		break;
+
+	case MENU_SELECT_PARAM:
+		paramMsg[1] = '0' + getParamId();
+
+		setDisplayStr((unsigned char*) &paramMsg);
+
+		break;
+
+	case MENU_CHANGE_PARAM:
+		paramToString(getParamId(), stringBuffer);
+
+		setDisplayStr(stringBuffer);
+
+		break;
+
+	case MENU_EEPROM_LOCKED:
+		paramMsg[1] = '7';
+
+		setDisplayStr((unsigned char*) &paramMsg);
+
+		break;
+
+	case MENU_EEPROM_LOCKED2:
+		setDisplayStr("LOC");
+
+		break;
+
+	case MENU_ALARM:
+		if (getParamById(PARAM_RELAY_MODE) == RELAY_MODE_A2) {
+			alarmMsg[2] = '2';
+		}
+
+		setDisplayStr((unsigned char*) &alarmMsg);
+
+		break;
+
+	case MENU_ALARM_HIGH:
+		setDisplayInt(getParamById(PARAM_MAX_TEMPERATURE) * 10);
+
+		break;
+
+	case MENU_ALARM_LOW:
+		setDisplayInt(getParamById(PARAM_MIN_TEMPERATURE) * 10);
+
+		break;
+
+	case MENU_EEPROM_RESET:
+		setDisplayStr("RST");
+
+		break;
+
+	default:
+		// statements
+		break;
+
+	}
 }
 
 /**
