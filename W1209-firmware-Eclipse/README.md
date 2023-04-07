@@ -22,7 +22,6 @@
    - Arduino sketch converted to Eclipse project
    --> To free up space in program memory (Flash)
    - Mar/27/2023
-   - Code adaptation for Arduino IDE sketch.ino ([IDE v1.8.19](https://www.arduino.cc/en/software)) + ([Sduino STM8 Core](https://github.com/tenbaht/sduino))
    - Some bug fixes
    - Some functions added
    - - Parameter P0: C1/C2/C3/H1/H2/H3/A1/A2
