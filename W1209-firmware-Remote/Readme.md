@@ -1,6 +1,7 @@
 - Added serial (4800 bauds) (normal hardware)
 - RX: button (+) pin 14 (PC4) (supported by timer1)
 - TX: button (-) pin 15 (PC5) (supported by timer2)
+- Not ready for use
 
 To-Do:
 - Add remote control using Serial port (Pins 5/6)
