@@ -107,6 +107,7 @@ void button_init(void) {
 }
 
 bool buttons_pressed12(void) {
+	// return (!get_Button2()) && (!get_Button3());
 	return (!get_Button2()) && (!get_Button3());
 }
 
@@ -136,7 +137,8 @@ void disableButton2interrupt(void) {
 }
 
 bool get_Button1(void) {
-	return ((PC_IDR & BUTTON1_BIT) == BUTTON1_BIT);
+	// return ((PC_IDR & BUTTON1_BIT) == BUTTON1_BIT);
+	return ((PC_IDR >> 3) & 1);
 }
 
 bool get_Button2(void) {
@@ -146,7 +148,8 @@ bool get_Button2(void) {
 	for (i = 0; i < 10; i++)
 		;
 
-	bool state = ((PC_IDR & BUTTON2_BIT) == BUTTON2_BIT);
+	// bool state = ((PC_IDR & BUTTON2_BIT) == BUTTON2_BIT);
+	bool state = ((PC_IDR >> 4) & 1);
 
 	//enableButton2interrupt();
 	for (i = 0; i < 10; i++)
@@ -163,7 +166,8 @@ bool get_Button3(void) {
 	for (i = 0; i < 10; i++)
 		;
 
-	return ((PC_IDR & BUTTON3_BIT) == BUTTON3_BIT);
+	// return ((PC_IDR & BUTTON3_BIT) == BUTTON3_BIT);
+	return ((PC_IDR >> 5) & 1);
 }
 
 void EXTI2_handler() __interrupt (5){

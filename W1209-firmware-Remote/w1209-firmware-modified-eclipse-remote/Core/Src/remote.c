@@ -214,8 +214,8 @@ void receiver_Handle(void) {
 //	TIM1_CNTRH = 0xFC;
 //	TIM1_CNTRL = 0xDB;
 
-	TIM1_CNTRH = 0xFC;
-	TIM1_CNTRL = 0xC5;
+	TIM1_CNTRH = 0xFE;
+	TIM1_CNTRL = 0x63;
 
 	//TIM1_SR1 &= ~TIMx_UIF; // Reset flag
 

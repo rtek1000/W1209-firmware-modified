@@ -71,15 +71,22 @@ void initTimer() {
 	TIM4_IER = 0x01;    // Enable interrupt on update event
 	TIM4_CR1 = 0x05;    // Enable timer
 
-	// Goal: 103.33us; 9677,42kHz
+	// Goal: 103.33us; 9677.42kHz (4800 bauds)
 	// 16MHz: 0.000000062s; 0.000062ms; 0.062us; 62ns
-	// 16MHz / 9677,42kHz = 1653,33
+	// 16MHz / 9677.42kHz = 1653.33
 	// 65536 - 1653 = 63883 (0xF98B)
-	// 1653,33 / 2 = 826,67
+	// 1653.33 / 2 = 826.67
 	// 65536 - 827 = 63883 (0xFCC5)
 
-	TIM1_CNTRH = 0xFC;
-	TIM1_CNTRL = 0xC5;
+	// Goal: 51.67us; 19353.59kHz (9600 bauds)
+	// 16MHz: 0.000000062s; 0.000062ms; 0.062us; 62ns
+	// 16MHz / 19353.59kHz = 826.72
+	// 65536 - 827 = 64709 (0xFCC5)
+	// 826.72 / 2 = 413.36
+	// 65536 - 413 = 65123 (0xFE63)
+
+	TIM1_CNTRH = 0xFE;
+	TIM1_CNTRL = 0x63;
 	TIM1_PSCRH = 0x00;   // CLK / 1 = 16MHz
 	TIM1_PSCRL = 0x01;   // CLK / 1 = 16MHz
 	TIM1_ARRH = 0xFF;    // 16MHz /  1653(0x0675) = 9679.37kHz
@@ -87,8 +94,8 @@ void initTimer() {
 	TIM1_IER = 0x01;    // Enable interrupt on update event
 	// TIM1_CR1 = 0x05;    // Enable timer
 
-	TIM2_CNTRH = 0xF9;
-	TIM2_CNTRL = 0x8B;
+	TIM2_CNTRH = 0xFC; // 0xFCC5
+	TIM2_CNTRL = 0xC5;
 	TIM2_PSCR = 0x01;   // CLK / 1 = 16MHz
 	TIM2_ARRH = 0xFF;    // 16MHz /  1653(0x0675) = 9679.37kHz
 	TIM2_ARRL = 0xFF;    // 16MHz /  1653(0x0675) = 9679.37kHz
@@ -125,10 +132,12 @@ __interrupt (11)
 {
 	TIM1_SR1 &= ~TIMx_UIF; // Reset flag
 
-	TIM1_CNTRH = 0xF9;
-	TIM1_CNTRL = 0x8B;
+	// 0xFCC5
+	TIM1_CNTRH = 0xFC;
+	TIM1_CNTRL = 0xC5;
 
-	data_bit = (bool)((PC_IDR & BUTTON2_BIT) == BUTTON2_BIT);
+	//data_bit = (bool)((PC_IDR & BUTTON2_BIT) == BUTTON2_BIT);
+	data_bit = (PC_IDR >> 4) & 1;
 
 	if(start_bit == false) {
 		if (data_bit == true) {
@@ -164,8 +173,8 @@ void TIM2_UPD_handler()
 __interrupt (13) {
 	TIM2_SR1 &= ~TIMx_UIF; // Reset flag
 
-	TIM2_CNTRH = 0xF9;
-	TIM2_CNTRL = 0x8B;
+	TIM2_CNTRH = 0xFC; // 0xFCC5
+	TIM2_CNTRL = 0xC5;
 
 	if(start_bit_send == false) {
 		start_bit_send = true;
