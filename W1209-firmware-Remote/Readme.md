@@ -16,13 +16,13 @@ Communication protocol:
 - TX: Button (-)
 
 TX Data format: Pxddd.dccc
-- P: start byte (allways P)
+- P: start byte (always P)
 - x: parameter reference (from A to J, plus T)
 - d: parameter value (integer-dot-integer)
 - c: checksum
 
 RX Data format: Sxddd.dccc
-- S: start byte (allways S)
+- S: start byte (always S)
 - x: parameter reference (from A to J, plus T)
 - d: parameter value (integer-dot-integer)
 - c: checksum
