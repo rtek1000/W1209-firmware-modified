@@ -68,7 +68,7 @@ static int paramCache[paramLen];
 //const int paramMax[] =     {7, 150, 110, 105, 70, 10, 1, 0, 0, 1100};
 //const int paramDefault[] = {0, 20, 110, -50, 0, 0, 0, 0, 0, 280};
 const int paramMin[] = { 0, 1, -499, -500, -70, 0, 0, 0, 0, -500 };
-const int paramMax[] = { 7, 150, 1100, 1099, 70, 10, 1, 0, 0, 1100 };
+const int paramMax[] = { 7, 150, 1100, 1099, 70, 10, 1, 1, 1, 1100 };
 const int paramDefault[] = { 0, 20, 1100, -500, 0, 0, 0, 0, 0, 280 };
 
 #define paramIdMax 8
@@ -118,6 +118,22 @@ static void loadParamsEEPROM() {
 int getParamById(unsigned char id) {
 	if (id < paramLen) {
 		return paramCache[id];
+	}
+
+	return -1;
+}
+
+int getMaxParamById(unsigned char id) {
+	if (id < paramLen) {
+		return paramMax[id];
+	}
+
+	return -1;
+}
+
+int getMinParamById(unsigned char id) {
+	if (id < paramLen) {
+		return paramMin[id];
 	}
 
 	return -1;

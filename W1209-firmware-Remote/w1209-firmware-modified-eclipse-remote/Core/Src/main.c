@@ -136,6 +136,8 @@ extern byte sender_start;
 
 extern bool remote_enabled;
 
+extern unsigned char store_timeout;
+
 //static unsigned char status;
 
 void main(void) {
@@ -216,6 +218,14 @@ void main(void) {
 				set_serial_sender();
 
 				//serial_sender_byte(0);
+
+				if(store_timeout > 0) {
+					store_timeout--;
+
+					if(store_timeout == 0) {
+						storeParams();
+					}
+				}
 
 				sender_start = true; // uncoment this to send data
 

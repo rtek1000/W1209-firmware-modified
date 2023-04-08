@@ -139,6 +139,9 @@ byte param_sender = 0;
 byte sender_index = 0;
 byte sender_start = 0;
 
+#define store_timeout_recall 20 // 5s (20x250ms)
+unsigned char store_timeout = 0;
+
 extern int temp;
 
 void initSerialReceiver(void) {
@@ -183,7 +186,7 @@ void receiver_data(unsigned char _data) {
 	//	PJ024.6107
 	//	PT000.0109
 
-	if (_data == 'S') { //  && (complete_received == false)
+	if (_data == 'S') {
 		_data_buffer[0] = _data;
 
 		index_received = 1;
@@ -200,20 +203,30 @@ void receiver_data(unsigned char _data) {
 		if (index_received == index_received_max) {
 			if (calcCheckSum(_data_buffer, true) != -1) {
 				received_paramID = _data_buffer[1] - 'A';
-				if(received_paramID < 10) {
+				if (received_paramID < 10) {
 					received_param = (_data_buffer[3] - '0') * 100;
 					received_param += (_data_buffer[4] - '0') * 10;
 					received_param += (_data_buffer[6] - '0');
 
-					if(_data_buffer[2] == '-') {
+					if (_data_buffer[2] == '-') {
 						received_param *= -1;
 
 					} else {
 						received_param += (_data_buffer[2] - '0') * 1000;
 					}
 
-					if(getParamById(received_paramID) != received_param){
-						setParamById(received_paramID, received_param);
+					if(received_paramID == 5) {
+						received_param /= 10;
+					}
+
+					if (getParamById(received_paramID) != received_param) {
+						if ((received_param <= getMaxParamById(received_paramID))
+								&& (received_param
+										<= getMaxParamById(received_paramID))) {
+							setParamById(received_paramID, received_param);
+
+							store_timeout = store_timeout_recall;
+						}
 					}
 //
 //					temp = received_paramID;
@@ -247,6 +260,10 @@ void set_serial_sender() {
 
 	if (param_sender < 10) {
 		param_tmp = getParamById(param_sender);
+
+		if(param_sender == 5) {
+			param_tmp *= 10;
+		}
 
 		Msg_send[1] = 'A' + param_sender;
 
@@ -292,8 +309,7 @@ void set_serial_sender() {
 }
 
 void serial_sender() {
-	if ((sender_start == false)
-			|| (empty_bit_send == false)
+	if ((sender_start == false) || (empty_bit_send == false)
 			|| (remote_enabled == false)) {
 		return;
 	}

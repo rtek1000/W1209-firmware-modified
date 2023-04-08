@@ -62,6 +62,8 @@ unsigned char getParamId();
 int getParamById (unsigned char);
 void setParam (int);
 void setParamId (unsigned char);
+int getMaxParamById(unsigned char id);
+int getMinParamById(unsigned char id);
 void setParamById (unsigned char, int);
 void paramToString (unsigned char, unsigned char*);
 void itofpa (int, unsigned char*, unsigned char);
