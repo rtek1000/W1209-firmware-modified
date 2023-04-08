@@ -33,18 +33,17 @@ Automatic Data store (after 5 seconds)
 Terminal monitor (putty):
 
 ```
-PT024.4099
-PA000.0128
-PB000.0127
-PC110.0124
-PD109.7108
-PE000.0124
-PF000.0123
-PG000.0122
-PH000.0121
-PI000.0120
-PJ028.0109
-PT024.4099
+PA000.0128 ---> P0
+PB000.0127 ---> P1
+PC110.0124 ---> P2
+PD109.7108 ---> P3
+PE000.0124 ---> P4
+PF000.0123 ---> P5
+PG000.0122 ---> P6
+PH000.0121 ---> P7
+PI000.0120 ---> P8
+PJ028.0109 ---> Threshold
+PT024.4099 ---> Sensor
 ```
 
 - Checksum calculation:
