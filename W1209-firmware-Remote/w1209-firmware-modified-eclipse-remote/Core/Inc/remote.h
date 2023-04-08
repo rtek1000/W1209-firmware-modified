@@ -104,8 +104,10 @@
 
 void initSerialReceiver(void);
 void receiver_Handle(void);
+void receiver_data(unsigned char _data);
 void set_serial_sender(void);
 void serial_sender(void);
 void serial_sender_byte(unsigned char data);
 void bit_delay_sender(unsigned int value);
 void bit_delay_receiver(unsigned int value);
+int calcCheckSum(unsigned char *buffer, bool _set_buffer);

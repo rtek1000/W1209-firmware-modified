@@ -117,7 +117,7 @@ unsigned long millis_display2 = 0;
 
 int temp = 0;
 
-extern volatile unsigned int data_received;
+//extern volatile unsigned int data_received;
 
 void setDisplayDot(unsigned char id, bool val);
 
@@ -197,7 +197,7 @@ void mainDisplay(void) {
 			blinkSpeed = blink_disp_enabled = true;
 
 		} else {
-			temp = data_received; // getTemperature();
+			temp = getTemperature();
 			setDisplayInt(temp);
 
 			if (getParamById(PARAM_OVERHEAT_INDICATION)) {
@@ -258,12 +258,16 @@ void mainDisplay(void) {
 		break;
 
 	case MENU_ALARM_HIGH:
-		setDisplayInt(getParamById(PARAM_MAX_TEMPERATURE) * 10);
+		// setDisplayInt(getParamById(PARAM_MAX_TEMPERATURE) * 10);
+		paramToString(PARAM_MAX_TEMPERATURE, stringBuffer);
+		setDisplayStr(stringBuffer);
 
 		break;
 
 	case MENU_ALARM_LOW:
-		setDisplayInt(getParamById(PARAM_MIN_TEMPERATURE) * 10);
+		// setDisplayInt(getParamById(PARAM_MIN_TEMPERATURE) * 10);
+		paramToString(PARAM_MIN_TEMPERATURE, stringBuffer);
+		setDisplayStr(stringBuffer);
 
 		break;
 

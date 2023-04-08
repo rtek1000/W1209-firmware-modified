@@ -74,8 +74,10 @@ extern byte timeoutDisplayDimm;
 extern bool blinkSpeed;
 
 extern byte menuDisplay;
-extern bool blink_disp;
+//extern bool blink_disp;
 extern bool blink_disp_enabled;
+
+extern bool remote_enabled;
 
 void initMainControl(void){
 	timeoutDisplayDimm = timeoutDisplayDimmRecall;
@@ -105,6 +107,8 @@ void mainControl(void) {
 				isBTN1_longPress = false;
 
 				timeout = timeoutRecall;
+
+				remote_enabled = false;
 			}
 		} else {
 			if ((millis_control - BTN1_longPress) > buttonLongPressTime) {

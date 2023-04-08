@@ -134,6 +134,8 @@ extern bool blink_disp_enabled;
 
 extern byte sender_start;
 
+extern bool remote_enabled;
+
 //static unsigned char status;
 
 void main(void) {
@@ -227,7 +229,7 @@ void main(void) {
 
 						} else {
 							menuDisplay = menuState = MENU_ROOT;
-
+							remote_enabled = true;
 						}
 
 						blink_disp_enabled = false;

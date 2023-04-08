@@ -112,7 +112,9 @@
 
 #define _delay_us 361 // 2400: 760/855; 9600: 205
 
-volatile int data_received = 0;
+bool remote_enabled = true;
+
+//volatile int data_received = 0;
 volatile int data_buffer = 0;
 volatile char data_counter = 0;
 volatile bool start_bit = false;
@@ -124,15 +126,20 @@ volatile bool start_bit_send = false;
 volatile bool stop_bit_send = false;
 volatile bool pause_bit_send = false;
 
-char Msg[8];
-char Msg_ref[2];
+volatile unsigned char index_received;
+volatile bool complete_received;
+volatile unsigned char received_paramID;
+volatile int received_param;
+
+#define index_received_max 10
+volatile unsigned char _data_buffer[index_received_max];
+
+char Msg_send[index_received_max];
 byte param_sender = 0;
 byte sender_index = 0;
 byte sender_start = 0;
 
 extern int temp;
-
-//extern volatile unsigned char tmr1_counter;
 
 void initSerialReceiver(void) {
 	disableInterrupts();
@@ -143,136 +150,139 @@ void initSerialReceiver(void) {
 
 	EXTI_CR1 |= 0x20;   // generate interrupt on falling edge.
 
-	// https://github.com/tenbaht/sduino/issues/127
-	// attachInterrupt(INT_PORTC & 0xFF, SR_INT_Handle, FALLING);
-
 	enableInterrupts();
-
-// https://sites.google.com/site/klaasdc/stm8s-projects/rpm-counter-1
-// Pre_CLK: 16MHz: 62ns
-// Goal: 500us
-// Presc: 7
-// TIM1_IN: 7x62ns = 434ns
-// TIM1_PRELOAD: 65535 (MAX)
-// TIM1_PERIOD: 1x434ns = 434ns
-
-//  TIM1_DeInit();
-//  TIM1_TimeBaseInit(1680, TIM1_COUNTERMODE_UP, 65535, 0); // 7: 0.5us
-//  TIM1_Cmd(ENABLE);
-
-// Goal: 104.167us
-// Pre_CLK: 16MHz: 62ns
-// Presc: = 104167 / 062 = 1680
-// TIM1_IN: 1680x62ns = 104160ns
-// TIM1_PRELOAD: 65535 (MAX)
-// TIM1_PERIOD: 1x104160ns = 104160ns = 104.160us
-
-//  TIM1_DeInit();
-//  TIM1_TimeBaseInit(1680, TIM1_COUNTERMODE_UP, 65535, 0); // 7: 0.5us
-//  TIM1_Cmd(ENABLE);
-
-// Goal: 500ms
-// Pre_CLK: 16MHz: 62ns
-// Presc: = 500000000 / 62 = 8064516 (MAX: 65535 + 1) 8064516 / 65536 = 123
-// TIM1_IN: 65535x62ns = 4063170ns
-// TIM1_PRELOAD: 65535 (MAX) - 123 = 65412
-// TIM1_PERIOD: 123x4063170ns = 499769910ns = 499769.910us = 499.769910ms
-
-//CLK_PeripheralClockConfig (CLK_PERIPHERAL_TIMER1 , ENABLE);
-//TIM1_DeInit();
-//TIM1_TimeBaseInit(65535, TIM1_COUNTERMODE_DOWN, 123, 0); // 65535x123: 0.5s
-
-//disableInterrupts();
-
-//TIM1->SR1 &= ~0x01;
-//TIM1->IER |= 0x01;
-//TIM1_ITConfig(TIM1_IT_UPDATE, ENABLE);
-
-//TIM1_Cmd(ENABLE);
-
-// https://github.com/tenbaht/sduino/issues/127
-// attachInterrupt(INT_TIM1_OVF, TIM1_int, 0);
-
-//enableInterrupts();
-
 }
 
 void receiver_Handle(void) {
-	//disableInterrupts();
+	if (remote_enabled == false) {
+		return;
+	}
+
 	disableButton2interrupt();
 
 	data_counter = 0;
 	data_buffer = 0;
 	start_bit = false;
 
-//	setButton3stateLOW();
-//
-//	setButton3stateHIGH();
-
-//	tmr1_counter = 0;
-
-//	TIM1_CNTRH = 0xFC;
-//	TIM1_CNTRL = 0xDB;
-
 	TIM1_CNTRH = 0xFE;
 	TIM1_CNTRL = 0x63;
 
-	//TIM1_SR1 &= ~TIMx_UIF; // Reset flag
-
 	TIM1_CR1 = 0x05;    // Enable timer
+}
 
-	//enableInterrupts();
-	//setButton3stateLOW();
+void receiver_data(unsigned char _data) {
+	//	PA000.7121
+	//	PB002.0125
+	//	PC110.0124
+	//	PD-50.0123
+	//	PE000.3121
+	//	PF000.2121
+	//	PG000.1121
+	//	PH000.1120
+	//	PI000.1119
+	//	PJ024.6107
+	//	PT000.0109
 
-//	unsigned char _data = 0;
+	if (_data == 'S') { //  && (complete_received == false)
+		_data_buffer[0] = _data;
+
+		index_received = 1;
+
+		complete_received = false;
+
+		//temp = 1;
+
+	} else if (index_received < index_received_max) {
+		_data_buffer[index_received] = _data;
+
+		index_received++;
+
+		if (index_received == index_received_max) {
+			if (calcCheckSum(_data_buffer, true) != -1) {
+				received_paramID = _data_buffer[1] - 'A';
+				if(received_paramID < 10) {
+					received_param = (_data_buffer[3] - '0') * 100;
+					received_param += (_data_buffer[4] - '0') * 10;
+					received_param += (_data_buffer[6] - '0');
+
+					if(_data_buffer[2] == '-') {
+						received_param *= -1;
+
+					} else {
+						received_param += (_data_buffer[2] - '0') * 1000;
+					}
+
+					if(getParamById(received_paramID) != received_param){
+						setParamById(received_paramID, received_param);
+					}
 //
-//	/* start bit */
-//	//setButton3stateLOW();
-//
-//	bit_delay_receiver(_delay_us_receiver);
-//
-//	//setButton3stateHIGH();
-//
-//	if ((PC_IDR & BUTTON2_BIT) != BUTTON2_BIT) {
-//		bit_delay_receiver(_delay_us_receiver);
-//
-//		for (unsigned char i = 0; i < 8; i++) {
-//			//setButton3stateHIGH();
-//			bit_delay_receiver(_delay_us_receiver);
-//
-//			//setButton3stateLOW();
-//			_data |= (bool)((PC_IDR & BUTTON2_BIT) == BUTTON2_BIT) << i;
-//
-//			bit_delay_receiver(_delay_us_receiver);
-//		}
-//		// setButton3stateHIGH();
-//	}
-//	//setButton3stateHIGH();
-//
-//	bit_delay_receiver(_delay_us_receiver);
-//
-//	if ((PC_IDR & BUTTON2_BIT) == BUTTON2_BIT) {
-//		data_received = _data;
-//	}
-//
-//	bit_delay_receiver(_delay_us_receiver);
+//					temp = received_paramID;
+				}
+			}
+		}
+	}
 }
 
 void set_serial_sender() {
 	int param_tmp;
+	unsigned char dat1000 = 0;
+	unsigned char dat100 = 0;
+	unsigned char dat10 = 0;
+	unsigned char dat1 = 0;
+	bool isNegative = false;
+
+//	PA000.7121
+//	PB002.0125
+//	PC110.0124
+//	PD-50.0123
+//	PE000.3121
+//	PF000.2121
+//	PG000.1121
+//	PH000.1120
+//	PI000.1119
+//	PJ024.6107
+//	PT000.0109
+
+	Msg_send[0] = 'P';
 
 	if (param_sender < 10) {
 		param_tmp = getParamById(param_sender);
 
-		Msg_ref[0] = 'A' + param_sender;
+		Msg_send[1] = 'A' + param_sender;
 
 	} else {
 		param_tmp = temp;
 
-		Msg_ref[0] = 'T';
+		Msg_send[1] = 'T';
 	}
 
-	itofpa(param_tmp, (char*) Msg, 0);
+	if (param_tmp < 0) {
+		param_tmp *= -1;
+		isNegative = true;
+		Msg_send[2] = '-';
+	}
+
+	dat1000 = param_tmp / 1000;
+	param_tmp -= dat1000 * 1000;
+	dat100 = param_tmp / 100;
+	param_tmp -= dat100 * 100;
+	dat10 = param_tmp / 10;
+	param_tmp -= dat10 * 10;
+	dat1 = param_tmp;
+
+	Msg_send[3] = dat100 + 48;
+	Msg_send[4] = dat10 + 48;
+	Msg_send[5] = '.';
+	Msg_send[6] = dat1 + 48;
+	Msg_send[7] = '-';
+	Msg_send[8] = '-';
+	Msg_send[9] = '-';
+
+	if (isNegative == false) {
+		Msg_send[2] = dat1000 + 48;
+	}
+
+	calcCheckSum(Msg_send, true);
 
 	if (param_sender <= 9) {
 		param_sender++;
@@ -282,31 +292,24 @@ void set_serial_sender() {
 }
 
 void serial_sender() {
-	if ((sender_start == false) || (empty_bit_send == false)) {
+	if ((sender_start == false)
+			|| (empty_bit_send == false)
+			|| (remote_enabled == false)) {
 		return;
 	}
 
-	char txt;
+	if (sender_index < index_received_max) {
+		serial_sender_byte(Msg_send[sender_index]);
+	}
 
-	if (sender_index <= ((sizeof Msg) + 3)) {
-		if (sender_index == 0) {
-			serial_sender_byte(Msg_ref[0]);
+	sender_index++;
 
-		} else if ((sender_index > 0) && (sender_index <= (sizeof Msg))) {
-			txt = Msg[sender_index - 1];
+	if (sender_index == (index_received_max + 1)) {
+		serial_sender_byte(13);
 
-			serial_sender_byte(txt);
-
-		} else if (sender_index == ((sizeof Msg) + 2)) {
-			serial_sender_byte(13);
-
-		} else if (sender_index == ((sizeof Msg) + 3)) {
-			serial_sender_byte(10);
-		}
-
-		sender_index++;
-
-	} else {
+	} else if (sender_index == (index_received_max + 2)) {
+		serial_sender_byte(10);
+	} else if (sender_index == (index_received_max + 3)) {
 		sender_start = false;
 
 		sender_index = 0;
@@ -325,24 +328,6 @@ void serial_sender_byte(unsigned char data) {
 	data_counter_send = 0;
 
 	TIM2_CR1 = 0x05;    // Enable timer
-
-//	setButton3stateLOW();
-//	bit_delay_sender(_delay_us);                   // start bit
-//
-//	for (unsigned char i = 0; i < 8; i++) {
-//		if (data & 0x01) {
-//			setButton3stateHIGH();
-//		} else {
-//			setButton3stateLOW();
-//		}
-//
-//		bit_delay_sender(_delay_us);
-//
-//		data >>= 1;  // get the next most significant bit
-//	}
-//
-//	setButton3stateHIGH();
-//	bit_delay_sender(_delay_us);
 }
 
 void bit_delay_sender(unsigned int value) {
@@ -355,4 +340,45 @@ void bit_delay_receiver(unsigned int value) {
 	while (value--) {
 		nop();
 	}
+}
+
+int calcCheckSum(unsigned char *buffer, bool _set_buffer) {
+	int result = 0;
+	unsigned int sum = 0;
+	unsigned char sum100 = 0;
+	unsigned char sum10 = 0;
+	unsigned char sum1 = 0;
+
+	for (int i = 0; i <= 6; i++) {
+		sum += buffer[i];
+	}
+
+	sum &= 0xFF;
+
+	sum = 0xFF - sum;
+
+	result = sum;
+
+	if (_set_buffer == true) {
+		sum100 = sum / 100;
+		sum -= sum100 * 100;
+		sum10 = sum / 10;
+		sum -= sum10 * 10;
+		sum1 = sum;
+
+		sum100 += '0';
+		sum10 += '0';
+		sum1 += '0';
+
+		if ((sum100 != buffer[7]) || (sum10 != buffer[8])
+				|| (sum1 != buffer[9])) {
+			result = -1;
+		}
+
+		buffer[7] = sum100;
+		buffer[8] = sum10;
+		buffer[9] = sum1;
+	}
+
+	return result;
 }

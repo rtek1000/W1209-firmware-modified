@@ -43,6 +43,7 @@
 #include "display.h"
 #include "relay.h"
 #include "button.h"
+#include "remote.h"
 
 volatile unsigned int counter_250ms = 0;
 
@@ -52,7 +53,7 @@ volatile bool data_bit = false;
 #define stop_bit true
 
 //volatile unsigned char tmr1_counter = 0;
-extern volatile int data_received;
+//extern volatile int data_received;
 extern volatile int data_buffer;
 extern volatile char data_counter;
 extern volatile bool start_bit;
@@ -103,7 +104,7 @@ void initTimer() {
 	// TIM2_CR1 = 0x05;    // Enable timer
 
 	(void) millis_counter;
-	(void) data_received;
+//	(void) data_received;
 	(void) data_buffer;
 	(void) data_counter;
 	(void) start_bit;
@@ -158,7 +159,7 @@ __interrupt (11)
 			data_counter++;
 		} else {
 			if(data_bit == stop_bit) {
-				data_received = data_buffer;
+				receiver_data(data_buffer);
 			}
 
 			TIM1_CR1 = 0x00;    // Disable timer
