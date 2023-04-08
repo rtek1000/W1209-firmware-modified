@@ -9,6 +9,61 @@
 
 ------------------------
 
+Communication protocol:
+- 9600 bauds
+- Serial TTL 5V
+- RX: Button (+)
+- TX: Button (-)
+
+TX Data format: Pxddd.dccc
+- P: start byte (allways P)
+- x: parameter reference (from A to J, plus T)
+- d: parameter value (integer-dot-integer)
+- c: checksum
+
+RX Data format: Sxddd.dccc
+- S: start byte (allways S)
+- x: parameter reference (from A to J, plus T)
+- d: parameter value (integer-dot-integer)
+- c: checksum
+
+Automatic Data store (after 5 seconds)
+
+
+Terminal monitor (putty):
+
+```
+PT024.4099
+PA000.0128
+PB000.0127
+PC110.0124
+PD109.7108
+PE000.0124
+PF000.0123
+PG000.0122
+PH000.0121
+PI000.0120
+PJ028.0109
+PT024.4099
+```
+
+- Checksum calculation:
+
+(See source code: remote.c for W1209 Eclipse project)
+
+```
+	for (int i = 0; i <= 6; i++) {
+		sum += buffer[i];
+	}
+
+	sum &= 0xFF;
+
+	sum = 0xFF - sum;
+```
+
+
+------------------------
+
 To-Do (to achieve higher communication speed):
 - Add remote control using Serial port (Pins 5/6)
 - - Need to change board tracks.
