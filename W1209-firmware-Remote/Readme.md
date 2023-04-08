@@ -49,7 +49,7 @@ PT024.4099
 
 - Checksum calculation:
 
-(See source code: remote.c for W1209 Eclipse project)
+(See source code: [remote.c](https://github.com/rtek1000/W1209-firmware-modified/blob/master/W1209-firmware-Remote/w1209-firmware-modified-eclipse-remote/Core/Src/remote.c) for W1209 Eclipse project)
 
 ```
 	for (int i = 0; i <= 6; i++) {
