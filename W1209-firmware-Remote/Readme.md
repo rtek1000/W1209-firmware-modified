@@ -66,7 +66,7 @@ PT024.4099 ---> Sensor: 24.4 (P T 024.4 099) 24.4: 024.4; ccc: 099
 	sum = 0xFF - sum;
 ```
 
-
+- Check all info: [here](https://github.com/rtek1000/W1209-firmware-modified)
 ------------------------
 
 To-Do (to achieve higher communication speed):
