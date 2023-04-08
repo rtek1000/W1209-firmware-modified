@@ -1,4 +1,4 @@
-# Note: The code in this repository has been modified and is not an identical copy of the files.
+- Note: The code in this repository has been modified and is not an identical copy of the files.
 
 - I found some bugs related to menu navigation, I haven't found the cause yet.
 - This repository is a fork of the [original](https://github.com/mister-grumbler/w1209-firmware).
