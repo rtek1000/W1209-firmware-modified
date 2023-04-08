@@ -10,7 +10,8 @@
 - (apparently all functions working): ckeck it [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Eclipse).
 - Note: [original](https://github.com/mister-grumbler/w1209-firmware) code adapted for Eclipse IDE project [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/w1209-firmware-modified/Eclipse%20project).
 
-- Remote version (serial port emulated by timers)
+
+- Remote version (serial port emulated by timers) [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Remote).
 - Windows app to manage settings:
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Remote/App_Windows/Doc/W1209_Remote_test.png)
 
