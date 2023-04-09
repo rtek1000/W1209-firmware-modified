@@ -3,6 +3,19 @@
 - I found some bugs related to menu navigation, I haven't found the cause yet.
 - This repository is a fork of the [original](https://github.com/mister-grumbler/w1209-firmware).
 
+
+- Apparently there is a bug in the compiler, in case the display malfunctions when modifying the code:
+- - Add a 'long' variable in the first file (name in alphabetical order) *.c
+
+a_file.c:
+
+```
+#include "a_file.h"
+long foo;
+
+```
+
+
 # Code adaptation for Eclipse IDE:
 - Uses less program memory than the Arduino IDE.
 - Makefile compilation mode, similar to the [original](https://github.com/mister-grumbler/w1209-firmware) way.
