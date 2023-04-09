@@ -12,7 +12,6 @@ a_file.c:
 ```
 #include "a_file.h"
 long foo;
-
 ```
 
 
