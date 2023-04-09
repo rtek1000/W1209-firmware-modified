@@ -1,3 +1,14 @@
+Adapted from W1209-firmware-remote
+
+Time T1/T2: P5 in seconds
+
+To-Do:
+- Add parameter for T2
+- Add cycle mode
+- Add unit selection (minute/seconds)
+
+--------------------------
+
 To-Do:
 
 - Add Timer function to W1209
