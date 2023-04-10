@@ -14,7 +14,7 @@ Parameters (Long press SET button):
 
 - P0: Relay mode [0, 1, 2, 3, 4, 5]
 - - 0: The relay opens after a delay of T1 time, and ends
-- - 1: The relay closes after a delay of T1 time and ends
+- - 1: The relay closes after a delay of T1 time, and ends
 - - 2: The relay closes after a delay of T1 time, and then opens after a delay of T2, and ends
 - - 3: The relay opens after a delay of T1 time, then closes after a delay of T2 time, and ends
 - - 4: The relay closes after a delay of T1 time, and then opens after a delay of T2 time, loop
