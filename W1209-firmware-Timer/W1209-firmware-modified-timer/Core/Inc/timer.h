@@ -42,8 +42,14 @@
 #ifndef TIMER_H_
 #define TIMER_H_
 
-void initTimer();
+#include "main.h"
+
+void initTimer(void);
 unsigned long millis(void);
+void initTimerCount(void);
+bool getStateTimerCount(void);
+void enableTimerCount(void);
+void disableTimerCount(void);
 void delay(unsigned long value);
 void TIM1_UPD_handler() __interrupt (11);
 void TIM2_UPD_handler() __interrupt (13);

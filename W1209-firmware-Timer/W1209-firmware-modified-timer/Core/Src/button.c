@@ -104,8 +104,11 @@
 long foo; // compiler bug
 
 void button_init(void) {
-	PC_DDR &= ~(BUTTON1_BIT | BUTTON2_BIT | BUTTON3_BIT);
-	PC_CR1 |= BUTTON1_BIT | BUTTON2_BIT | BUTTON3_BIT;
+	PC_DDR &= ~(BUTTON1_BIT | BUTTON2_BIT | BUTTON3_BIT); // input
+	PC_CR1 |= BUTTON1_BIT | BUTTON2_BIT | BUTTON3_BIT; // pullup
+
+	PD_DDR &= ~BUTTON4_BIT; // input
+	PC_CR1 &= ~BUTTON4_BIT; // no pullup
 }
 
 bool buttons_pressed12(void) {
@@ -140,7 +143,7 @@ void disableButton2interrupt(void) {
 
 bool get_Button1(void) {
 	// return ((PC_IDR & BUTTON1_BIT) == BUTTON1_BIT);
-	return ((PC_IDR >> 3) & 1);
+	return ((BUTTONS_PORT123 >> 3) & 1);
 }
 
 bool get_Button2(void) {
@@ -151,7 +154,7 @@ bool get_Button2(void) {
 		;
 
 	// bool state = ((PC_IDR & BUTTON2_BIT) == BUTTON2_BIT);
-	bool state = ((PC_IDR >> 4) & 1);
+	bool state = ((BUTTONS_PORT123 >> 4) & 1);
 
 	//enableButton2interrupt();
 	for (i = 0; i < 10; i++)
@@ -169,8 +172,13 @@ bool get_Button3(void) {
 		;
 
 	// return ((PC_IDR & BUTTON3_BIT) == BUTTON3_BIT);
-	return ((PC_IDR >> 5) & 1);
+	return ((BUTTONS_PORT123 >> 5) & 1);
 }
+
+bool get_Button4(void) {
+	return ((BUTTONS_PORT4 >> 6) & 1);
+}
+
 
 void EXTI2_handler() __interrupt (5){
 	// disableButton2interrupt();

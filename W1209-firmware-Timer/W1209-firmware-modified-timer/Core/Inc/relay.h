@@ -37,20 +37,42 @@
 
 #include "main.h"
 
+// P0 options:
+// 0: The relay opens after a delay of T1 time, and ends
+// 1: The relay closes after a delay of T1 time and ends
+// 2: The relay closes after a delay of T1 time, and then opens after a delay of T2, and ends
+// 3: The relay opens after a delay of T1 time, then closes after a delay of T2 time, and ends
+// 4: The relay closes after a delay of T1 time, and then opens after a delay of T2 time, loop
+// 5: The relay opens after a delay of T1 time, and then closes after a delay of T2 time, and loops
+
 enum relayMode_enum {
-  RELAY_MODE_C1 = 0,                   // 0
-  RELAY_MODE_C2,                   // 1
-  RELAY_MODE_C3,                   // 2
-  RELAY_MODE_H1,                   // 3
-  RELAY_MODE_H2,                   // 4
-  RELAY_MODE_H3,                   // 5
-  RELAY_MODE_A1,                   // 6
-  RELAY_MODE_A2                    // 7
+  RELAY_MODE_C0 = 0,               // 0
+  RELAY_MODE_C1,                   // 1
+  RELAY_MODE_C2,                   // 2
+  RELAY_MODE_C3,                   // 3
+  RELAY_MODE_C4,                   // 4
+  RELAY_MODE_C5                    // 5
 };
 
-void initRelay();
-void incRelayTimer();
-bool getRelayState(bool _blink);
+enum relayCycleMode_enum {
+  RELAY_CYCLE_ONE_PULSE_T1 = 0,    // 0
+  RELAY_CYCLE_ONE_PULSE_T2,        // 1
+  RELAY_CYCLE_LOOP                 // 2
+};
+
+void resetT2complete(void);
+void saveRelayState(void);
+void restoreRelayState(void);
+
+void initRelay(void);
+void initRelayCycle(void);
+void incRelayTimer(void);
+unsigned long getRelayTimer(void);
+unsigned long getRelayTimerUnit(void);
+bool getRelayState(void);
+bool getRelayStateWait(bool _blink);
+bool getRelayMode(void);
+unsigned char getRelayCycleMode(void);
 void refreshRelay();
 void setRelay (bool on);
 

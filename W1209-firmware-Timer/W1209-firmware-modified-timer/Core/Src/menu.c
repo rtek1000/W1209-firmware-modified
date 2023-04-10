@@ -1,45 +1,47 @@
 /*
-   This file is part of the W1209 firmware replacement project
-   (https://github.com/mister-grumbler/w1209-firmware).
+ This file is part of the W1209 firmware replacement project
+ (https://github.com/mister-grumbler/w1209-firmware).
 
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, version 3.
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, version 3.
 
-   This program is distributed in the hope that it will be useful, but
-   WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-   General Public License for more details.
+ This program is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program. If not, see <http://www.gnu.org/licenses/>.
-*/
+ You should have received a copy of the GNU General Public License
+ along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /*
-   - Modified by RTEK1000
-   - Mar/27/2023
-   - Code adaptation for Arduino IDE sketch.ino
-   - Some bug fixes
-   - Some functions added
-   - Note: Track the size of the code when uploading,
-     The maximum I got was 93%
-     --> (Sketch uses 7589 bytes (92%))
-     --> (Bytes written: 8136)
-     --> (Maximum is 8192 bytes)
+ - Modified by RTEK1000
+ - Mar/27/2023
+ - Code adaptation for Arduino IDE sketch.ino
+ - Some bug fixes
+ - Some functions added
+ - Note: Track the size of the code when uploading,
+ The maximum I got was 93%
+ --> (Sketch uses 7589 bytes (92%))
+ --> (Bytes written: 8136)
+ --> (Maximum is 8192 bytes)
 
-   References:
-   - https://github.com/rtek1000/NTC_Lookup_Table_Generator
-   - https://github.com/rtek1000/W1209-firmware-modified
-*/
+ References:
+ - https://github.com/rtek1000/NTC_Lookup_Table_Generator
+ - https://github.com/rtek1000/W1209-firmware-modified
+ */
 
 #include "menu.h"
 #include "button.h"
 #include "relay.h"
 #include "params.h"
+#include "timer.h"
 
 bool BTN1_old = false;
 bool BTN2_old = false;
 bool BTN3_old = false;
+bool BTN4_old = false;
 
 unsigned long BTN1_longPress = 0;
 unsigned long BTN2_longPress = 0;
@@ -48,6 +50,7 @@ unsigned long BTN3_longPress = 0;
 unsigned long BTN1_shortPress = 0;
 unsigned long BTN2_shortPress = 0;
 unsigned long BTN3_shortPress = 0;
+unsigned long BTN4_shortPress = 0;
 
 bool isBTN1_longPress = false;
 bool isBTN2_longPress = false;
@@ -65,7 +68,7 @@ byte func_refresh = 0;
 
 byte menuState = MENU_ROOT;
 
-const unsigned char timeoutRecall = 20; // 250ms x20 = 5s
+const unsigned char timeoutRecall = 50; // 100ms x50 = 5s
 byte timeout = 7;
 
 extern const unsigned char timeoutDisplayDimmRecall; // 250ms x20 = 15s
@@ -79,11 +82,11 @@ extern bool blink_disp_enabled;
 
 extern bool remote_enabled;
 
-void initMainControl(void){
+void initMainControl(void) {
 	timeoutDisplayDimm = timeoutDisplayDimmRecall;
 }
 
-void restartDebounce(void){
+void restartDebounce(void) {
 	BTN1_shortPress = millis();
 	BTN2_shortPress = millis();
 	BTN3_shortPress = millis();
@@ -115,6 +118,10 @@ void mainControl(void) {
 				if (menuState == MENU_ROOT) {
 					menuDisplay = menuState = MENU_SELECT_PARAM;
 
+					disableTimerCount();
+
+					saveRelayState();
+
 					BTN1_longPress = millis_control;
 
 					setParamId(PARAM_RELAY_MODE);
@@ -127,6 +134,10 @@ void mainControl(void) {
 					BTN1_longPress = millis_control;
 
 					menuDisplay = menuState = MENU_ROOT;
+
+					enableTimerCount();
+
+					restoreRelayState();
 
 					timeout = timeoutRecall;
 				}
@@ -142,30 +153,12 @@ void mainControl(void) {
 
 			if (isBTN1_longPress == false) {
 				if (menuState == MENU_ROOT) {
-					if ((getParamById(PARAM_RELAY_MODE) == RELAY_MODE_A1)
-							|| (getParamById(PARAM_RELAY_MODE) == RELAY_MODE_A2)) {
-						menuState = menuDisplay = MENU_ALARM;
-					} else {
-						menuState = menuDisplay = MENU_SET_THRESHOLD;
-					}
 
 					blink_disp_enabled = true;
 
 					blinkSpeed = false;
 
 					timeout = timeoutRecall;
-
-					setParamId(PARAM_THRESHOLD);
-
-				} else if ((menuState == MENU_SET_THRESHOLD)
-						|| (menuState == MENU_ALARM)
-						|| (menuState == MENU_ALARM_HIGH)
-						|| (menuState == MENU_ALARM_LOW)) {
-					menuDisplay = menuState = MENU_ROOT;
-
-					blink_disp_enabled = false;
-
-					storeParams();
 
 				} else {
 					if (menuState == MENU_SELECT_PARAM) {
@@ -195,6 +188,15 @@ void mainControl(void) {
 				timeout = timeoutRecall;
 
 				timeoutDisplayDimm = timeoutDisplayDimmRecall;
+
+				if (menuState == MENU_ROOT) {
+					if (getStateTimerCount() == true) {
+						disableTimerCount();
+						setRelay(false);
+					} else {
+						initRelayCycle();
+					}
+				}
 			}
 		} else {
 			if ((millis_control - BTN2_longPress) > buttonLongPressTime) {
@@ -206,15 +208,9 @@ void mainControl(void) {
 					if (menuState == MENU_SELECT_PARAM) {
 						incParamId();
 
-					} else if (menuState >= MENU_SET_THRESHOLD) {
-						if ((getParamById(PARAM_LOCK_BUTTONS))
-								&& (menuState == MENU_SET_THRESHOLD)) {
-							menuDisplay = MENU_EEPROM_LOCKED2;
+					} else if (menuState >= MENU_CHANGE_PARAM) {
 
-						} else {
-							incParam();
-
-						}
+						incParam();
 					}
 
 					timeout = timeoutRecall;
@@ -234,19 +230,9 @@ void mainControl(void) {
 				if (menuState == MENU_SELECT_PARAM) {
 					incParamId();
 
-				} else if (menuState >= MENU_SET_THRESHOLD) {
-					if ((menuState == MENU_ALARM)
-							|| (menuState == MENU_ALARM_LOW)) {
-						menuDisplay = menuState = MENU_ALARM_HIGH;
+				} else if (menuState >= MENU_CHANGE_PARAM) {
 
-					} else if ((getParamById(PARAM_LOCK_BUTTONS))
-							&& (menuState == MENU_SET_THRESHOLD)) {
-						menuDisplay = MENU_EEPROM_LOCKED2;
-
-					} else {
-						incParam();
-
-					}
+					incParam();
 				}
 
 				timeout = timeoutRecall;
@@ -268,6 +254,15 @@ void mainControl(void) {
 				timeout = timeoutRecall;
 
 				timeoutDisplayDimm = timeoutDisplayDimmRecall;
+
+				if (menuState == MENU_ROOT) {
+					if (getStateTimerCount() == true) {
+						disableTimerCount();
+						setRelay(false);
+					} else {
+						initRelayCycle();
+					}
+				}
 			}
 		} else {
 			if ((millis_control - BTN3_longPress) > buttonLongPressTime) {
@@ -277,16 +272,8 @@ void mainControl(void) {
 					if (menuState == MENU_SELECT_PARAM) {
 						decParamId();
 
-					} else if (menuState >= MENU_SET_THRESHOLD) {
-						if ((getParamById(PARAM_LOCK_BUTTONS))
-								&& (menuState == MENU_SET_THRESHOLD)) {
-							menuDisplay = MENU_EEPROM_LOCKED2;
-
-						} else {
-							decParam();
-
-						}
-
+					} else if (menuState >= MENU_CHANGE_PARAM) {
+						decParam();
 					}
 
 					timeout = timeoutRecall;
@@ -306,26 +293,37 @@ void mainControl(void) {
 				if (menuState == MENU_SELECT_PARAM) {
 					decParamId();
 
-				} else if (menuState >= MENU_SET_THRESHOLD) {
-					if ((menuState == MENU_ALARM)
-							|| (menuState == MENU_ALARM_HIGH)) {
-						menuDisplay = menuState = MENU_ALARM_LOW;
-
-					} else if ((getParamById(PARAM_LOCK_BUTTONS))
-							&& (menuState == MENU_SET_THRESHOLD)) {
-						menuDisplay = MENU_EEPROM_LOCKED2;
-
-					} else {
-						decParam();
-
-					}
-
+				} else if (menuState >= MENU_CHANGE_PARAM) {
+					decParam();
 				}
 
 				timeout = timeoutRecall;
 			}
 
 			isBTN3_longPress = false;
+		}
+	}
+
+	if (get_Button4() == false) {
+		if (BTN4_old == false) {
+			if ((millis_control - BTN4_shortPress) > buttonShortPressTime) {
+				BTN4_shortPress = millis_control;
+
+				BTN4_old = true;
+
+				if (menuState == MENU_ROOT) {
+					if (getStateTimerCount() == true) {
+						disableTimerCount();
+						setRelay(false);
+					} else {
+						initRelayCycle();
+					}
+				}
+			}
+		}
+	} else {
+		if (BTN4_old == true) {
+			BTN4_old = false;
 		}
 	}
 }

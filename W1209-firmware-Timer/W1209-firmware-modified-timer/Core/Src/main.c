@@ -117,11 +117,13 @@ bool factoryMode;
 
 unsigned long millis_5ms;
 unsigned long millis_base;
-unsigned long millis_250ms;
+unsigned long millis_100ms;
 unsigned long millis_display1 = 0;
 
-const unsigned char timeoutDisplayDimmRecall = 60; // 250ms x20 = 15s
+const unsigned char timeoutDisplayDimmRecall = 150; // 100ms x150 = 15s
 byte timeoutDisplayDimm = 0;
+
+byte count_refresh = 0;
 
 extern byte menuDisplay;
 extern const unsigned char timeoutRecall;
@@ -208,16 +210,16 @@ void main(void) {
 
 			mainControl();
 
-			refreshRelay();
+			if (menuState == MENU_ROOT) {
+				refreshRelay();
+			}
 
 			serial_sender();
 		} else {
-			if ((millis_base - millis_250ms) >= 250) {
-				millis_250ms = millis_base;
+			if ((millis_base - millis_100ms) >= 100) {
+				millis_100ms = millis_base;
 
 				set_serial_sender();
-
-				//serial_sender_byte(0);
 
 				if(store_timeout > 0) {
 					store_timeout--;
@@ -238,6 +240,10 @@ void main(void) {
 							timeout = timeoutRecall / 3;
 
 						} else {
+							enableTimerCount();
+
+							restoreRelayState();
+
 							menuDisplay = menuState = MENU_ROOT;
 							remote_enabled = true;
 						}
@@ -260,7 +266,7 @@ void main(void) {
 				}
 			}
 
-			mainDisplay();
+//			mainDisplay();
 		}
 	}
 }

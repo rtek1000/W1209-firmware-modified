@@ -41,6 +41,7 @@
 #include "params.h"
 #include "menu.h"
 #include "relay.h"
+#include "timer.h"
 //#include "adc.h"
 
 //#include "stm8s003/gpio.h"
@@ -115,7 +116,11 @@ unsigned char *stringBuffer;
 
 unsigned long millis_display2 = 0;
 
-int temp = 0;
+long temp = 0;
+
+extern volatile int timer_millis;
+extern volatile unsigned char timer_seconds;
+extern volatile int timer_minutes;
 
 //extern volatile unsigned int data_received;
 
@@ -163,13 +168,17 @@ void initDisplay() {
 	}
 
 	setDisplayTestMode(false); //, "");
+
+	(void) timer_millis;
+	(void) timer_seconds;
+	(void) timer_minutes;
 }
 
 void mainDisplay(void) {
 	unsigned char sensor_fail = 0;
 	unsigned char paramMsg[] = "P0";
-	unsigned char alarmMsg[] = "AL1";
-	int temp_1;
+
+//	int temp_1;
 
 	if ((millis() - millis_display2) < (500 >> blinkSpeed)) {
 		return;
@@ -179,72 +188,71 @@ void mainDisplay(void) {
 
 	blink_disp = !blink_disp;
 
-//	controlDot(getRelayState(blink_disp));
+	controlDot(getRelayStateWait(blink_disp));
 
-	controlDot(true);
+//	controlDot(true);
 
-	// setDisplayOff(!blink_disp && blink_disp_enabled);
+	//setDisplayOff(!blink_disp && blink_disp_enabled);
+
 	setDisplayOff(false);
+
+	unsigned char timer_seconds_div10 = '0' + (timer_seconds / 10);
+	unsigned char timer_seconds_mod10 = '0' + (timer_seconds % 10);
+	unsigned char timer_millis_div100 = '0' + (timer_millis / 100);
+	int timer_millis_tmp = timer_millis;
+	int tmp1 = timer_millis_tmp % 100;
+	unsigned char timer_millis_div10 = '0' + (tmp1 / 10);
+
+	stringBuffer[3] = 0;
+	stringBuffer[4] = 0;
 
 	switch (menuDisplay) {
 	case MENU_ROOT:
-//		sensor_fail = getSensorFail();
-//
-//		if (sensor_fail != sensor_ok) {
-//			if (sensor_fail == sensor_fail_HHH) {
-//				setDisplayStr("HHH");
-//
-//			} else {
-//				setDisplayStr("LLL");
-//			}
-//
-//			blinkSpeed = blink_disp_enabled = true;
-//
-//		} else {
-		// temp = 321; //getTemperature();
-
-		temp_1 = temp;
-
-		stringBuffer[0] = temp_1 / 100;
-		temp_1 -= stringBuffer[0] * 100;
-
-		stringBuffer[1] = temp_1 / 10;
-		temp_1 -= stringBuffer[1] * 10;
-
-		stringBuffer[2] = temp_1;
-
-		stringBuffer[0] += '0';
-		stringBuffer[1] += '0';
-		stringBuffer[2] += '0';
-		stringBuffer[3] = 0;
+		if (timer_minutes >= 100) { // 999~100
+			tmp1 = timer_minutes % 100;
+			stringBuffer[0] = '0' + (timer_minutes / 100);
+			stringBuffer[1] = '0' + (tmp1 / 10);
+			stringBuffer[2] = '0' + (tmp1 % 10);
+		} else if (timer_minutes >= 10) { // 99~10
+			stringBuffer[0] = '0' + (timer_minutes / 10);
+			stringBuffer[1] = '0' + (timer_minutes % 10);
+			stringBuffer[2] = '.';
+			stringBuffer[3] = timer_seconds_div10;
+		} else if (timer_minutes > 0) { // 9~0
+			stringBuffer[0] = '0' + timer_minutes;
+			stringBuffer[1] = '.';
+			stringBuffer[2] = timer_seconds_div10;
+			stringBuffer[3] = timer_seconds_mod10;
+		} else if (timer_seconds >= 10) { // 59~10
+			stringBuffer[0] = timer_seconds_div10;
+			stringBuffer[1] = timer_seconds_mod10;
+			stringBuffer[2] = '.';
+			stringBuffer[3] = timer_millis_div100;
+		} else if (timer_seconds > 0) { // 9~0
+			stringBuffer[0] = '0' + timer_seconds;
+			stringBuffer[1] = '.';
+			stringBuffer[2] = timer_millis_div100;
+			stringBuffer[3] = timer_millis_div10;
+		} else { // 999~100
+			stringBuffer[0] = timer_millis_div100;
+			stringBuffer[1] = timer_millis_div10;
+			stringBuffer[2] = '0' + (tmp1 % 10);
+		}
 
 		setDisplayStr(stringBuffer);
 
-		// setDisplayInt(temp);
-
-//			if (getParamById(PARAM_OVERHEAT_INDICATION)) {
-//				if ((temp < (getParamById(PARAM_MIN_TEMPERATURE) * 10))
-//						|| (temp >= (getParamById(PARAM_MAX_TEMPERATURE) * 10))) {
-//					blinkSpeed = blink_disp_enabled = true;
-//				} else {
-//					blinkSpeed = blink_disp_enabled = false;
-//				}
-//			} else {
 		setDisplayOff(0);
-//			}
-
-//		}
 
 		blinkSpeed = blink_disp_enabled = true;
 
 		break;
 
-	case MENU_SET_THRESHOLD:
-		paramToString(PARAM_THRESHOLD, stringBuffer);
-
-		setDisplayStr(stringBuffer);
-
-		break;
+//	case MENU_SET_THRESHOLD:
+//		paramToString(PARAM_THRESHOLD, stringBuffer);
+//
+//		setDisplayStr(stringBuffer);
+//
+//		break;
 
 	case MENU_SELECT_PARAM:
 		paramMsg[1] = '0' + getParamId();
@@ -261,7 +269,7 @@ void mainDisplay(void) {
 		break;
 
 	case MENU_EEPROM_LOCKED:
-		paramMsg[1] = '7';
+		paramMsg[1] = '5';
 
 		setDisplayStr((unsigned char*) &paramMsg);
 
@@ -272,28 +280,28 @@ void mainDisplay(void) {
 
 		break;
 
-	case MENU_ALARM:
-		if (getParamById(PARAM_RELAY_MODE) == RELAY_MODE_A2) {
-			alarmMsg[2] = '2';
-		}
-
-		setDisplayStr((unsigned char*) &alarmMsg);
-
-		break;
-
-	case MENU_ALARM_HIGH:
-		// setDisplayInt(getParamById(PARAM_MAX_TEMPERATURE) * 10);
-		paramToString(PARAM_MAX_TEMPERATURE, stringBuffer);
-		setDisplayStr(stringBuffer);
-
-		break;
-
-	case MENU_ALARM_LOW:
-		// setDisplayInt(getParamById(PARAM_MIN_TEMPERATURE) * 10);
-		paramToString(PARAM_MIN_TEMPERATURE, stringBuffer);
-		setDisplayStr(stringBuffer);
-
-		break;
+//	case MENU_ALARM:
+//		if (getParamById(PARAM_RELAY_MODE) == RELAY_MODE_A2) {
+//			alarmMsg[2] = '2';
+//		}
+//
+//		setDisplayStr((unsigned char*) &alarmMsg);
+//
+//		break;
+//
+//	case MENU_ALARM_HIGH:
+//		// setDisplayInt(getParamById(PARAM_MAX_TEMPERATURE) * 10);
+//		paramToString(PARAM_MAX_TEMPERATURE, stringBuffer);
+//		setDisplayStr(stringBuffer);
+//
+//		break;
+//
+//	case MENU_ALARM_LOW:
+//		// setDisplayInt(getParamById(PARAM_MIN_TEMPERATURE) * 10);
+//		paramToString(PARAM_MIN_TEMPERATURE, stringBuffer);
+//		setDisplayStr(stringBuffer);
+//
+//		break;
 
 	case MENU_EEPROM_RESET:
 		setDisplayStr("RST");
@@ -303,7 +311,6 @@ void mainDisplay(void) {
 	default:
 		// statements
 		break;
-
 	}
 }
 
@@ -316,9 +323,9 @@ void mainDisplay(void) {
 void refreshDisplay() {
 	enableDigit(3); // all segments off
 
-	//    if (displayOff) {
-	//        return;
-	//    }
+//    if (displayOff) {
+//        return;
+//    }
 
 	SSD_SEG_BF_PORT &= ~SSD_BF_PORT_MASK;
 	SSD_SEG_CG_PORT &= ~SSD_CG_PORT_MASK;
@@ -354,6 +361,10 @@ void refreshDisplay() {
 
 		enableDigit(3);
 	}
+
+	if (activeDigitId == 2) {
+		mainDisplay();
+	}
 }
 
 /**
@@ -367,7 +378,7 @@ void setDisplayTestMode(bool val) //, char* str)
 {
 	testMode = val;
 
-	//if (!testMode && val) {
+//if (!testMode && val) {
 	if (val == true) {
 		//if (*str == 0) {
 		setDisplayStr("8.8.8.");
@@ -415,24 +426,24 @@ void setDisplayInt(int _value) {
 void setDisplayStr(const unsigned char *val) {
 	unsigned char i, d;
 
-	// get number of display digit(s) required to show given string.
+// get number of display digit(s) required to show given string.
 	for (i = 0, d = 0; *(val + i) != 0; i++, d++) {
 		if (*(val + i) == '.' && i > 0 && *(val + i - 1) != '.')
 			d--;
 	}
 
-	// at this point d = required digits
-	// but SSD have 3 digits only. So rest is doesn't matters.
+// at this point d = required digits
+// but SSD have 3 digits only. So rest is doesn't matters.
 	if (d > 3) {
 		d = 3;
 	}
 
-	// disable the digit if it is not needed.
+// disable the digit if it is not needed.
 	for (i = 3 - d; i > 0; i--) {
 		setDigit(3 - i, ' ', false);
 	}
 
-	// set values for digits.
+// set values for digits.
 	for (i = 0; d != 0 && *val + i != 0; i++, d--) {
 		if (*(val + i + 1) == '.') {
 			setDigit(d - 1, *(val + i), !displayOff);
@@ -510,7 +521,7 @@ static void setDigit(unsigned char id, unsigned char val, bool dot) {
 	if (id > 2)
 		return;
 
-	// if (testMode) return;
+// if (testMode) return;
 
 	switch (val) {
 	case '-':

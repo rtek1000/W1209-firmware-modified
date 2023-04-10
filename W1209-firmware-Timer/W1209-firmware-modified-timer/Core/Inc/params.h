@@ -40,15 +40,14 @@
 /* Definition for parameter identifiers */
 enum param_enum {
   PARAM_RELAY_MODE,                // 0
-  PARAM_RELAY_HYSTERESIS,          // 1
-  PARAM_MAX_TEMPERATURE,           // 2
-  PARAM_MIN_TEMPERATURE,           // 3
-  PARAM_TEMPERATURE_CORRECTION,    // 4
-  PARAM_RELAY_DELAY,               // 5
-  PARAM_OVERHEAT_INDICATION,       // 6
+  PARAM_T1_MINUTES,                // 1
+  PARAM_T1_SECONDS,                // 2
+  PARAM_T1_MILLIS,                 // 3
+  PARAM_T2_MINUTES,                // 4
+  PARAM_T2_SECONDS,                // 5
+  PARAM_T2_MILLIS,                 // 6
   PARAM_LOCK_BUTTONS,              // 7
   PARAM_AUTO_BRIGHT,               // 8
-  PARAM_THRESHOLD                  // 9 (2 bytes)
 };
 
 int getParam();

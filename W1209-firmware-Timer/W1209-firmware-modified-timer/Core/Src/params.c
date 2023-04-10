@@ -16,12 +16,12 @@
  */
 
 /*
-   - Modified by RTEK1000
-   - Apr/08/2023
-   - W1209 as Timer
+ - Modified by RTEK1000
+ - Apr/08/2023
+ - W1209 as Timer
 
-   References:
-   - https://github.com/rtek1000/W1209-firmware-modified
+ References:
+ - https://github.com/rtek1000/W1209-firmware-modified
  */
 
 /**
@@ -30,17 +30,15 @@
  The list of aplication parameters with default values:
  Name |Def| Description
  -----+---+---------------------------------------------
- P0 - | C | Cooling/Heating
- (relay ON when temperature is over(C)/below(H) threshold value)
- P1 - | 2 | 0.1 ... 15.0 - Hysteresis
- P2 - |110| 110 ... -45 - Maximum allowed temperature value
- P3 - |-50| -50 ... 105 Minimum allowed temperature value
- P4 - | 0 | 7.0 ... -7.0 Correction of temperature value
- P5 - | 0 | 0 ... 10 Relay switching delay in minutes
- P6 - |Off| On/Off Indication of overheating
+ P0 - | 0 | Cycle mode
+ P1 - | 0 | T1 Hours
+ P2 - | 1 | T1 Minutes
+ P3 - | 0 | T1 Seconds
+ P4 - | 0 | T2 Hours
+ P5 - | 1 | T2 Minutes
+ P6 - | 0 | T2 Seconds
  P7 - |Off| On/Off Buttons lock
  P8 - |Off| On/Off Automatic brightness reduction (IDLE >15 seconds)
- TH - | 28| Threshold value
  */
 
 #include "params.h"
@@ -53,15 +51,13 @@
 #define EEPROM_BASE_ADDR        0x4000
 #define EEPROM_PARAMS_OFFSET    100
 
-#define paramLen 10
+#define paramLen 9
 static unsigned char paramId;
 static int paramCache[paramLen];
-//const int paramMin[] =     {0, 1, -45, -50, -70, 0, 0, 0, 0, -500};
-//const int paramMax[] =     {7, 150, 110, 105, 70, 10, 1, 0, 0, 1100};
-//const int paramDefault[] = {0, 20, 110, -50, 0, 0, 0, 0, 0, 280};
-const int paramMin[] =     { 0, 1,   -499, -500, -70,   0, 0, 0, 0, -500 };
-const int paramMax[] =     { 7, 150, 1100, 1099,  70, 999, 1, 1, 1, 1100 };
-const int paramDefault[] = { 0, 20,  1100, -500,   0,   0, 0, 0, 0, 280 };
+
+const int paramMin[] =     { 0,   0,  0,   0,   0,  0,   0, 0, 0, 0 };
+const int paramMax[] =     { 5, 999, 59, 999, 999, 59, 999, 0, 0, 0 };
+const int paramDefault[] = { 0,   1,  0,   0,   1,  0,   0, 0, 0, 0 };
 
 #define paramIdMax 8
 
@@ -73,6 +69,7 @@ static void loadParamsEEPROM();
  parameters' cache.
  */
 void initParamsEEPROM(bool _reset) {
+
 	if (_reset) {
 		if (!getParamById(PARAM_LOCK_BUTTONS)) {
 			resetParamsEEPROM();
@@ -163,11 +160,12 @@ void setParam(int val) {
  */
 void incParam() {
 	// if (paramId == PARAM_RELAY_MODE || paramId == PARAM_OVERHEAT_INDICATION || paramId == PARAM_LOCK_BUTTONS) {
-	if (paramId == PARAM_OVERHEAT_INDICATION || paramId == PARAM_LOCK_BUTTONS
-			|| paramId == PARAM_AUTO_BRIGHT) {
+	if (paramId == PARAM_LOCK_BUTTONS || paramId == PARAM_AUTO_BRIGHT) {
 		paramCache[paramId] = ~paramCache[paramId] & 0x0001;
 	} else if (paramCache[paramId] < paramMax[paramId]) {
 		paramCache[paramId]++;
+	} else if (paramCache[paramId] >= paramMax[paramId]) {
+		paramCache[paramId] = paramMin[paramId];
 	}
 }
 
@@ -176,11 +174,12 @@ void incParam() {
  */
 void decParam() {
 	// if (paramId == PARAM_RELAY_MODE || paramId == PARAM_OVERHEAT_INDICATION || paramId == PARAM_LOCK_BUTTONS) {
-	if (paramId == PARAM_OVERHEAT_INDICATION || paramId == PARAM_LOCK_BUTTONS
-			|| paramId == PARAM_AUTO_BRIGHT) {
+	if (paramId == PARAM_LOCK_BUTTONS || paramId == PARAM_AUTO_BRIGHT) {
 		paramCache[paramId] = ~paramCache[paramId] & 0x0001;
 	} else if (paramCache[paramId] > paramMin[paramId]) {
 		paramCache[paramId]--;
+	} else if (paramCache[paramId] <= paramMin[paramId]) {
+		paramCache[paramId] = paramMax[paramId];
 	}
 }
 
@@ -234,51 +233,51 @@ void decParamId() {
 void paramToString(unsigned char id, unsigned char *strBuff) {
 	switch (id) {
 	case PARAM_RELAY_MODE:
-		((unsigned char*) strBuff)[2] = 0;
-		if ((paramCache[id] >= RELAY_MODE_C1)
-				&& (paramCache[id] <= RELAY_MODE_C3)) {
-			((unsigned char*) strBuff)[0] = 'C';
-			((unsigned char*) strBuff)[1] = '1' + paramCache[id];
-//			((unsigned char*) strBuff)[2] = 0;
-		} else if ((paramCache[id] >= RELAY_MODE_H1)
-				&& (paramCache[id] <= RELAY_MODE_H3)) {
-			((unsigned char*) strBuff)[0] = 'H';
-			((unsigned char*) strBuff)[1] = '1' + paramCache[id]
-					- RELAY_MODE_H1;
-//			((unsigned char*) strBuff)[2] = 0;
-		} else if ((paramCache[id] >= RELAY_MODE_A1)
-				&& (paramCache[id] <= RELAY_MODE_A2)) {
-			((unsigned char*) strBuff)[0] = 'A';
-			((unsigned char*) strBuff)[1] = '1' + paramCache[id]
-					- RELAY_MODE_A1;
-//			((unsigned char*) strBuff)[2] = 0;
-		}
-
-		break;
-
-	case PARAM_RELAY_HYSTERESIS:
-		itofpa(paramCache[id], strBuff, 0);
-		break;
-
-	case PARAM_MAX_TEMPERATURE:
-		//itofpa (paramCache[id], strBuff, 6);
-		itofpa(paramCache[id], strBuff, 0);
-		break;
-
-	case PARAM_MIN_TEMPERATURE:
-		//itofpa (paramCache[id], strBuff, 6);
-		itofpa(paramCache[id], strBuff, 0);
-		break;
-
-	case PARAM_TEMPERATURE_CORRECTION:
-		itofpa(paramCache[id], strBuff, 0);
-		break;
-
-	case PARAM_RELAY_DELAY:
+	case PARAM_T1_MINUTES:
+	case PARAM_T2_MINUTES:
+	case PARAM_T1_SECONDS:
+	case PARAM_T2_SECONDS:
+	case PARAM_T1_MILLIS:
+	case PARAM_T2_MILLIS:
 		itofpa(paramCache[id], strBuff, 6);
-		break;
 
-	case PARAM_OVERHEAT_INDICATION:
+//		((unsigned char*) strBuff)[0] = '0' + paramCache[id];
+//		((unsigned char*) strBuff)[1] = 0;
+//		if ((paramCache[id] >= RELAY_MODE_C0)
+//				&& (paramCache[id] <= RELAY_MODE_C5)) {
+//			((unsigned char*) strBuff)[0] = 'C';
+//			((unsigned char*) strBuff)[1] = '0' + paramCache[id];
+//		}
+
+		break;
+//	case PARAM_T1_SECONDS:
+//	case PARAM_T2_SECONDS:
+//		itofpa(paramCache[id], strBuff, 0);
+//		break;
+
+//	case PARAM_RELAY_HYSTERESIS:
+//		itofpa(paramCache[id], strBuff, 0);
+//		break;
+//
+//	case PARAM_MAX_TEMPERATURE:
+//		//itofpa (paramCache[id], strBuff, 6);
+//		itofpa(paramCache[id], strBuff, 0);
+//		break;
+//
+//	case PARAM_MIN_TEMPERATURE:
+//		//itofpa (paramCache[id], strBuff, 6);
+//		itofpa(paramCache[id], strBuff, 0);
+//		break;
+//
+//	case PARAM_TEMPERATURE_CORRECTION:
+//		itofpa(paramCache[id], strBuff, 0);
+//		break;
+//
+//	case PARAM_RELAY_DELAY:
+//		itofpa(paramCache[id], strBuff, 6);
+//		break;
+//
+//	case PARAM_OVERHEAT_INDICATION:
 	case PARAM_LOCK_BUTTONS:
 	case PARAM_AUTO_BRIGHT:
 		((unsigned char*) strBuff)[0] = 'O';
@@ -294,9 +293,9 @@ void paramToString(unsigned char id, unsigned char *strBuff) {
 		((unsigned char*) strBuff)[3] = 0;
 		break;
 
-	case PARAM_THRESHOLD:
-		itofpa(paramCache[id], strBuff, 0);
-		break;
+//	case PARAM_THRESHOLD:
+//		itofpa(paramCache[id], strBuff, 0);
+//		break;
 
 	default: // Display "OFF" to all unknown ID
 		((unsigned char*) strBuff)[0] = 'O';

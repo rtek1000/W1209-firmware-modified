@@ -44,13 +44,23 @@
 #include "relay.h"
 #include "button.h"
 #include "remote.h"
+#include "params.h"
 
-volatile unsigned int counter_250ms = 0;
-
+volatile unsigned int counter_10ms = 0;
 volatile unsigned long millis_counter = 0;
+
+volatile int timer_millis = 0;
+volatile unsigned char timer_seconds = 0;
+volatile int timer_minutes = 0;
 
 volatile bool data_bit = false;
 #define stop_bit true
+
+volatile bool data_min_inc = false;
+volatile bool data_sec_inc = true;
+volatile bool data_millis_inc = false;
+
+volatile bool timer_count_enabled = true;
 
 //volatile unsigned char tmr1_counter = 0;
 //extern volatile int data_received;
@@ -66,9 +76,10 @@ extern volatile bool stop_bit_send;
 extern volatile bool pause_bit_send;
 
 void initTimer() {
+	disableInterrupts();
 //	CLK_CKDIVR = 0x00;  // Set the frequency to 16 MHz
 	TIM4_PSCR = 0x07;   // CLK / 128 = 125KHz
-	TIM4_ARR = 0x7D;    // 125KHz /  125(0xFA) = 1000Hz
+	TIM4_ARR = 0x7D;    // 125KHz /  125(0x7D) = 1000Hz
 	TIM4_IER = 0x01;    // Enable interrupt on update event
 	TIM4_CR1 = 0x05;    // Enable timer
 
@@ -115,10 +126,34 @@ void initTimer() {
 	(void) start_bit_send;
 	(void) stop_bit_send;
 	(void) pause_bit_send;
+
+	(void) timer_millis;
+	(void) timer_seconds;
+	(void) timer_minutes;
+
+	enableInterrupts();
 }
 
 unsigned long millis(void) {
 	return millis_counter;
+}
+
+void initTimerCount(void){
+	timer_millis = getParamById(PARAM_T1_MILLIS);
+	timer_seconds = getParamById(PARAM_T1_SECONDS);
+	timer_minutes = getParamById(PARAM_T1_MINUTES);
+}
+
+bool getStateTimerCount(void) {
+	return timer_count_enabled;
+}
+
+void enableTimerCount(void) {
+	timer_count_enabled = true;
+}
+
+void disableTimerCount(void) {
+	timer_count_enabled = false;
 }
 
 void delay(unsigned long value) {
@@ -174,7 +209,7 @@ void TIM2_UPD_handler()
 __interrupt (13) {
 	TIM2_SR1 &= ~TIMx_UIF; // Reset flag
 
-	TIM2_CNTRH = 0xFC; // 0xFCC5
+	TIM2_CNTRH = 0xFC;// 0xFCC5
 	TIM2_CNTRL = 0xC5;
 
 	if(start_bit_send == false) {
@@ -220,10 +255,29 @@ __interrupt (23)
 {
 	TIM4_SR &= ~TIMx_UIF; // Reset flag
 
-	if(counter_250ms < 250) {
-		counter_250ms++;
+	if ((timer_count_enabled == true) && ((timer_minutes > 0)
+					|| (timer_seconds > 0) || (timer_millis > 0))) {
+		if(timer_millis > 0) {
+			timer_millis--;
+		} else {
+			timer_millis = 999;
+
+			if(timer_seconds > 0) {
+				timer_seconds--;
+			} else {
+				timer_seconds = 59;
+
+				if(timer_minutes > 0) {
+					timer_minutes--;
+				}
+			}
+		}
+	}
+
+	if(counter_10ms < 10) {
+		counter_10ms++;
 	} else {
-		counter_250ms = 0;
+		counter_10ms = 0;
 
 		incRelayTimer();
 	}

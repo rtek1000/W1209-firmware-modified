@@ -31,28 +31,57 @@
 #include "relay.h"
 #include "stm8s003/gpio.h"
 #include "params.h"
+#include "timer.h"
 
 #define RELAY_PORT              PA_ODR
 #define RELAY_BIT               0x08
-#define RELAY_TIMER_MULTIPLIER  4 // 240 // inc (@250ms): (x4)s (x60)min: 4x60=240 (@1min)
+#define RELAY_TIMER_MULTIPLIER  10 // 240 // inc (@250ms): (x4)s (x60)min: 4x60=240 (@1min)
 
-static unsigned int timer = 0;
-static unsigned int timer_2 = 0;
+static unsigned long timer_1 = 0;
+static unsigned long timer_2 = 0;
+static unsigned long relay_timer = 0;
+static unsigned char relay_timer_unit = 0;
 static bool state_pin = false;
+static bool backup_state_pin = false;
 static bool state_waiting = false;
 static bool state_toggle = false;
-static bool incTimerEn = false;
+static bool incTimerEn_1 = false;
 static bool incTimerEn_2 = false;
 
-extern int temp;
+static bool is_T2_completed = false;
 
-bool getRelayState(bool _blink) {
+extern volatile int timer_millis;
+extern volatile unsigned char timer_seconds;
+extern volatile int timer_minutes;
+
+void resetT2complete(void) {
+	is_T2_completed = false;
+}
+
+void saveRelayState(void) {
+	backup_state_pin = state_pin;
+	setRelay(false);
+}
+
+void restoreRelayState(void) {
+	setRelay(backup_state_pin);
+}
+
+bool getRelayStateWait(bool _blink) {
 	return state_pin || (_blink && state_waiting);
 }
 
-void incRelayTimer() {
-	timer += incTimerEn;
+void incRelayTimer(void) {
+	timer_1 += incTimerEn_1;
 	timer_2 += incTimerEn_2;
+}
+
+unsigned long getRelayTimer(void) {
+	return relay_timer;
+}
+
+unsigned long getRelayTimerUnit(void) {
+	return relay_timer_unit;
 }
 
 /**
@@ -60,8 +89,25 @@ void incRelayTimer() {
  and reset state.
  */
 void initRelay() {
+	PA_ODR &= ~RELAY_BIT;
 	PA_DDR |= RELAY_BIT;
 	PA_CR1 |= RELAY_BIT;
+
+	(void) timer_millis;
+	(void) timer_seconds;
+	(void) timer_minutes;
+
+	initRelayCycle();
+}
+
+void initRelayCycle(void) {
+	state_toggle = true;
+
+	initTimerCount();
+
+	enableTimerCount();
+
+	setRelay(!getRelayMode());
 }
 
 /**
@@ -79,59 +125,78 @@ void setRelay(bool _on) {
 
 }
 
+bool getRelayMode(void) {
+	unsigned char _RELAY_MODE = getParamById(PARAM_RELAY_MODE);
+
+	if ((_RELAY_MODE == RELAY_MODE_C1) || (_RELAY_MODE == RELAY_MODE_C2)
+			|| (_RELAY_MODE == RELAY_MODE_C4)) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+unsigned char getRelayCycleMode(void) {
+	unsigned char _RELAY_MODE = getParamById(PARAM_RELAY_MODE);
+
+	if ((_RELAY_MODE == RELAY_MODE_C0) || (_RELAY_MODE == RELAY_MODE_C1)) {
+		return RELAY_CYCLE_ONE_PULSE_T1;
+	} else if ((_RELAY_MODE == RELAY_MODE_C2)
+			|| (_RELAY_MODE == RELAY_MODE_C3)) {
+		return RELAY_CYCLE_ONE_PULSE_T2;
+	} else {
+		return RELAY_CYCLE_LOOP;
+	}
+}
+
 /**
  @brief This function is being called during timer's interrupt
  request so keep it extremely small and fast.
  */
 void refreshRelay() {
-	bool mode = 0;
-
-	int _RELAY_MODE = getParamById(PARAM_RELAY_MODE);
-
-	unsigned int _RELAY_DELAY = getParamById(
-			PARAM_RELAY_DELAY);
-
-	unsigned int _RELAY_DELAY_2 = getParamById(
-			PARAM_RELAY_DELAY);
-
-	if (_RELAY_MODE == RELAY_MODE_A1) {
-		mode = true;
-	} else if (_RELAY_MODE == RELAY_MODE_A2) {
-		mode = false;
-	}
+	bool mode = getRelayMode();
+	unsigned char cycle = getRelayCycleMode();
 
 	if (state_toggle == true) { // Relay state is enabled
+		if ((timer_minutes == 0) && (timer_seconds == 0)
+				&& (timer_millis == 0)) {
+			if (cycle != RELAY_CYCLE_ONE_PULSE_T1) {
+//			if (getRelayCycleMode() == RELAY_CYCLE_LOOP) {
+				timer_2 = 0;
+				state_toggle = false;
+				setRelay(mode);
+				state_waiting = false;
+				is_T2_completed = true;
 
-		incTimerEn = true; // timer++;
-		incTimerEn_2 = false; // timer++;
-
-		temp = _RELAY_DELAY - (timer / RELAY_TIMER_MULTIPLIER);
-
-		//if ((_RELAY_DELAY < timer) || (!mode)) {
-		if (_RELAY_DELAY < (timer / RELAY_TIMER_MULTIPLIER)) {
-			state_toggle = false;
-			setRelay(mode);
-			state_waiting = false;
-
-			timer_2 = 0;
+				disableInterrupts();
+				timer_millis = getParamById(PARAM_T2_MILLIS);
+				timer_seconds = getParamById(PARAM_T2_SECONDS);
+				timer_minutes = getParamById(PARAM_T2_MINUTES);
+				enableInterrupts();
+			} else { // if (getRelayCycleMode() == RELAY_CYCLE_ONE_PULSE_T1) { //  {
+				setRelay(mode);
+				disableTimerCount();
+			}
 		}
-
 	} else { // Relay state is disabled
-		incTimerEn = false; // timer++;
+		if ((timer_minutes == 0) && (timer_seconds == 0)
+				&& (timer_millis == 0)) {
+			if (cycle == RELAY_CYCLE_LOOP) {
+//										&& (is_T2_completed != false)) {
+				timer_1 = 0;
+				state_toggle = true;
+				setRelay(!mode);
+				state_waiting = false;
 
-		incTimerEn_2 = true; // timer++;
-
-		temp = _RELAY_DELAY_2 - (timer_2 / RELAY_TIMER_MULTIPLIER);
-
-		//temp = 0; //  _RELAY_DELAY_2 - (timer_2 / RELAY_TIMER_MULTIPLIER);
-
-		// if ((_RELAY_DELAY_2 < timer_2) || (mode)) {
-		if (_RELAY_DELAY_2 < (timer_2 / RELAY_TIMER_MULTIPLIER)) {
-			timer = 0;
-
-			state_toggle = true;
-			setRelay(!mode);
-			state_waiting = false;
+				disableInterrupts();
+				timer_millis = getParamById(PARAM_T1_MILLIS);
+				timer_seconds = getParamById(PARAM_T1_SECONDS);
+				timer_minutes = getParamById(PARAM_T1_MINUTES);
+				enableInterrupts();
+			} else { // if (getRelayCycleMode() != RELAY_CYCLE_ONE_PULSE_T2) {
+				setRelay(!mode);
+				disableTimerCount();
+			}
 		}
 	}
 }

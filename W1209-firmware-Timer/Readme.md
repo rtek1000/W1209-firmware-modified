@@ -1,11 +1,28 @@
 Adapted from W1209-firmware-remote
 
-Time T1/T2: P5 in seconds
+Parameters (Long press SET button):
+
+- P0: Relay mode [0, 1, 2, 3, 4, 5]
+- - 0: The relay opens after a delay of T1 time, and ends
+- - 1: The relay closes after a delay of T1 time and ends
+- - 2: The relay closes after a delay of T1 time, and then opens after a delay of T2, and ends
+- - 3: The relay opens after a delay of T1 time, then closes after a delay of T2 time, and ends
+- - 4: The relay closes after a delay of T1 time, and then opens after a delay of T2 time, loop
+- - 5: The relay opens after a delay of T1 time, and then closes after a delay of T2 time, and loops
+
+- P1: T1 minutes
+- P2: T1 seconds
+- P3: T1 milliseconds
+
+- P4: T1 minutes
+- P5: T1 seconds
+- P6: T1 millis
+ 
+- P7: Lock Factory reset
+- P8: Auto bright
 
 To-Do:
-- Add parameter for T2
-- Add cycle mode
-- Add unit selection (minute/seconds)
+- Add remote control
 
 --------------------------
 

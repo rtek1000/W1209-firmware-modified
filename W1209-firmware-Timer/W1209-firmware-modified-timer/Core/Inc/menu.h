@@ -40,15 +40,11 @@
 /* Menu sections */
 enum menu_enum {
   MENU_ROOT,              // 0
-  MENU_SET_THRESHOLD,     // 1
-  MENU_SELECT_PARAM,      // 2
-  MENU_CHANGE_PARAM,      // 3
-  MENU_ALARM,             // 4
-  MENU_ALARM_HIGH,        // 5
-  MENU_ALARM_LOW,         // 6
-  MENU_EEPROM_RESET,      // 7
-  MENU_EEPROM_LOCKED,     // 8
-  MENU_EEPROM_LOCKED2     // 9
+  MENU_SELECT_PARAM,      // 1
+  MENU_CHANGE_PARAM,      // 2
+  MENU_EEPROM_RESET,      // 3
+  MENU_EEPROM_LOCKED,     // 4
+  MENU_EEPROM_LOCKED2     // 5
 };
 
 /* Menu events */

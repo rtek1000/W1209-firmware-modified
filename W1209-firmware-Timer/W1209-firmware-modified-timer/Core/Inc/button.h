@@ -104,13 +104,17 @@
 
 /* Definition for buttons */
 // Port C control input from buttons.
-#define BUTTONS_PORT   PC_IDR
+#define BUTTONS_PORT123  PC_IDR
 // PC.3
-#define BUTTON1_BIT    0x08
+#define BUTTON1_BIT      0x08
 // PC.4
-#define BUTTON2_BIT    0x10
+#define BUTTON2_BIT      0x10
 // PC.5
-#define BUTTON3_BIT    0x20
+#define BUTTON3_BIT      0x20
+// Port D control input from button 4.
+#define BUTTONS_PORT4    PD_IDR
+// PD.6
+#define BUTTON4_BIT      0x40
 
 #define BTN1_pin 0x08 // PC3
 #define BTN2_pin 0x10 // PC4
@@ -126,6 +130,7 @@ void disableButton2interrupt(void);
 bool get_Button1(void);
 bool get_Button2(void);
 bool get_Button3(void);
+bool get_Button4(void);
 
 void EXTI2_handler() __interrupt (5);
 
