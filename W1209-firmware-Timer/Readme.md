@@ -1,5 +1,12 @@
 Adapted from W1209-firmware-remote
 
+- Button SET: Parameters adjust
+- Buttons Up (+) and Down (-): Start/Restart timer
+- Sensor NTC connector as button: Start/Restart timer
+- - (same Buttons Up (+) and Down (-))
+- - (Do not leave the NTC connected to the board)
+- - (Leave disconnected if not using)
+
 Parameters (Long press SET button):
 
 - P0: Relay mode [0, 1, 2, 3, 4, 5]
