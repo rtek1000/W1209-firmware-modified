@@ -10,13 +10,13 @@ Parameters (Long press SET button):
 - - 4: The relay closes after a delay of T1 time, and then opens after a delay of T2 time, loop
 - - 5: The relay opens after a delay of T1 time, and then closes after a delay of T2 time, and loops
 
-- P1: T1 minutes
-- P2: T1 seconds
-- P3: T1 milliseconds
+- P1: T1 minutes [0 ~ 999]
+- P2: T1 seconds [0 ~ 59]
+- P3: T1 milliseconds [0 ~ 999]
 
-- P4: T1 minutes
-- P5: T1 seconds
-- P6: T1 millis
+- P4: T1 minutes [0 ~ 999]
+- P5: T1 seconds [0 ~ 59]
+- P6: T1 milliseconds [0 ~ 999]
  
 - P7: Lock Factory reset
 - P8: Auto bright
