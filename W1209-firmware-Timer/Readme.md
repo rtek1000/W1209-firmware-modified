@@ -1,3 +1,5 @@
+# Firmware to use the W1209 board as a Programmable Timer
+
 Adapted from W1209-firmware-remote
 
 - Button SET: Parameters adjust
