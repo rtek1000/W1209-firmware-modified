@@ -22,7 +22,7 @@ Parameters (Long press SET button):
 - - 1: The relay closes after a delay of T1 time, and ends
 ```
              ________________________________________________________
-  ____T1____|
+  _____T1___|
 ```
 
 - - 2: The relay closes after a delay of T1 time, and then opens after a delay of T2, and ends
@@ -39,8 +39,8 @@ Parameters (Long press SET button):
 
 - - 4: The relay closes after a delay of T1 time, and then opens after a delay of T2 time, loop
 ```
-             ________            ________            ________
-  ____T1____|   T2   |____T1____|   T2   |____T1____|   T2   |____T1_
+             ________          ________          ________
+  _____T1___|   T2   |___T1___|   T2   |___T1___|   T2   |___T1_
 ```
 
 - - 5: The relay opens after a delay of T1 time, and then closes after a delay of T2 time, and loops
