@@ -35,9 +35,10 @@ To-Do:
 
 --------------------------
 
-To-Do:
+To-Do (for similar board):
 
-- Add Timer function to W1209
+- Add IC 74HC595
+- Add Timer function.
 
 Basic description:
 
