@@ -13,37 +13,37 @@ User's Guide:
 Parameters (Long press SET button):
 
 - P0: Relay mode [0, 1, 2, 3, 4, 5]
-- - 0: The relay opens after a delay of T1 time, and ends
+- - Mode 0: The relay opens after a delay of T1 time, and ends
 ```
     ________
   _|   T1   |________________________________________________________
 ```
 
-- - 1: The relay closes after a delay of T1 time, and ends
+- - Mode 1: The relay closes after a delay of T1 time, and ends
 ```
              ________________________________________________________
   _____T1___|
 ```
 
-- - 2: The relay closes after a delay of T1 time, and then opens after a delay of T2, and ends
+- - Mode 2: The relay closes after a delay of T1 time, and then opens after a delay of T2, and ends
 ```
              ________
   _____T1___|   T2   |_______________________________________________
 ```
 
-- - 3: The relay opens after a delay of T1 time, then closes after a delay of T2 time, and ends
+- - Mode 3: The relay opens after a delay of T1 time, then closes after a delay of T2 time, and ends
 ```
     ________          _______________________________________________
   _|   T1   |___T2___|
 ```
 
-- - 4: The relay closes after a delay of T1 time, and then opens after a delay of T2 time, loop
+- - Mode 4: The relay closes after a delay of T1 time, and then opens after a delay of T2 time, loop
 ```
              ________          ________          ________          __
   _____T1___|   T2   |___T1___|   T2   |___T1___|   T2   |___T1___|
 ```
 
-- - 5: The relay opens after a delay of T1 time, and then closes after a delay of T2 time, and loops
+- - Mode 5: The relay opens after a delay of T1 time, and then closes after a delay of T2 time, and loops
 ```
     ________          ________          ________          ________
   _|   T1   |___T2___|   T1   |___T2___|   T1   |___T2___|   T1   |__
