@@ -2,6 +2,7 @@
 
 Adapted from W1209-firmware-remote
 
+User's Guide:
 - Button SET: Parameters adjust
 - Buttons Up (+) and Down (-): Start/Restart timer
 - NTC sensor input operating as a button: Start/Restart timer
