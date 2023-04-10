@@ -63,6 +63,7 @@ Parameters (Long press SET button):
 
 To-Do:
 - Add remote control
+- Add lock Factory reset
 
 --------------------------
 
