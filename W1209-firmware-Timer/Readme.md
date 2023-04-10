@@ -16,7 +16,7 @@ Parameters (Long press SET button):
 - - 0: The relay opens after a delay of T1 time, and ends
 ```
     ________
-  _|   T1   |_________________________________
+  _|   T1   |________________________________________________________
 ```
 
 - - 1: The relay closes after a delay of T1 time, and ends
