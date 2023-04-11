@@ -1,4 +1,8 @@
-- App Windows to test:
+### Do not use this W1209 board without solving the LED problem
+   - The 12V voltage can bounce back across the LED and damage the microcontroller. See more details in the main description:
+   - Here: https://github.com/rtek1000/W1209-firmware-modified
+
+### App Windows to test:
 
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Remote/App_Windows/Doc/W1209_Remote_test.png)
 
