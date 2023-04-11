@@ -1,8 +1,9 @@
 - Note: This repository is no longer a fork of the [original](https://github.com/mister-grumbler/w1209-firmware).
 - - To allow new forks and issue openings in case a bug is found
 
-- Updates and new features have been added.
+- Note: [original](https://github.com/mister-grumbler/w1209-firmware) code adapted for Eclipse IDE project [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/w1209-firmware-modified/Eclipse%20project).
 
+----------------
 
 - Apparently there is a bug in the compiler SDCC (v. 4.0.0), in case the display malfunctions when modifying the code:
 - - Add a 'long' variable in the first file (name in alphabetical order) *.c
@@ -15,6 +16,8 @@ long foo;
 ```
 
 ## Code adaptation for Eclipse IDE:
+- Updates and new features have been added.
+
 - Uses less program memory than the Arduino IDE.
 
 - Makefile compilation mode, similar to the [original](https://github.com/mister-grumbler/w1209-firmware) way.
@@ -32,10 +35,6 @@ long foo;
 - Display automatically shows the most significant digits.
 - Sensor input operating as a button.
 - Remote Control (in progress).
-
-----------------
-
-- Note: [original](https://github.com/mister-grumbler/w1209-firmware) code adapted for Eclipse IDE project [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/w1209-firmware-modified/Eclipse%20project).
 
 ----------------
 
