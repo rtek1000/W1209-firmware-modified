@@ -5,6 +5,10 @@
 
 ----------------
 
+Do not use the board without checking the relay LED problem. See below at "W1209 hardware (variation)"
+
+----------------
+
 - Apparently there is a bug in the compiler SDCC (v. 4.0.0), in case the display malfunctions when modifying the code:
 - - Add a 'long' variable in the first file (name in alphabetical order) *.c
 
