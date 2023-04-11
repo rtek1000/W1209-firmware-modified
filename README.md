@@ -19,17 +19,6 @@ a_file.c:
 long foo;
 ```
 
-## Code adaptation for Eclipse IDE:
-- Updates and new features have been added.
-
-- Uses less program memory than the Arduino IDE.
-
-- Makefile compilation mode, similar to the [original](https://github.com/mister-grumbler/w1209-firmware) way.
-- - (No more editing the Makefile file manually to modify source filenames).
-
-- Navigation between files and references is easier than in the Arduino IDE.
-- - (apparently all functions working)
-
 ----------------
 
 ### Firmware for using the W1209 as a programmable timer, [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Timer).
@@ -42,6 +31,19 @@ long foo;
 - Remote Control (in progress).
 
 ----------------
+
+### Firmware for using the W1209 as a programmable thermostat
+
+#### Code adaptation for Eclipse IDE:
+- Updates and new features have been added.
+
+- Uses less program memory than the Arduino IDE.
+
+- Makefile compilation mode, similar to the [original](https://github.com/mister-grumbler/w1209-firmware) way.
+- - (No more editing the Makefile file manually to modify source filenames).
+
+- Navigation between files and references is easier than in the Arduino IDE.
+- - (apparently all functions working)
 
 - Remote version (serial port emulated by timers) [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Remote).
 - Windows app to manage settings:
