@@ -71,13 +71,14 @@ PT024.4099 ---> Sensor: 24.4 (P T 024.4 099) 24.4: 024.4; ccc: 099
 - Check all info: [here](https://github.com/rtek1000/W1209-firmware-modified)
 ------------------------
 
+Done:
+- Add remote control using Serial port (Pins 14/15)
+- - Emulated by EXTI and Timers
+- - - More limited than using UART1
+
 To-Do (to achieve higher communication speed):
 - Add remote control using Serial port (Pins 5/6)
 - - Need to change board tracks.
 - - - UART1 RX and TX pins in use.
-
-- Add remote control using Serial port (Pins 14/15)
-- - Emulated by EXTI and Timers
-- - - More limited than using UART1
 
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Remote/Doc/thermostat-w1209%20-%20Remote.jpg)
