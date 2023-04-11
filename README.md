@@ -1,10 +1,10 @@
-- Note: The code in this repository has been modified and is not an identical copy of the files.
+- Note: This repository is no longer a fork of the [original](https://github.com/mister-grumbler/w1209-firmware).
+- - To allow new forks and issue openings in case a bug is found
 
-- I found some bugs related to menu navigation, I haven't found the cause yet.
-- This repository is a fork of the [original](https://github.com/mister-grumbler/w1209-firmware).
+- Updates and new features have been added.
 
 
-- Apparently there is a bug in the compiler, in case the display malfunctions when modifying the code:
+- Apparently there is a bug in the compiler SDCC (v. 4.0.0), in case the display malfunctions when modifying the code:
 - - Add a 'long' variable in the first file (name in alphabetical order) *.c
 
 a_file.c:
