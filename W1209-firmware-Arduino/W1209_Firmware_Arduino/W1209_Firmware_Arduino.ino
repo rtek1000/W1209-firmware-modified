@@ -152,7 +152,7 @@ byte timeoutDisplayDimm = timeoutDisplayDimmRecall;
 
 bool blinkSpeed = false;
 
-bool factoryMode;
+bool factoryMode = false;
 
 #include "stm8s003/gpio.h"
 
@@ -205,7 +205,9 @@ void setup() {
 
   button_init();
 
-  factoryMode = buttons_pressed12(); //(!digitalRead(BTN2_pin)) && (!digitalRead(BTN3_pin));
+  if (getParamById (PARAM_LOCK_BUTTONS) != 0) {
+    factoryMode = buttons_pressed12(); //(!digitalRead(BTN2_pin)) && (!digitalRead(BTN3_pin));
+  }
 
   initParamsEEPROM(factoryMode);
 
