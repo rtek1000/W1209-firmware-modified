@@ -1,6 +1,6 @@
 ### Firmware to use the W1209 board as a Programmable Timer
 
-Adapted from [W1209-firmware-remote](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Remote) (Check communication information)
+Adapted from [W1209-firmware-remote](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Remote) (Check communication information/Protocol)
 
 - There are 6 modes of operation (Looped or non-looped).
 - Maximum time about 1000 minutes (about 16 hours and 40 minutes).
