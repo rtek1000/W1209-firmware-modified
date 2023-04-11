@@ -7,6 +7,8 @@
 - TX: button (-) pin 15 (PC5) (supported by timer2)
 - Apparently functional
 
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Remote/Doc/thermostat-w1209.jpg)
+
 ------------------------
 
 Communication protocol:
