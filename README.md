@@ -48,9 +48,6 @@ long foo;
 
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Remote/App_Windows/Doc/W1209_Remote_test.png)
 
-## Code adaptation for Arduino IDE sketch.ino:
-- (apparently all functions working): ckeck it [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Arduino).
-
 ## Modifications (W1209 Usage):
 - Shows "HHH" or "LLL" on display if sensor fails, display flashing:
 - - If the sensor is disconnected, it shows "LLL".
