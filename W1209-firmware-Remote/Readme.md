@@ -78,3 +78,4 @@ To-Do (to achieve higher communication speed):
 - - Emulated by EXTI and Timers
 - - - More limited than using UART1
 
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Remote/Doc/thermostat-w1209%20-%20Remote.jpg)
