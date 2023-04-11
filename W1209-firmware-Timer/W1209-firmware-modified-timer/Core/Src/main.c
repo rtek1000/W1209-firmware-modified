@@ -118,6 +118,7 @@ bool factoryMode = false;
 unsigned long millis_5ms;
 unsigned long millis_base;
 unsigned long millis_100ms;
+unsigned long millis_250ms;
 unsigned long millis_display1 = 0;
 
 const unsigned char timeoutDisplayDimmRecall = 150; // 100ms x150 = 15s
@@ -203,14 +204,12 @@ void main(void) {
 
 			if (menuState == MENU_ROOT) {
 				refreshRelay();
-			}
 
-			serial_sender();
+				serial_sender();
+			}
 		} else {
 			if ((millis_base - millis_100ms) >= 100) {
 				millis_100ms = millis_base;
-
-				set_serial_sender();
 
 				if (store_timeout > 0) {
 					store_timeout--;
@@ -219,8 +218,6 @@ void main(void) {
 						storeParams();
 					}
 				}
-
-				sender_start = true; // uncoment this to send data
 
 				if (menuState > MENU_ROOT) {
 					if (!((timeout--) > 0)) {
@@ -255,6 +252,14 @@ void main(void) {
 						dimmerBrightness(brightnessLow); // darker
 					}
 				}
+			}
+			if ((millis_base - millis_250ms) >= 250) {
+				millis_250ms = millis_base;
+
+				set_serial_sender();
+
+				sender_start = true; // uncoment this to send data
+
 			}
 
 //			mainDisplay();

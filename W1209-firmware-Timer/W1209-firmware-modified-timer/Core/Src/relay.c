@@ -42,6 +42,7 @@ static unsigned long timer_2 = 0;
 static unsigned long relay_timer = 0;
 static unsigned char relay_timer_unit = 0;
 static bool state_pin = false;
+static bool state_pin_old = false;
 static bool backup_state_pin = false;
 static bool state_waiting = false;
 static bool state_toggle = false;
@@ -49,6 +50,8 @@ static bool incTimerEn_1 = false;
 static bool incTimerEn_2 = false;
 
 static bool is_T2_completed = false;
+
+unsigned int relay_cycle_count = 0;
 
 extern volatile int timer_millis;
 extern volatile unsigned char timer_seconds;
@@ -108,6 +111,14 @@ void initRelayCycle(void) {
 	enableTimerCount();
 
 	setRelay(!getRelayMode());
+
+	unsigned char _RELAY_MODE = getParamById(PARAM_RELAY_MODE);
+
+	if((_RELAY_MODE == RELAY_MODE_C4) || (_RELAY_MODE == RELAY_MODE_C5)) {
+		relay_cycle_count = 0;
+	}
+
+	//relay_cycle_count++;
 }
 
 /**
@@ -119,7 +130,15 @@ void setRelay(bool _on) {
 
 	if (_on) {
 		RELAY_PORT |= RELAY_BIT;
+
+		if(state_pin_old != state_pin) {
+			state_pin_old = state_pin;
+
+			relay_cycle_count++;
+		}
 	} else {
+		state_pin_old = state_pin;
+
 		RELAY_PORT &= ~RELAY_BIT;
 	}
 
@@ -181,12 +200,15 @@ void refreshRelay() {
 	} else { // Relay state is disabled
 		if ((timer_minutes == 0) && (timer_seconds == 0)
 				&& (timer_millis == 0)) {
-			if (cycle == RELAY_CYCLE_LOOP) {
+			if ((getStateTimerCount() == true) &&
+					(cycle == RELAY_CYCLE_LOOP)) {
 //										&& (is_T2_completed != false)) {
 				timer_1 = 0;
 				state_toggle = true;
 				setRelay(!mode);
 				state_waiting = false;
+
+				//relay_cycle_count++;
 
 				disableInterrupts();
 				timer_millis = getParamById(PARAM_T1_MILLIS);

@@ -56,7 +56,7 @@ static unsigned char paramId;
 static int paramCache[paramLen];
 
 const int paramMin[] =     { 0,   0,  0,   0,   0,  0,   0, 0, 0, 0 };
-const int paramMax[] =     { 5, 999, 59, 999, 999, 59, 999, 0, 0, 0 };
+const int paramMax[] =     { 5, 999, 59, 999, 999, 59, 999, 1, 1, 0 };
 const int paramDefault[] = { 0,   1,  0,   0,   1,  0,   0, 0, 0, 0 };
 
 #define paramIdMax 8

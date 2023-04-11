@@ -1,0 +1,7 @@
+C:\Users\User\Documents\SharpDevelop Projects\W1209 Remote Timer Test\W1209 Remote Timer Test\obj\Debug\W1209 Remote Timer Test.vbprojResolveAssemblyReference.cache
+C:\Users\User\Documents\SharpDevelop Projects\W1209 Remote Timer Test\W1209 Remote Timer Test\obj\Debug\W1209_Remote_Timer_Test.MainForm.resources
+C:\Users\User\Documents\SharpDevelop Projects\W1209 Remote Timer Test\W1209 Remote Timer Test\obj\Debug\W1209 Remote Timer Test.vbproj.GenerateResource.Cache
+C:\Users\User\Documents\SharpDevelop Projects\W1209 Remote Timer Test\W1209 Remote Timer Test\bin\Debug\W1209 Remote Timer Test.exe
+C:\Users\User\Documents\SharpDevelop Projects\W1209 Remote Timer Test\W1209 Remote Timer Test\bin\Debug\W1209 Remote Timer Test.pdb
+C:\Users\User\Documents\SharpDevelop Projects\W1209 Remote Timer Test\W1209 Remote Timer Test\obj\Debug\W1209 Remote Timer Test.exe
+C:\Users\User\Documents\SharpDevelop Projects\W1209 Remote Timer Test\W1209 Remote Timer Test\obj\Debug\W1209 Remote Timer Test.pdb

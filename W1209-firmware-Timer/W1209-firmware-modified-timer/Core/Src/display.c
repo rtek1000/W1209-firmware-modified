@@ -116,13 +116,9 @@ unsigned char *stringBuffer;
 
 unsigned long millis_display2 = 0;
 
-long temp = 0;
-
 extern volatile int timer_millis;
 extern volatile unsigned char timer_seconds;
 extern volatile int timer_minutes;
-
-//extern volatile unsigned int data_received;
 
 void setDisplayDot(unsigned char id, bool val);
 

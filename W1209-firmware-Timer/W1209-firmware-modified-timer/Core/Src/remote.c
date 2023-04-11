@@ -105,6 +105,7 @@
 #include "display.h"
 #include "params.h"
 #include "button.h"
+#include "relay.h"
 #include "timer.h"
 
 // 186(max)-169(min)=17; 17/2=8.5;169+8.5=177.5(med)
@@ -142,7 +143,7 @@ byte sender_start = 0;
 #define store_timeout_recall 20 // 5s (20x250ms)
 unsigned char store_timeout = 0;
 
-extern int temp;
+extern unsigned int relay_cycle_count;
 
 void initSerialReceiver(void) {
 	disableInterrupts();
@@ -203,7 +204,7 @@ void receiver_data(unsigned char _data) {
 		if (index_received == index_received_max) {
 			if (calcCheckSum(_data_buffer, true) != -1) {
 				received_paramID = _data_buffer[1] - 'A';
-				if (received_paramID < 10) {
+				if (received_paramID < 9) {
 					received_param = (_data_buffer[3] - '0') * 100;
 					received_param += (_data_buffer[4] - '0') * 10;
 					received_param += (_data_buffer[6] - '0');
@@ -230,6 +231,13 @@ void receiver_data(unsigned char _data) {
 					}
 //
 //					temp = received_paramID;
+				} else if (received_paramID == 9) {
+					if (getStateTimerCount() == true) {
+						disableTimerCount();
+						setRelay(false);
+					} else {
+						initRelayCycle();
+					}
 				}
 			}
 		}
@@ -267,10 +275,14 @@ void set_serial_sender() {
 
 		Msg_send[1] = 'A' + param_sender;
 
-	} else {
-		param_tmp = temp;
+	} else if (param_sender == 10) {
+			param_tmp = relay_cycle_count;
 
-		Msg_send[1] = 'T';
+			Msg_send[1] = 'T';
+	} else { // if (param_sender == 11) {
+			param_tmp = getStateTimerCount();
+
+			Msg_send[1] = 'J';
 	}
 
 	if (param_tmp < 0) {
@@ -301,7 +313,7 @@ void set_serial_sender() {
 
 	calcCheckSum(Msg_send, true);
 
-	if (param_sender <= 9) {
+	if (param_sender <= 10) {
 		param_sender++;
 	} else {
 		param_sender = 0;
