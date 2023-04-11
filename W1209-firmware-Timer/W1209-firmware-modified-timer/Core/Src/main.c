@@ -156,48 +156,37 @@ void main(void) {
 
 	CLK_CKDIVR = 0x00;  // Set the frequency to 16 MHz
 
+	enableInterrupts();
+
 	initTimer();
 
 	initMainControl();
 
-	enableInterrupts();
-
 	button_init();
 
-	if (getParamById(PARAM_LOCK_BUTTONS) != 0) {
-		factoryMode = buttons_pressed12(); //(!digitalRead(BTN2_pin)) && (!digitalRead(BTN3_pin));
-	}
-
-	initParamsEEPROM(factoryMode);
-
 	initDisplay();
-
-	if (factoryMode == true) {
-		menuDisplay = menuState = MENU_EEPROM_RESET;
-
-	} else if (getParamById(PARAM_LOCK_BUTTONS)) {
-		menuDisplay = menuState = MENU_EEPROM_LOCKED;
-
-	}
-
-	// timeout = timeoutRecall / 3;
-
-//	initADC();
 
 	initRelay();
 
 	initSerialReceiver();
 
-//	while(1){
-//		serial_sender_byte('A');
-//		delay(500);
-//
-////		setButton3stateHIGH();
-////		delay(1);
-////
-////		setButton3stateLOW();
-////		delay(1);
-//	}
+	loadParamsEEPROM();
+
+	if (getParamById(PARAM_LOCK_BUTTONS)) {
+		menuDisplay = menuState = MENU_EEPROM_LOCKED;
+
+	} else {
+		factoryMode = buttons_pressed12(); //(!digitalRead(BTN2_pin)) && (!digitalRead(BTN3_pin));
+
+		if (factoryMode == true) {
+			menuDisplay = menuState = MENU_EEPROM_RESET;
+
+			resetParamsEEPROM();
+
+		}
+	}
+
+	initParamsEEPROM();
 
 	while (1) {
 		// put your main code here, to run repeatedly:

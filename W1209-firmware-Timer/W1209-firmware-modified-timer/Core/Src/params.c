@@ -61,28 +61,18 @@ const int paramDefault[] = { 0,   1,  0,   0,   1,  0,   0, 0, 0, 0 };
 
 #define paramIdMax 8
 
-static void resetParamsEEPROM();
-static void loadParamsEEPROM();
+void resetParamsEEPROM();
+void loadParamsEEPROM();
 
 /**
  @brief Check values in the EEPROM to be correct then load them into
  parameters' cache.
  */
-void initParamsEEPROM(bool _reset) {
-
-	if (_reset) {
-//		if (!getParamById(PARAM_LOCK_BUTTONS)) {
-			resetParamsEEPROM();
-			// setMenuDisplay(MENU_EEPROM_RESET);
-//		}
-	}
-
-	loadParamsEEPROM();
-
+void initParamsEEPROM(void) {
 	paramId = 0;
 }
 
-static void resetParamsEEPROM() {
+void resetParamsEEPROM() {
 	// Restore parameters to default values
 	for (paramId = 0; paramId < paramLen; paramId++) {
 		paramCache[paramId] = paramDefault[paramId];
@@ -91,7 +81,7 @@ static void resetParamsEEPROM() {
 	storeParams();
 }
 
-static void loadParamsEEPROM() {
+void loadParamsEEPROM() {
 	// Load parameters from EEPROM
 	for (paramId = 0; paramId < paramLen; paramId++) {
 		paramCache[paramId] = *(int*) (EEPROM_BASE_ADDR + EEPROM_PARAMS_OFFSET
