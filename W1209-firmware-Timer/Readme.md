@@ -2,6 +2,13 @@
 
 Adapted from W1209-firmware-remote
 
+- There are 6 modes of operation (Looped or non-looped).
+- Maximum time of 1000 minutes (999 minutes + 59 seconds + 999 milliseconds).
+- Two-step timing (Times separated in minutes, seconds and milliseconds).
+- Display automatically shows the most significant digits.
+- Sensor input operating as a button.
+- Remote Control (in progress).
+
 User's Guide:
 - Button SET: Parameters adjust
 - Buttons Up (+) and Down (-): Start/Restart timer
