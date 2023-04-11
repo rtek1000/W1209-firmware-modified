@@ -7,7 +7,7 @@ Adapted from W1209-firmware-remote
 - Two-step timing (Times separated in minutes, seconds and milliseconds).
 - Display automatically shows the most significant digits.
 - Sensor input operating as a button.
-- Remote Control (in progress).
+- Remote Control (App Windows for tests).
 
 User's Guide:
 - Button SET: Parameters adjust
