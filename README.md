@@ -35,9 +35,7 @@ long foo;
 ### Firmware for using the W1209 as a programmable thermostat
 
 #### Code adaptation for Eclipse IDE:
-- Updates and new features have been added.
-
-- Uses less program memory than the Arduino IDE.
+- Updates and new features have been added (Uses less program memory than the Arduino IDE).
 
 - Makefile compilation mode, similar to the [original](https://github.com/mister-grumbler/w1209-firmware) way.
 - - (No more editing the Makefile file manually to modify source filenames).
