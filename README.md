@@ -5,7 +5,7 @@
 
 ----------------
 
-**Do not use the board without checking the relay LED problem. See below at "W1209 hardware (variation)"**
+-----> **Do not use the board** without checking the relay **LED problem**. See below at "W1209 hardware (variation)"
 
 ----------------
 
