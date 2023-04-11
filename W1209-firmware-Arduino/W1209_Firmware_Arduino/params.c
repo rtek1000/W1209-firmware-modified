@@ -65,30 +65,24 @@
 static unsigned char paramId;
 static int paramCache[paramLen];
 const int paramMin[] =     {0, 1, -45, -50, -70, 0, 0, 0, 0, -500};
-const int paramMax[] =     {7, 150, 110, 105, 70, 10, 1, 0, 0, 1100};
+const int paramMax[] =     {7, 150, 110, 105, 70, 10, 1, 1, 1, 1100};
 const int paramDefault[] = {0, 20, 110, -50, 0, 0, 0, 0, 0, 280};
 
 #define paramIdMax 8
 
-static void resetParamsEEPROM();
-static void loadParamsEEPROM();
+//void resetParamsEEPROM();
+//void loadParamsEEPROM();
 
 /**
    @brief Check values in the EEPROM to be correct then load them into
    parameters' cache.
 */
-void initParamsEEPROM(bool _reset)
+void initParamsEEPROM()
 {
-  if (_reset) {
-    resetParamsEEPROM();
-  }
-
-  loadParamsEEPROM();
-
   paramId = 0;
 }
 
-static void resetParamsEEPROM()
+void resetParamsEEPROM()
 {
   // Restore parameters to default values
   for (paramId = 0; paramId < paramLen; paramId++) {
@@ -98,7 +92,7 @@ static void resetParamsEEPROM()
   storeParams();
 }
 
-static void loadParamsEEPROM()
+void loadParamsEEPROM()
 {
   // Load parameters from EEPROM
   for (paramId = 0; paramId < paramLen; paramId++) {

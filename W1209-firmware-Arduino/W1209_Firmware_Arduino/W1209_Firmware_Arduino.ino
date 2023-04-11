@@ -73,7 +73,7 @@
            Try modifying the lookup table corresponding to the sensor
          - Display flickering:
            Disconnect STlink programmer from SWIM port (next to display)
-           
+
    - Note for Arduino IDE and Sduino core:
      Track the size of the code when uploading,
      The maximum I got was 93%
@@ -83,7 +83,7 @@
    - Sduino core:
      --> Select STM8S Board / STM8S103F3 Breadout Board
      --> Programmer ST-link/V2
-     --> Connect STlink: GND/SWIM/RST 
+     --> Connect STlink: GND/SWIM/RST
 
    References:
    - https://github.com/rtek1000/NTC_Lookup_Table_Generator
@@ -205,27 +205,30 @@ void setup() {
 
   button_init();
 
-  if (getParamById (PARAM_LOCK_BUTTONS) != 0) {
-    factoryMode = buttons_pressed12(); //(!digitalRead(BTN2_pin)) && (!digitalRead(BTN3_pin));
-  }
-
-  initParamsEEPROM(factoryMode);
-
-  initDisplay();
-
-  if (factoryMode == true) {
-    menuDisplay = menuState = MENU_EEPROM_RESET;
-
-  } else if (getParamById (PARAM_LOCK_BUTTONS)) {
-    menuDisplay = menuState = MENU_EEPROM_LOCKED;
-
-  }
-
-  // timeout = timeoutRecall / 3;
-
   initADC();
 
   initRelay();
+
+  initDisplay();
+
+  loadParamsEEPROM();
+
+  if (getParamById (PARAM_LOCK_BUTTONS)) {
+    menuDisplay = menuState = MENU_EEPROM_LOCKED;
+
+  } else {
+    factoryMode = buttons_pressed12(); //(!digitalRead(BTN2_pin)) && (!digitalRead(BTN3_pin));
+    
+    if (factoryMode == true) {
+      menuDisplay = menuState = MENU_EEPROM_RESET;
+
+      resetParamsEEPROM();
+
+    }
+  }
+
+  initParamsEEPROM();
+
 }
 
 void loop() {
@@ -296,9 +299,9 @@ void mainDisplay(void) {
   }
 
   blink_disp = !blink_disp;
-  
+
   controlDot(getRelayState(blink_disp));
-  
+
   setDisplayOff ( !blink_disp && blink_disp_enabled );
 
   switch (menuDisplay) {
@@ -404,6 +407,8 @@ void mainControl(void) {
   if (buttons_pressed123()) return;
 
   if (!digitalRead(BTN1_pin)) {
+    timeoutDisplayDimm = timeoutDisplayDimmRecall;
+
     if (BTN1_old == false) {
       BTN1_old = true;
 
