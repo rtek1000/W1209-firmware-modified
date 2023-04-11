@@ -82,10 +82,7 @@ static void loadParamsEEPROM();
  */
 void initParamsEEPROM(bool _reset) {
 	if (_reset) {
-		if (!getParamById(PARAM_LOCK_BUTTONS)) {
-			resetParamsEEPROM();
-			// setMenuDisplay(MENU_EEPROM_RESET);
-		}
+		resetParamsEEPROM();
 	}
 
 	loadParamsEEPROM();

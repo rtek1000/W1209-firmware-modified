@@ -51,7 +51,7 @@
 #define EEPROM_BASE_ADDR        0x4000
 #define EEPROM_PARAMS_OFFSET    100
 
-#define paramLen 9
+#define paramLen 10
 static unsigned char paramId;
 static int paramCache[paramLen];
 
@@ -71,10 +71,10 @@ static void loadParamsEEPROM();
 void initParamsEEPROM(bool _reset) {
 
 	if (_reset) {
-		if (!getParamById(PARAM_LOCK_BUTTONS)) {
+//		if (!getParamById(PARAM_LOCK_BUTTONS)) {
 			resetParamsEEPROM();
 			// setMenuDisplay(MENU_EEPROM_RESET);
-		}
+//		}
 	}
 
 	loadParamsEEPROM();

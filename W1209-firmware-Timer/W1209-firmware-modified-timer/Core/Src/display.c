@@ -269,7 +269,7 @@ void mainDisplay(void) {
 		break;
 
 	case MENU_EEPROM_LOCKED:
-		paramMsg[1] = '5';
+		paramMsg[1] = '7';
 
 		setDisplayStr((unsigned char*) &paramMsg);
 

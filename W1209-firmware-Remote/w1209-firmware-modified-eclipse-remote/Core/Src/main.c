@@ -113,7 +113,7 @@
 
 // #define SWIM_pin PD1 // In use on display
 
-bool factoryMode;
+bool factoryMode = false;
 
 unsigned long millis_5ms;
 unsigned long millis_base;
@@ -162,7 +162,9 @@ void main(void) {
 
 	button_init();
 
-	factoryMode = buttons_pressed12(); //(!digitalRead(BTN2_pin)) && (!digitalRead(BTN3_pin));
+	if (getParamById(PARAM_LOCK_BUTTONS) != 0) {
+		factoryMode = buttons_pressed12(); //(!digitalRead(BTN2_pin)) && (!digitalRead(BTN3_pin));
+	}
 
 	initParamsEEPROM(factoryMode);
 
@@ -219,10 +221,10 @@ void main(void) {
 
 				//serial_sender_byte(0);
 
-				if(store_timeout > 0) {
+				if (store_timeout > 0) {
 					store_timeout--;
 
-					if(store_timeout == 0) {
+					if (store_timeout == 0) {
 						storeParams();
 					}
 				}
