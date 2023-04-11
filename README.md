@@ -144,7 +144,7 @@ long foo;
 - Note: Added delay for debounce, for fast increment hold key down.
 
 - Table of adjustable parameters:
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/Doc/Table_params_W1209_modified_6.png)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Arduino/Doc/Table_params_W1209_modified_1.png)
 
 ## W1209 hardware (variation):
 There is an error in the electronic circuit that can kill the microcontroller, make the modification as soon as possible. Avoid using the board without modifying it. See [here](https://github.com/mister-grumbler/w1209-firmware/issues/22).
