@@ -22,6 +22,8 @@ long foo;
 - Navigation between files and references is easier than in the Arduino IDE.
 - - (apparently all functions working)
 
+- Firmware for using the W1209 as a programmable timer, [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Timer).
+
 - Note: [original](https://github.com/mister-grumbler/w1209-firmware) code adapted for Eclipse IDE project [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/w1209-firmware-modified/Eclipse%20project).
 
 ----------------
