@@ -1,3 +1,7 @@
+### Do not use this W1209 board without solving the LED problem
+   - The 12V voltage can bounce back across the LED and damage the microcontroller. See more details in the main description:
+   - Here: https://github.com/rtek1000/W1209-firmware-modified
+
 ### Firmware to use the W1209 board as a Programmable Timer
 
 Adapted from [W1209-firmware-remote](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Remote) (Check communication information/Protocol)
