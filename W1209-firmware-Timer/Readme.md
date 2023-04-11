@@ -6,6 +6,10 @@
 
 Adapted from [W1209-firmware-remote](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Remote) (Check communication information/Protocol)
 
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Remote/Doc/thermostat-w1209.jpg)
+
+### Firmware usage
+
 - There are 6 modes of operation (Looped or non-looped).
 - Maximum time about 1000 minutes (about 16 hours and 40 minutes).
 - Two-step timing (Times separated in minutes, seconds and milliseconds).
