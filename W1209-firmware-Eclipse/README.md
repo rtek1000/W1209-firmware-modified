@@ -1,4 +1,4 @@
-   # Do not use this W1209 board without solving the LED problem
+   ### Do not use this W1209 board without solving the LED problem
    - The 12V voltage can bounce back across the LED and damage the microcontroller. See more details in the main description:
    - Here: https://github.com/rtek1000/W1209-firmware-modified
 
