@@ -24,7 +24,7 @@ long foo;
 
 ----------------
 
-## Firmware for using the W1209 as a programmable timer, [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Timer).
+### Firmware for using the W1209 as a programmable timer, [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Timer).
 
 ----------------
 
