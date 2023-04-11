@@ -14,8 +14,7 @@ a_file.c:
 long foo;
 ```
 
-
-# Code adaptation for Eclipse IDE:
+## Code adaptation for Eclipse IDE:
 - Uses less program memory than the Arduino IDE.
 
 - Makefile compilation mode, similar to the [original](https://github.com/mister-grumbler/w1209-firmware) way.
@@ -32,10 +31,10 @@ long foo;
 
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Remote/App_Windows/Doc/W1209_Remote_test.png)
 
-# Code adaptation for Arduino IDE sketch.ino:
+## Code adaptation for Arduino IDE sketch.ino:
 - (apparently all functions working): ckeck it [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Arduino).
 
-# Modifications (W1209 Usage):
+## Modifications (W1209 Usage):
 - Shows "HHH" or "LLL" on display if sensor fails, display flashing:
 - - If the sensor is disconnected, it shows "LLL".
 - - If the sensor is short circuited, it shows "HHH".
@@ -134,7 +133,7 @@ long foo;
 - Table of adjustable parameters:
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/Doc/Table_params_W1209_modified_6.png)
 
-# W1209 hardware (variation):
+## W1209 hardware (variation):
 There is an error in the electronic circuit that can kill the microcontroller, make the modification as soon as possible. Avoid using the board without modifying it. See [here](https://github.com/mister-grumbler/w1209-firmware/issues/22).
 ![image](https://user-images.githubusercontent.com/1465701/163829267-9fa689e8-70c2-4991-9749-82f886b1b8a6.jpg)
 
@@ -156,7 +155,7 @@ There is an error in the electronic circuit that can kill the microcontroller, m
 
 - Note: This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
 
-# Original description:
+## Original description:
 - w1209-firmware
 - - The functional equivalent to the original firmware of "Digital Thermostat Module Model XH-W1209".
 
