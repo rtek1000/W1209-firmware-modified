@@ -25,6 +25,7 @@ long foo;
 - Uses less program memory than the Arduino IDE.
 
 - Makefile compilation mode, similar to the [original](https://github.com/mister-grumbler/w1209-firmware) way.
+- - (No more editing the Makefile file manually to modify filenames).
 
 - Navigation between files and references is easier than in the Arduino IDE.
 - - (apparently all functions working)
