@@ -1,3 +1,7 @@
+See too: [Examples and tutorials found on the Internet for using the resources of the STM8](https://github.com/rtek1000/STM8S-examples)
+
+----------
+
 - Note: This repository is no longer a fork of the [original](https://github.com/mister-grumbler/w1209-firmware).
 - - To allow new forks and issue openings in case a bug is found
 
