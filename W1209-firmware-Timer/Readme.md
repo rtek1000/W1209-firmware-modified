@@ -78,10 +78,6 @@ Parameters (Long press SET button):
 - P7: Lock Factory reset
 - P8: Auto bright
 
-To-Do:
-- Add remote control
-- Add lock Factory reset
-
 --------------------------
 
 ### Similar board with IC SN74HC595
