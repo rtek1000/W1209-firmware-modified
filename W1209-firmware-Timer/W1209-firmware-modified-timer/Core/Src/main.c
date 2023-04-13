@@ -110,6 +110,7 @@
 #include "relay.h"
 #include "button.h"
 #include "remote.h"
+#include "iwdg.h"
 
 // #define SWIM_pin PD1 // In use on display
 
@@ -189,8 +190,12 @@ void main(void) {
 
 	initParamsEEPROM();
 
+	IWDG_init();
+
 	while (1) {
 		// put your main code here, to run repeatedly:
+		IWDG_refresh();
+
 		millis_base = millis();
 
 		if ((millis_base - millis_5ms) >= 5) {

@@ -109,6 +109,7 @@
 #include "params.h"
 #include "relay.h"
 #include "button.h"
+#include "iwdg.h"
 
 #define INTERRUPT_ENABLE    __asm rim __endasm;
 #define INTERRUPT_DISABLE   __asm sim __endasm;
@@ -183,8 +184,12 @@ void main(void) {
 
 	initParamsEEPROM();
 
+	IWDG_init();
+
 	while (1) {
 		// put your main code here, to run repeatedly:
+		IWDG_refresh();
+
 		millis_base = millis();
 
 		if ((millis_base - millis_5ms) >= 5) {
