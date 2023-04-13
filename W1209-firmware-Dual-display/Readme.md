@@ -1,6 +1,6 @@
 (W1219):
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Dual-display/Doc/-8525258551187796705.jpg)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Dual-display/Doc/Dual_display.jpg)
 
 Source: https://m.aliexpress.com/item/1005005223034816.html
 
@@ -49,3 +49,5 @@ Note: Pin 4 and pin 8 are used as GPIO so it's not a STM8S003F3P6.
 Maybe it's an HC89S003A, see datasheet,
 - Pin 4: SWD mode clock input
 - Pin 18: SWD data input/output
+
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Dual-display/Doc/HC89S003A.png)
