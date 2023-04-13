@@ -252,6 +252,6 @@ Bytes written: 11
 
 Reference: [Bare metal programming: STM8 (Part 2) ](https://lujji.github.io/blog/bare-metal-programming-stm8-part2/)
 
-[STVP Windows]:
+[STVP (Windows)]:
 
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Timer/Doc/Chip_unprotected.png)
