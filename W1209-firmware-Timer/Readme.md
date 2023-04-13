@@ -219,6 +219,8 @@ If the STM8S003F3P6 is blocked when trying to program, this message should appea
 
 > target page is write protected (UBC) or read-out protection is enabled
 
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Timer/Doc/MCU_write_protected.png)
+
 It will be necessary to reset the OPTION_BYTE of the MCU:
 
 >Option bytes
