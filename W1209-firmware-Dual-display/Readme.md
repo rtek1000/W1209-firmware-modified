@@ -13,3 +13,35 @@ Alternative version W3230 (12V/24V/110V-220V):
 - Botton Restart long press: On/Off
 
 Ref.: https://m.aliexpress.com/item/4001235406618.html
+
+Display pin to MCU pin:
+
+(Large display: common cathode)
+1- 11 (220R)
+2- 12 (220R)
+3- 10 (220R)
+4- 13 (220R)
+5- 4 (220R)
+6- NC
+7- 8 (220R)
+8- 19 (0R)
+9- 9 (0R)
+10- 18 (220R)
+11- 5 (220R)
+12- 1 (0R)
+
+(Small display: common anode)
+1- 11 (220R)
+2- 12 (220R)
+3- 10 (220R)
+4- 13 (220R)
+5- 4 (220R)
+6- NC
+7- 8 (220R)
+8- 15 (0R)
+9- 16 (0R)
+10- 18 (220R)
+11- 5 (220R)
+12- 17 (0R)
+
+Note: Pin 4 and pin 8 are used as GPIO so it's not a STM8S003F3P6.
