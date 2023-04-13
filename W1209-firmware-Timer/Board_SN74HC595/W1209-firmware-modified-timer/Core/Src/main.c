@@ -111,6 +111,7 @@
 #include "button.h"
 #include "remote.h"
 #include "hc595.h"
+#include "iwdg.h"
 
 // #define SWIM_pin PD1 // In use on display
 
@@ -174,6 +175,8 @@ void main(void) {
 
 	loadParamsEEPROM();
 
+	IWDG_init();
+
 	if (getParamById(PARAM_LOCK_BUTTONS)) {
 		menuDisplay = menuState = MENU_EEPROM_LOCKED;
 
@@ -194,6 +197,9 @@ void main(void) {
 
 	while (1) {
 		// put your main code here, to run repeatedly:
+
+		IWDG_init();
+
 		millis_base = millis();
 
 		if ((millis_base - millis_5ms) >= 5) {
