@@ -236,3 +236,5 @@ It will be necessary to reset the OPTION_BYTE of the MCU:
 >Due to its file extension (or lack thereof), "opt.bin" is considered as RAW BINARY format!
 >11 bytes at 0x4800... OK
 >Bytes written: 11
+
+Reference: [Bare metal programming: STM8 (Part 2) ](https://lujji.github.io/blog/bare-metal-programming-stm8-part2/)
