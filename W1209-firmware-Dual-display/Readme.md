@@ -44,6 +44,8 @@ Display pin to MCU pin:
 11. 5 (220R)
 12. 17 (0R)
 
+Note: Display segment pins are connected together, using only one resistor for each segment.
+
 Note: Pin 4 and pin 8 are used as GPIO so it's not a STM8S003F3P6.
 
 Maybe it's an HC89S003A, see datasheet,
