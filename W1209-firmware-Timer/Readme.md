@@ -231,10 +231,14 @@ It will be necessary to reset the OPTION_BYTE of the MCU:
 
 ```$ stm8flash -c stlinkv2 -p stm8s003f3 -s opt -w opt.bin```
 
->Determine OPT area
->STLink: v2, JTAG: v41, SWIM: v7, VID: 8304, PID: 4837
->Due to its file extension (or lack thereof), "opt.bin" is considered as RAW BINARY format!
->11 bytes at 0x4800... OK
->Bytes written: 11
+
+Command result:
+```
+Determine OPT area
+STLink: v2, JTAG: v41, SWIM: v7, VID: 8304, PID: 4837
+Due to its file extension (or lack thereof), "opt.bin" is considered as RAW BINARY format!
+11 bytes at 0x4800... OK
+Bytes written: 11
+```
 
 Reference: [Bare metal programming: STM8 (Part 2) ](https://lujji.github.io/blog/bare-metal-programming-stm8-part2/)
