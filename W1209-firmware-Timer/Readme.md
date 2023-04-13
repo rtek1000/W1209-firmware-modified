@@ -157,6 +157,7 @@ Notes:
 - - For power versions other than 110v/220v, it may be necessary to change the LED resistor value.
 - For external trigger (>3V3) you can populate the components: (connector, opto coupler, resistor).
 - The board provides support for NTC temperature sensor. Need to populate the resistor R4 (and C4) also the connector.
+- - Firmware can be adapted based on W1209 to operate NTC sensor.
 
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Timer/Doc/Board3.png)
 
