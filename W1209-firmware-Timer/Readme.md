@@ -213,7 +213,9 @@ IC pinout:
 
 Source: https://www.aliexpress.com/item/1005001830924875.html
 
-### Firmware for this board with IC SN74HC595, [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Timer/Board_SN74HC595).
+--------------
+
+### Firmware for this board with IC SN74HC595: [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Timer/Board_SN74HC595).
 
 --------------
 
