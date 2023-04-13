@@ -80,7 +80,7 @@ Parameters (Long press SET button):
 
 --------------------------
 
-### Similar board with IC SN74HC595
+## Similar board with IC SN74HC595
 
 Basic description:
 
