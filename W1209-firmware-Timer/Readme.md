@@ -148,7 +148,14 @@ Typical application:
 - - Secondly set the working mode P-3, it will be automatically memorized 5s after setting, and start to run.
 
 Board image:
+
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Timer/Doc/Board_no_display.jpg)
+
+Notes:
+- Due to the diode only 4V3 reach the Relay, to correct this, replace the diode with a jumper.
+- Cut the 3V3 track of the LED and connect the anode of the LED to the protection diode of the Relay, 5V arrives at this point (110/220V version).
+- - For power versions other than 110v/220v, it may be necessary to change the LED resistor value.
+
 
 IC pinout:
 [STM8S003F3P6]
