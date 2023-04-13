@@ -2,7 +2,7 @@
  * iwdg.c
  *
  *  Created on: 13 de abr. de 2023
- *      Author: user
+ *      Author: RTEK1000
  */
 
 #include "iwdg.h"

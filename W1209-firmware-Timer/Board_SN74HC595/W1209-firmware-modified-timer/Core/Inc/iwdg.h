@@ -2,7 +2,7 @@
  * iwdg.h
  *
  *  Created on: 13 de abr. de 2023
- *      Author: user
+ *      Author: RTEK1000
  */
 
 #ifndef IWDG_H_
