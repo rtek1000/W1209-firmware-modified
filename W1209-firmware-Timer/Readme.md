@@ -193,6 +193,8 @@ IC pinout:
 15. Display pin 1 (Seg E) (220R) [QA]
 16. VDD (3V3)
 
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Timer/Doc/Sn74hc595.png)
+
 [LED]
 - Anode: 3V3 (STM8 VDD)
 - Catode: (1k) to Relay coil (5V for 110-220Vac version)
