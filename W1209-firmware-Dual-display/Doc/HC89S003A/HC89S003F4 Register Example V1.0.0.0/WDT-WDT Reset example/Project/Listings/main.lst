@@ -1,0 +1,82 @@
+C51 COMPILER V9.60.0.0   MAIN                                                              01/05/2021 11:55:07 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\SoftWare\Keil\C51\BIN\C51.EXE ..\user\main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.
+                    -\Listings\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          //WDT reset example
+   2          
+   3          #define ALLOCATE_EXTERN
+   4          #include "HC89S003F4.h"
+   5          
+   6          void Delay_ms(unsigned int fui_i);       //delay function
+   7          
+   8          unsigned char gui_i = 0;                         //LED flip count
+   9          
+  10          /***************************************************************************************
+  11            * @Function   WDT is set to watchdog mode, LED1 flashes 5 times after power-on, if not feeding the watchdo
+             -g, the chip resets after 5.93s
+  12          ***************************************************************************************/
+  13          void main()
+  14          {
+  15   1      /************************************system initialization ****************************************/
+  16   1              WDTCCR = 0x00;                                          //Close watchdog
+  17   1                                        //In this example, the watchdog is closed for the convenience of testing. 
+  18   1                                        //In practical use, it is recommended to open the watchdog. See WDT Reset examp
+             -le for details
+  19   1              
+  20   1              CLKSWR = 0x51;                                          //Select internal RC32M as system clock, RC32M/2, Fosc=16MHz
+  21   1              CLKDIV = 0x01;                                          //Fosc/1,Fcpu=16MHz 
+  22   1      
+  23   1      /************************************WDT initialization*****************************************/
+  24   1          P0M0 = P0M0&0xF0|0x08;                              //Set P00 as push-pull output
+  25   1              WDTC = 0x57;                                            //Allow WDT reset, allow operation in power-down/idle mode, divide by 1024
+  26   1      
+  27   1              //Internal RC44K is used as WDT clock, WDT_CLOCK_1024 is divided by 1024, the initial value is 0xFF
+  28   1              //Timing        = 1024 * 0xFF / 44000
+  29   1              //                          = 5.93s
+  30   1      
+  31   1              WDTCCR = 0xFF;                                          //When 00 is written, the WDT function will be disabled (but not the internal low-fre
+             -quency RC),
+  32   1                                                                                      //which is equivalent to disabling WDT. When non-zero data is written, WDT will be started.
+  33   1              for(gui_i=10;gui_i>0;gui_i--)
+  34   1              {
+  35   2                              P0_0 =~ P0_0;                                   
+  36   2                              Delay_ms(250);
+  37   2              }
+  38   1              while(1)
+  39   1              {
+  40   2      //                      WDTC |= 0x10;              //Clear the watchdog
+  41   2              }
+  42   1      }
+  43          
+  44          /**
+  45            * Delay function 
+  46            * Fcpu = 16MHz,fui_i = 1,The delay time is about 1Ms
+  47            */
+  48          void Delay_ms(unsigned int fui_i)
+  49          {
+  50   1              unsigned int fui_j;
+  51   1              for(;fui_i > 0;fui_i --)
+C51 COMPILER V9.60.0.0   MAIN                                                              01/05/2021 11:55:07 PAGE 2   
+
+  52   1              for(fui_j = 1596;fui_j > 0;fui_j --);
+  53   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     90    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

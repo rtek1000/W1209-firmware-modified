@@ -1,0 +1,138 @@
+C51 COMPILER V9.60.0.0   MAIN                                                              01/05/2021 11:53:35 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\SoftWare\Keil\C51\BIN\C51.EXE ..\user\main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.
+                    -\Listings\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          //Timer-T5 input capture (measure pulse width)
+   2          
+   3          #define ALLOCATE_EXTERN
+   4          #include "HC89S003F4.h"
+   5          #include "stdio.h"
+   6          
+   7          
+   8          
+   9          unsigned int gui_T5Value;             //T5 capture acquisition value
+  10          unsigned char guc_WaitFallEdge=0;     //Capture high and low flags
+  11          void Delay_ms(unsigned int fui_i);    //Delay function
+  12          char putchar(char guc_Uartbuf);
+  13          /***************************************************************************************
+  14            * @Function     Set T5 to capture mode, capture the high and low pulse width of P01 port, and output from 
+             -the serial port
+  15            * @Steps        P01->P00 connection£¬TXD is P2_1
+  16          ***************************************************************************************/
+  17          void main() 
+  18          {
+  19   1      /************************************System initialization ****************************************/
+  20   1              WDTCCR = 0x00;                                          //Close watchdog
+  21   1                                        //In this example, the watchdog is closed for the convenience of testing. 
+  22   1                                        //In practical use, it is recommended to open the watchdog. See WDT Reset examp
+             -le for details
+  23   1              
+  24   1              CLKSWR = 0x51;                                          //Select internal RC32M as system clock, RC32M/2, Fosc=16MHz
+  25   1              CLKDIV = 0x01;                                          //Fosc/1,Fcpu=16MHz 
+  26   1              P0M0 = P0M0&0xF0|0x08;              //Set P00 as push-pull output       
+  27   1      /**********************************UART initialization**************************************/
+  28   1              P2M0 = P2M0&0x0F|0x80;                          //Set P21 as push-pull output
+  29   1              TXD_MAP = 0x21;                                     //TXD mapping P21           
+  30   1              T4CON = 0x06;                                           //T4 working mode: UART1 baud rate generator
+  31   1      
+  32   1          TH4 = 0xFF;
+  33   1              TL4 = 0x98;                                                     //Baud rate 9600
+  34   1              SCON2 = 0x02;                                           //8-bit UART, variable baud rate
+  35   1      /**********************************TIM5 initialization**************************************/
+  36   1          P0M0 = P0M0&0x0F|0x20;              //Set P01 as pull-up input
+  37   1              T5_MAP = 0x01;                                          //T5 capture port mapping P01 port
+  38   1              T5CON = 0x1F;                                           //Clock divided by 8, 16-bit falling edge capture
+  39   1              T5CON1 = 0x00;                                          //T5 capture type selects the changing edge of T5 pin
+  40   1              TH5 = 0x00;
+  41   1              TL5 = 0x00;                                                     //Clear count
+  42   1              IE1 |= 0x10;                                        //Turn on T5 Interrupt
+  43   1              EA = 1;
+  44   1              while(1)
+  45   1              {  
+  46   2                      P0_0 = 0;
+  47   2                  Delay_ms(1);
+  48   2                      P0_0 = 1;
+  49   2                      Delay_ms(2);
+  50   2              }
+  51   1      }
+  52          
+C51 COMPILER V9.60.0.0   MAIN                                                              01/05/2021 11:53:35 PAGE 2   
+
+  53          /***************************************************************************************
+  54           T5 interrupt service function
+  55          ***************************************************************************************/
+  56          void TIMER5_Rpt(void) interrupt T5_VECTOR
+  57          {
+  58   1              if(T5CON&0x40)                       //Determine whether it is an external event
+  59   1              {
+  60   2                      gui_T5Value = RCAP5/2;                         //Read the acquired data and convert the unit to 1 us
+  61   2                      T5CON &=~ 0x40;                                                  //Clear pin external input event occurrence flag       
+  62   2                      if(guc_WaitFallEdge==0)   
+  63   2                      {       
+  64   3                              printf("\nLow level pulse width£º%d us\n",gui_T5Value);
+  65   3                              TH5 = 0x00;
+  66   3                              TL5 = 0x00;     
+  67   3                              T5CON = 0x1F;                                                   //Clock divided by 8, 16-bit falling edge capture               
+  68   3                              T5CON1 = 0x00;                                                  //T5 capture type selects the changing edge of T5 pin
+  69   3                              guc_WaitFallEdge = 1;
+  70   3                      }
+  71   2                      else
+  72   2                      {
+  73   3                              printf("\nHigh level pulse width£º%d us\n",gui_T5Value);                        
+  74   3                              TH5 = 0x00;
+  75   3                              TL5 = 0x00;     
+  76   3                              T5CON = 0x1B;                                                    //Clock divided by 8, 16-bit rising edge capture
+  77   3                              T5CON1 = 0x00;                                                   //T5 capture type selects the changing edge of T5 pin
+  78   3                              guc_WaitFallEdge = 0;
+  79   3                      }
+  80   2              }
+  81   1              if(T5CON&0x80)
+  82   1              {
+  83   2                      T5CON &=~ 0x80;                                                    //Clear T5-flag bit
+  84   2              }
+  85   1      }
+  86          
+  87          /**
+  88            * Putc function 
+  89            * Use printf function to print output from serial port 1
+  90            */
+  91          char putchar(char guc_Uartbuf)
+  92          {
+  93   1              SBUF = guc_Uartbuf;                   //Send 8-bit serial data
+  94   1              while(!(SCON & 0x02));
+  95   1              SCON &=~ 0x02;                                //Clear send-flag bit
+  96   1              return guc_Uartbuf;
+  97   1      }
+  98          
+  99          /**
+ 100            * Delay function 
+ 101            * Fcpu = 16MHz,fui_i = 1,The delay time is about 1Ms
+ 102            */
+ 103          void Delay_ms(unsigned int fui_i)
+ 104          {
+ 105   1              unsigned int fui_j;
+ 106   1              for(;fui_i > 0;fui_i --)
+ 107   1              for(fui_j = 1596;fui_j > 0;fui_j --);
+ 108   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    292    ----
+   CONSTANT SIZE    =     63    ----
+   XDATA SIZE       =   ----    ----
+C51 COMPILER V9.60.0.0   MAIN                                                              01/05/2021 11:53:35 PAGE 3   
+
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      3    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

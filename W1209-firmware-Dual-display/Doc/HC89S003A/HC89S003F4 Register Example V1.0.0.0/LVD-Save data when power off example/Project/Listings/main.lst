@@ -1,0 +1,130 @@
+C51 COMPILER V9.60.0.0   MAIN                                                              01/05/2021 11:43:24 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\SoftWare\Keil\C51\BIN\C51.EXE ..\user\main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.
+                    -\Listings\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          
+   2          //Save data after power failure
+   3          
+   4          #define ALLOCATE_EXTERN
+   5          #include "HC89S003F4.h"
+   6          
+   7          unsigned char guc_Write_a= 0;   //write data
+   8          unsigned char guc_Read_a = 0; //Store read data
+   9          
+  10          void Flash_EraseBlock(unsigned int fui_Address);//erase block
+  11          void FLASH_WriteData(unsigned int fui_Address, unsigned char fuc_SaveData);//Write a data
+  12          void Flash_ReadData(unsigned int fui_Address,unsigned char fuc_SaveArr);   //Read a data
+  13          
+  14          /***************************************************************************************
+  15            * @Function  Set the anti jitter time of LVD detection voltage of VDD to 16.0625us. When
+  16                         the voltage is lower than 4.2V and the duration is more than 16.0625us, LVD
+  17                                     will be interrupted and flash will be erased.
+  18            * @Operation  This example can not be simulated, and it is necessary to unplug the 
+  19                              emulator during the test, increase the external large capacitance, and 
+  20                                          prolong the power down time. The time of LVD voltage falling to bor voltage
+  21                                          is at least more than 6ms, the erasing time of one sector is 5ms, and the 
+  22                                          writing time of one byte is 23us.
+  23          ***************************************************************************************/
+  24          void main()
+  25          {
+  26   1      /************************************system initialization****************************************/
+  27   1              WDTCCR = 0x00;                                          //Close watchdog
+  28   1                                        //In this example, the watchdog is closed for the convenience of testing. 
+  29   1                                        //In practical use, it is recommended to open the watchdog. See WDT Reset examp
+             -le for details
+  30   1              
+  31   1              CLKSWR = 0x51;                                          //Select internal RC32M as system clock, RC32M/2, Fosc=16MHz
+  32   1              CLKDIV = 0x01;                                          //Fosc/1,Fcpu=16MHz  
+  33   1        FREQ_CLK = 0x10;                                      //Indicates the current system clock
+  34   1      /***********************************LVD configuration initialization*******************************/
+  35   1              LVDC = 0xA7;                                              //set LVD
+  36   1              //      debounce time =         (0xFF + 2) * 1/Fcpu
+  37   1              //                       =      (0xFF + 2) / 16000000   
+  38   1              //                       =      16.0625us
+  39   1              //      Now the program detects the voltage of the VDD£¬4.2V
+  40   1              LVDDBC = 0xFF;                                          //Set debounce time    
+  41   1              EA = 1;                                                             //enable all interrupt
+  42   1              while(1);
+  43   1      }
+  44          
+  45          /***************************************************************************************
+  46             LVD interrupt service function
+  47          ***************************************************************************************/
+  48          void LVD_Rpt() interrupt LVD_VECTOR
+  49          {
+  50   1              if(LVDC&0x08)
+  51   1              {       
+  52   2                      LVDC &=~ 0x08;                                              //Clear interrupt flag bit
+  53   2                      EA=0;
+C51 COMPILER V9.60.0.0   MAIN                                                              01/05/2021 11:43:24 PAGE 2   
+
+  54   2                      Flash_ReadData(0x2B00,guc_Read_a);      //Read the sector of address 0x2B00     
+  55   2                      guc_Write_a=guc_Read_a++;               
+  56   2                      Flash_EraseBlock(0x2B00);
+  57   2                      FLASH_WriteData(0x2B00,guc_Write_a);//Write the sector of address 0x2B00        
+  58   2                      Flash_ReadData(0x2B00,guc_Read_a);      //Read the sector of address 0x2B00                             
+  59   2                      EA=1;
+  60   2              }
+  61   1      }
+  62          
+  63          /**
+  64            * @Function   Erase block,it takes about 5ms
+  65            *             This function needs absolute address compilation. Please refer to IAP 
+  66                          operation manual for details
+  67            * @Argument   fui_Address £ºAny address in the erased block
+  68            * @Return     NULL
+  69            */
+  70          void Flash_EraseBlock(unsigned int fui_Address)
+  71          {
+  72   1              IAP_CMD = 0xF00F;                               //Flash unlock
+  73   1              IAP_ADDR = fui_Address; //Write erase address
+  74   1              IAP_CMD = 0xD22D;                               //Select operation mode, sector erase
+  75   1              IAP_CMD = 0xE11E;                       //After triggering,IAP_ADDRL&IAP_ADDRH points to 0xFF and locks automatically
+  76   1      }
+  77          
+  78          /**
+  79            * @Function   Write a byte of data to flash
+  80            * @Argument   fui_Address £ºFLASH adderss
+  81            *     @Argument         fucp_SaveData£ºWrite data
+  82            * @Return     NULL
+  83            * @Notes              The operating block must be erased before writing
+  84            */
+  85          void FLASH_WriteData(unsigned int fui_Address, unsigned char fuc_SaveData)
+  86          {
+  87   1              IAP_DATA = fuc_SaveData;
+  88   1              IAP_CMD=0xF00F;                           //Flash unlock
+  89   1              IAP_ADDR = fui_Address;
+  90   1              IAP_CMD=0xB44B;                           //Byte programming
+  91   1              IAP_CMD=0xE11E;                           //Trigger operation
+  92   1      }
+  93          
+  94          /**
+  95            * @Function   Read the specified address data from FLASH
+  96            * @Argument   fui_Address £ºFLASH adderss
+  97            *     @Argument       fuc_SaveArr £ºRaed data
+  98            * @Return     NULL
+  99            */
+ 100          void Flash_ReadData(unsigned int fui_Address,unsigned char fuc_SaveArr)
+ 101          {
+ 102   1              fuc_SaveArr=*((unsigned char code *)(fui_Address));//read data
+ 103   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    185    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

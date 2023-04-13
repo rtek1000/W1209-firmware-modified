@@ -1,0 +1,114 @@
+C51 COMPILER V9.60.0.0   MAIN                                                              01/05/2021 11:56:25 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\SoftWare\Keil\C51\BIN\C51.EXE ..\user\main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.
+                    -\Listings\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          //UART1 Send and receive data
+   2          
+   3          #define ALLOCATE_EXTERN
+   4          #include "HC89S003F4.h"
+   5          
+   6          unsigned char guc_Uartflag = 0;                 //UART2 judgment flag
+   7          unsigned char guc_Uartcnt = 0;              //UART2 count
+   8          unsigned char guc_Uartbuf_a[5] = {0};   //Save the received value
+   9          unsigned char guc_i;                    //Send Data count
+  10          
+  11          /***************************************************************************************
+  12            * @Function   After UART2 receives the 5 8-bit data sent by the host computer, it sends the received 
+  13                          5 data to the host computer again
+  14            * @Steps      Connect TXD, RXD short-circuit cap, and then send 5 8-bit data through the upper computer 
+             -software
+  15            * @Note               Baud rate 9600, 8-bit data, no parity bit               
+  16          ***************************************************************************************/
+  17          void main()
+  18          {
+  19   1      /************************************System initialization ****************************************/
+  20   1              WDTCCR = 0x00;                                          //Close watchdog
+  21   1                                        //In this example, the watchdog is closed for the convenience of testing. 
+  22   1                                        //In practical use, it is recommended to open the watchdog. See WDT Reset examp
+             -le for details
+  23   1              
+  24   1              CLKSWR = 0x51;                                          //Select internal RC32M as system clock, RC32M/2, Fosc=16MHz
+  25   1              CLKDIV = 0x01;                                          //Fosc/1,Fcpu=16MHz
+  26   1      /**********************************UART initialization**************************************/
+  27   1              P2M0 = P2M0&0x0F|0x80;                          //Set P21 as push-pull output
+  28   1              P0M1 = P0M1&0x0F|0x20;                          //Set P03 as pull-up input
+  29   1              TXD2_MAP = 0x21;                                        //TXD mapping P21
+  30   1              RXD2_MAP = 0x03;                                        //RXD mapping P03               
+  31   1              T4CON = 0x06;                                           //T4 working mode: UART1 baud rate generator
+  32   1              
+  33   1              //Baud rate calculation
+  34   1              //Baud rate = 1/16 * (T5 clock source frequency / Timer 5 prescaler ratio) / (65536 - 0xFF98)
+  35   1              //          = 1/16 * ((16000000 / 1) / 104)
+  36   1              //                  = 9615.38(error 0.16%)
+  37   1      
+  38   1              //Baud rate 9600
+  39   1              //Reverse initial value = (65536 - ((T5 clock source frequency / Timer 5 prescaler ratio) * (1 / 16)) / B
+             -aud rate)
+  40   1              //                              = (65536 - (16000000 * (1 / 16) / 9600))
+  41   1              //                              = (65536 - 104.167)
+  42   1              //                      = FF98
+  43   1              
+  44   1          TH4 = 0xFF;
+  45   1              TL4 = 0x98;
+  46   1              SCON2 = 0x02;                                                        //8-Bit UART, variable baud rate
+  47   1              SCON = 0x10;                                                     //Allow UART to receive
+  48   1              IE |= 0X10;                                                                  //Turn on UART Interrupt
+  49   1              EA = 1;                                                                  //Open total Interrupt
+  50   1          
+  51   1              while(1)
+C51 COMPILER V9.60.0.0   MAIN                                                              01/05/2021 11:56:25 PAGE 2   
+
+  52   1              {
+  53   2                      if(guc_Uartflag)
+  54   2                      {
+  55   3                              IE &=~ 0x10;                                         //Disable UART1 Interrupt
+  56   3                              for(guc_i= 0;guc_i<guc_Uartcnt;guc_i++)
+  57   3                              {
+  58   4                                      SBUF = guc_Uartbuf_a[guc_i];         //Send 8-Bit serial Data
+  59   4                                      while(!(SCON & 0x02));
+  60   4                                      SCON &=~ 0x02;                               //Clear send-flag Bit
+  61   4                              }
+  62   3                              IE |= 0x10;                                                  //UART1 Interrupt enable
+  63   3                              guc_Uartflag = 0;
+  64   3                              guc_Uartcnt = 0; 
+  65   3                              SCON |= 0x10;                                        //UART1 receive enable
+  66   3                      }       
+  67   2              }
+  68   1      }
+  69          
+  70          /***************************************************************************************
+  71           UART interrupt service function
+  72          ***************************************************************************************/
+  73          void UART1_Rpt(void) interrupt UART1_VECTOR
+  74          {
+  75   1              if(SCON & 0x01)                                                     //Determine the receive Interrupt flag Bit
+  76   1              {
+  77   2                      guc_Uartbuf_a[guc_Uartcnt++] = SBUF;        //Transfer 8-Bit serial port to receive Data
+  78   2                      if(guc_Uartcnt >= 5)
+  79   2                      {
+  80   3                              SCON &=~ 0x10;                                      //Disable UART1 receptionDisable UART2 reception
+  81   3                              guc_Uartflag = 1;
+  82   3                      }
+  83   2                        SCON &=~ 0x01;                                                //Clear receive-flag Bit
+  84   2              }                                                                       
+  85   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    166    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      8    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,229 @@
+C51 COMPILER V9.60.0.0   MAIN                                                              01/05/2021 11:58:02 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\SoftWare\Keil\C51\BIN\C51.EXE ..\user\main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.
+                    -\Listings\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          
+   2          //Read and write similar to EEPROM
+   3          
+   4          #define ALLOCATE_EXTERN
+   5          #include "HC89S003F4.h"
+   6          
+   7          void Flash_EraseBlock(unsigned int fui_Address);//erase block
+   8          void FLASH_WriteData(unsigned char fui_Address, unsigned int fuc_SaveData);//Write a byte of data
+   9          void Flash_WriteArr(unsigned int fui_Address,unsigned char fuc_Length,unsigned char *fucp_SaveArr);//Write
+             - any length of data
+  10          void Flash_ReadArr(unsigned int fui_Address,unsigned char fuc_Length,unsigned char *fucp_SaveArr);//Readin
+             -g data of any length
+  11          
+  12          unsigned char guc_Write_a[5] = {0x11,0x12,0x13,0x14,0x15};      //write data
+  13          unsigned char guc_Read_a[5] = {0x00};                   //Store read data
+  14          unsigned char guc_Uartflag = 0;                                   //Send count
+  15          unsigned char guc_Uartcnt = 0;                                    //Count the number of data sent
+  16          unsigned char guc_Uartbuf_a[2] = {0x00};        //buffer array
+  17          
+  18          /***************************************************************************************
+  19            * @Function    Five data are continuously written in the address of 0x3b00 to 0x3b04, and
+  20                         the corresponding data can be read by sending address through serial port 
+  21                         tool. When VDD voltage value is lower than LVD set voltage value, LED is
+  22                         on; when VDD voltage value is detected to be higher than LVD set voltage 
+  23                         value, LED is off.
+  24            * @Operation Connect the RXD TXD short-circuit cap, send the data with the frame header
+  25                         of 0x2b to the single-chip microcomputer, and return the data corresponding 
+  26                         to the corresponding address. 
+  27          ***************************************************************************************/
+  28          void main()
+  29          {
+  30   1      /************************************system initialization****************************************/
+  31   1              WDTCCR = 0x00;                                          //Close watchdog
+  32   1                                        //In this example, the watchdog is closed for the convenience of testing. 
+  33   1                                        //In practical use, it is recommended to open the watchdog. See WDT Reset examp
+             -le for details
+  34   1              
+  35   1              CLKSWR = 0x51;                                          //Select internal RC32M as system clock, RC32M/2, Fosc=16MHz
+  36   1              CLKDIV = 0x01;                                          //Fosc/1,Fcpu=16MHz 
+  37   1      /*****************************************initialization******************************************/
+  38   1              P0M0 = P0M0&0xF0|0x08;          //Set P00 as push-pull output   
+  39   1              P2M0 = P2M0&0x0F|0x80;          //Set P21 as push-pull output
+  40   1              P0M1 = P0M1&0x0F|0x20;          //Set P03 as pull-up output
+  41   1              P0_0=1;
+  42   1              TXD_MAP = 0x21;                                   //TXD mapping P21
+  43   1              RXD_MAP = 0x03;                                   //RXD mapping P03             
+  44   1              T4CON = 0x06;                                             //T4 mode£ºUART1 Baud rate generator
+  45   1        TH4 = 0xFF;
+  46   1              TL4 = 0x98;                                                       //Baud = 9600
+  47   1              SCON2 = 0x02;                                             //8 bit UART£¬Baud rate is not fixed
+  48   1              SCON = 0x10;                                              //enable serial receive
+  49   1              IE |= 0x10;                                                       //enable serial port interrupt
+  50   1      /**********************************Flash initialization*************************************/
+  51   1              FREQ_CLK = 0x10;                                  //Fcpu need to be set 
+C51 COMPILER V9.60.0.0   MAIN                                                              01/05/2021 11:58:02 PAGE 2   
+
+  52   1              LVDC = 0xAC;                                              //Set LVD as3.0V,Disable interrupt
+  53   1              //      Set debounce time =     (0xFF + 2) * 1/Fcpu
+  54   1              //                       =      (0xFF + 2) / 16000000
+  55   1              //                       =      16.0625us
+  56   1              LVDDBC = 0xFF;                                    //Set debounce time
+  57   1              LVDC &=~ 0x08;                        //Clear flag bit 
+  58   1      
+  59   1              Flash_EraseBlock(0x3B00);       //Erase the sector of address 0x2B00
+  60   1              Flash_WriteArr(0x3B00,5,guc_Write_a);//Write the sector of address 0x2B00
+  61   1              Flash_ReadArr(0x3B00,5,guc_Read_a);     //Read the sector of address 0x2B00
+  62   1              EA = 1;                                                             //enable all interrupt
+  63   1              while(1)
+  64   1              {
+  65   2                      if(guc_Uartflag)
+  66   2                      {
+  67   3                              IE &=~ 0x10;                               //Disable UART1 receive
+  68   3                              if(guc_Uartbuf_a[0] == 0x3B)
+  69   3                              {
+  70   4                                      switch(guc_Uartbuf_a[1])
+  71   4                                      {
+  72   5                                              case 0x00:      SBUF = guc_Read_a[0];//Sending 8-bit serial data
+  73   5                                                                      break;
+  74   5                                              case 0x01:      SBUF = guc_Read_a[1];//Sending 8-bit serial data
+  75   5                                                                      break;
+  76   5                                              case 0x02:      SBUF = guc_Read_a[2];//Sending 8-bit serial data
+  77   5                                                                      break;
+  78   5                                              case 0x03:      SBUF = guc_Read_a[3];//Sending 8-bit serial data
+  79   5                                                                      break;
+  80   5                                              case 0x04:      SBUF = guc_Read_a[4];//Sending 8-bit serial data
+  81   5                                                                      break;
+  82   5                                              default:break;
+  83   5                                              while(!(SCON&0x02));    //Wait for sending to finish
+  84   5                                              SCON &=~ 0x02;;                   //Clear flag bit
+  85   5                                      }
+  86   4                                      IE |= 0x10;                                               //enable UART1 interrupt
+  87   4                                      guc_Uartflag = 0;                               //Clear flag bit
+  88   4                                      guc_Uartcnt = 0;                                //Clear flag bit
+  89   4                                      SCON |= 0x10;                                     //enable UART1 receive        
+  90   4                              }
+  91   3                      }
+  92   2              }
+  93   1      }
+  94          
+  95          /***************************************************************************************
+  96             UART1 interrupt service function
+  97          ***************************************************************************************/
+  98          void UART1_Rpt(void) interrupt UART1_VECTOR
+  99          {
+ 100   1              if(SCON&0x01)
+ 101   1              {
+ 102   2                      guc_Uartbuf_a[guc_Uartcnt++] = SBUF;//8-bit data received by serial port
+ 103   2                      if(guc_Uartcnt >= 2)
+ 104   2                      {
+ 105   3                              SCON &=~ 0x10;                                  //Disable UART1 receive
+ 106   3                              guc_Uartflag = 1;
+ 107   3                      }
+ 108   2                      SCON &=~ 0x01;                                          //Clear interrupt flag bit
+ 109   2              }
+ 110   1      }
+ 111          /**
+ 112            * @Function   Erase block,it takes about 5ms
+ 113            *             This function needs absolute address compilation. Please refer to IAP 
+C51 COMPILER V9.60.0.0   MAIN                                                              01/05/2021 11:58:02 PAGE 3   
+
+ 114                          operation manual for details
+ 115            * @Argument   fui_Address £ºAny address in the erased block
+ 116            * @Return     NULL
+ 117            */
+ 118          void Flash_EraseBlock(unsigned int fui_Address)
+ 119          {
+ 120   1              while(1)
+ 121   1              {
+ 122   2                      LVDC &=~ 0x08;                    //Clear LVD interrupt flag bit
+ 123   2                      P0_0=0;         
+ 124   2                      if((LVDC&0x08)==0)              break;
+ 125   2              }
+ 126   1              P0_0=1;         
+ 127   1              EA=0;
+ 128   1              IAP_CMD = 0xF00F;                               //Flash unlock
+ 129   1              IAP_ADDR = fui_Address; //Write erase address
+ 130   1              IAP_CMD = 0xD22D;                               //Select operation mode, sector erase
+ 131   1              IAP_CMD = 0xE11E;                       //After triggering,IAP_ADDRL&IAP_ADDRH points to 0xFF and locks automatically
+ 132   1              EA=1;
+ 133   1      }
+ 134          
+ 135          /**
+ 136            * @Function   Write a byte of data to flash
+ 137            *             This function needs absolute address compilation. Please refer to IAP 
+ 138            *             operation manual for details
+ 139            * @Argument   fui_Address £ºFLASH adderss
+ 140            *     @Argument         fucp_SaveData£ºWrite data
+ 141            * @Return     NULL
+ 142            * @Notes              The operating block must be erased before writing
+ 143            */
+ 144          void FLASH_WriteData(unsigned char fuc_SaveData, unsigned int fui_Address)
+ 145          {
+ 146   1              while(1)
+ 147   1              {
+ 148   2                      LVDC &=~ 0x08;                     //Clear LVD interrupt flag bit
+ 149   2                      P0_0=0;         
+ 150   2                      if((LVDC&0x08)==0)              break;
+ 151   2              }
+ 152   1              P0_0=1; 
+ 153   1              EA=0;
+ 154   1              IAP_DATA = fuc_SaveData;
+ 155   1              IAP_CMD=0xF00F;                            //Flash unlock
+ 156   1              IAP_ADDR = fui_Address;
+ 157   1              IAP_CMD=0xB44B;                            //Byte programming
+ 158   1              IAP_CMD=0xE11E;                            //Trigger operation
+ 159   1              EA=1;
+ 160   1      }
+ 161          
+ 162          /**
+ 163            * @Function   Write any length of data to flash
+ 164            *             This function needs absolute address compilation. Please refer to IAP 
+ 165            *             operation manual for details
+ 166            * @Argument   fui_Address £ºFLASH address
+ 167            *     @Argument       fuc_Length £º Write data length
+ 168            *                             Value range£º0x00-0xFF
+ 169            *     @Argument        *fucp_SaveArr£ºThe first address of the data storage area
+ 170            * @Return     NULL
+ 171            * @Notes                The operating sector must be erased before writing
+ 172            */ 
+ 173          void Flash_WriteArr(unsigned int fui_Address,unsigned char fuc_Length,unsigned char *fucp_SaveArr)
+ 174          {
+ 175   1              unsigned char fui_i = 0;
+C51 COMPILER V9.60.0.0   MAIN                                                              01/05/2021 11:58:02 PAGE 4   
+
+ 176   1              EA=0;
+ 177   1              for(fui_i=0;fui_i<fuc_Length;fui_i++)
+ 178   1              {
+ 179   2                      FLASH_WriteData(*(fucp_SaveArr++), fui_Address++); 
+ 180   2              }
+ 181   1              EA=1;
+ 182   1      }
+ 183          
+ 184          /**
+ 185            * @Function   Reading data of any length from flash
+ 186            * @Argument   fui_Address £ºFLASH address
+ 187            *     @Argument         fuc_Length £ºRead data length
+ 188            *                             alue range£º0x00-0xFF
+ 189            *     @Argument        *fucp_SaveArr£ºThe first address of the data storage area
+ 190            * @Return     NULL
+ 191            */
+ 192          void Flash_ReadArr(unsigned int fui_Address,unsigned char fuc_Length,unsigned char *fucp_SaveArr)
+ 193          {
+ 194   1              while(fuc_Length--)
+ 195   1              *(fucp_SaveArr++)=*((unsigned char code *)(fui_Address++));//Read data
+ 196   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    447    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     14      11
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

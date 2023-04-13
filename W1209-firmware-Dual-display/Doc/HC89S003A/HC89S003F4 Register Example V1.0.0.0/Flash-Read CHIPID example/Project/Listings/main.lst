@@ -1,0 +1,129 @@
+C51 COMPILER V9.60.0.0   MAIN                                                              01/05/2021 13:29:41 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: E:\Keil\C51\BIN\C51.EXE ..\user\main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings
+                    -\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          
+   2          //read CHIPID
+   3          
+   4          #define ALLOCATE_EXTERN
+   5          #include "HC89S003F4.h"
+   6          #include "string.h"
+   7          
+   8          void Flash_ReadArr(unsigned int fui_Address,unsigned char fuc_Length,unsigned char *fucp_SaveArr);
+   9          
+  10          unsigned char guc_Read_a[8] = {0x00};                        //Store read data
+  11          unsigned char guc_CompareBuf_a[] = "Read Chip ID\r";
+  12          unsigned char guc_CompareFlag = 1;             //Memory compare flag bit
+  13          unsigned char guc_Uartflag = 0;                                  //Send flag bit 
+  14          unsigned char guc_Uartcnt = 0;                                         //Send count
+  15          unsigned char guc_Uartbuf_a[13] = {0x00};                  //buffer array
+  16          unsigned char guc_i;                                                     //Count the number of data sent        
+  17          
+  18          /***************************************************************************************
+  19            * @Function     read CHIP ID¡£
+  20            * @Operation   Connect the RXD TXD short-circuit cap, send the string read chip ID to 
+  21                          the MCU, and return the chip ID of MCU.
+  22          ***************************************************************************************/
+  23          void main()
+  24          {
+  25   1      /************************************system initialization****************************************/
+  26   1              WDTCCR = 0x00;                                          //Close watchdog
+  27   1                                        //In this example, the watchdog is closed for the convenience of testing. 
+  28   1                                        //In practical use, it is recommended to open the watchdog. See WDT Reset examp
+             -le for details
+  29   1              
+  30   1              CLKSWR = 0x51;                                          //Select internal RC32M as system clock, RC32M/2, Fosc=16MHz
+  31   1              CLKDIV = 0x01;                                          //Fosc/1,Fcpu=16MHz  
+  32   1      /**********************************initialization**********&**************************************/
+  33   1              P2M0 = P2M0&0x0F|0x80;                          //Set P21 as push-pull output
+  34   1              P0M1 = P0M1&0x0F|0x20;                          //Set P03 as pull-up output
+  35   1              TXD_MAP = 0x21;                                             //TXD mapping P21
+  36   1              RXD_MAP = 0x03;                                             //RXD mapping P03           
+  37   1              T4CON = 0x06;                                                 //T4 mode£ºUART1 Baud rate generator
+  38   1        TH4 = 0xFF;
+  39   1              TL4 = 0x98;                                                           //Baud = 9600
+  40   1              SCON2 = 0x02;                                                 //8 bit UART£¬Baud rate is not fixed
+  41   1              SCON = 0x10;                                                  //enable serial receive
+  42   1              IE |= 0x10;                                                           //enable serial port interrupt
+  43   1      /**********************************Flash initialization*************************************/
+  44   1        INSCON |= 0x10;                       //The data pointer points to the option area
+  45   1              Flash_ReadArr(0x0100,8,guc_Read_a);       //read CHIPID
+  46   1        INSCON &=~ 0x10;                      //The data pointer points back to the flash area
+  47   1              EA = 1;                                                                         //enable all interrupt
+  48   1              while(1) 
+  49   1              {
+  50   2                      if(guc_Uartflag)
+  51   2                      {
+  52   3                              IE &=~ 0x10;                                            //Disable UART1 interrupt
+  53   3                              guc_CompareFlag = memcmp(guc_Uartbuf_a,guc_CompareBuf_a,13);//Compare whether the received data is corr
+C51 COMPILER V9.60.0.0   MAIN                                                              01/05/2021 13:29:41 PAGE 2   
+
+             -ect
+  54   3                              if(guc_CompareFlag == 0)
+  55   3                              {
+  56   4                                      for(guc_i= 0;guc_i<8;guc_i++)
+  57   4                                      {
+  58   5                                              SBUF = guc_Read_a[guc_i];     //Sending 8-bit serial data
+  59   5                                              while(!(SCON & 0x02));
+  60   5                                              SCON &=~ 0x02;                            //Clear flag bit
+  61   5                                      }             
+  62   4                              }
+  63   3                              IE |= 0x10;                                                     //enable UART1 interrupt
+  64   3                              guc_Uartflag = 0;
+  65   3                              guc_Uartcnt = 0;
+  66   3                              SCON |= 0x10;                                           //enable UART1 receive
+  67   3           }
+  68   2              }
+  69   1      }
+  70          
+  71          /***************************************************************************************
+  72             UART1 interrupt service function
+  73          ***************************************************************************************/
+  74          void UART1_Rpt(void) interrupt UART1_VECTOR
+  75          {
+  76   1              if(SCON&0x01)
+  77   1              {
+  78   2                      guc_Uartbuf_a[guc_Uartcnt++] = SBUF;  //8-bit data received by serial port
+  79   2                      if(guc_Uartcnt >= 13)
+  80   2                      {
+  81   3                              SCON &=~ 0x10;                                              //Disable UART1 receive
+  82   3                              guc_Uartflag = 1;
+  83   3                      }
+  84   2                      SCON &=~ 0x01;                                                  //Clear interrupt flag bit
+  85   2              }
+  86   1      }
+  87          
+  88          /**
+  89            * @Function   Reading data of any length from FLASH
+  90            * @Argument   fui_Address £ºFLASH first address
+  91            *                             Value range£º 0x0000-0x3FFF
+  92            *     @Argument         fuc_Length £º read data length
+  93            *                             Value range£º 0x00-0xFF
+  94            *     @Argument        *fucp_SaveArr£ºRead the first address of the area where the data is stored
+  95            * @Return     NULL
+  96            */
+  97          void Flash_ReadArr(unsigned int fui_Address,unsigned char fuc_Length,unsigned char *fucp_SaveArr)
+  98          {
+  99   1              while(fuc_Length--)
+ 100   1              *(fucp_SaveArr++)=*((unsigned char code *)(fui_Address++));//read data
+ 101   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    269    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     39       5
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

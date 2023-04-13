@@ -1,0 +1,88 @@
+C51 COMPILER V9.60.0.0   MAIN                                                              01/05/2021 11:55:34 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\SoftWare\Keil\C51\BIN\C51.EXE ..\user\main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.
+                    -\Listings\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          //Wake up from power down mode
+   2          
+   3          #define ALLOCATE_EXTERN
+   4          #include "HC89S003F4.h"
+   5          
+   6          void Delay_ms(unsigned int fui_i);//delay function
+   7          
+   8          /***************************************************************************************
+   9            * @Function   WDT is set to timing mode, the timing is 500Ms, P00 flips after entering the interrupt
+  10          ***************************************************************************************/
+  11          void main()
+  12          {
+  13   1      /************************************system initialization ****************************************/
+  14   1              WDTCCR = 0x00;                                          //Close watchdog
+  15   1                                        //In this example, the watchdog is closed for the convenience of testing. 
+  16   1                                        //In practical use, it is recommended to open the watchdog. See WDT Reset examp
+             -le for details
+  17   1              
+  18   1              CLKSWR = 0x51;                                          //Select internal RC32M as system clock, RC32M/2, Fosc=16MHz
+  19   1              CLKDIV = 0x01;                                          //Fosc/1,Fcpu=16MHz 
+  20   1              P0M0 = P0M0&0xF0|0x08;                          //Set P00 as push-pull output
+  21   1      /***********************************WDT  initialization**************************************/
+  22   1              FREQ_CLK = 0x10;                                        //This example involves low power consumption and needs to specify the system clock
+  23   1              WDTC = 0x14;                                        //Disable WDT reset, allow operation in power-down/idle mode, divide by 128
+  24   1              Delay_ms(1);                                            //When using WDT to wake up from power-down mode,
+  25   1                                              //the interval between the clear the watchdog action and the power-d
+             -own command is greater than or equal to 3 wdt_clk (about 70us)
+  26   1              
+  27   1              //Internal RC44K is used as WDT clock, WDT_CLOCK_1024 is divided by 1024, the initial value is 0xFF
+  28   1              //Timing        = 128 * (0xAB+1) / 44000
+  29   1              //                      = 500.36Ms
+  30   1      
+  31   1              WDTCCR = 0xAB;                      //When 00 is written, the WDT function will be disabled (but not the 
+             -internal low-frequency RC),
+  32   1                                                                                      //which is equivalent to disabling WDT. When non-zero Data is written, WDT will be started.     
+  33   1              IE |= 0x20;                                                     //Turn on WDT Interrupt
+  34   1              EA = 1;                                                         //Open total Interrupt
+  35   1              while(1)
+  36   1              {
+  37   2                      PCON |= 0x02;                                   //Enter power down mode
+  38   2              }
+  39   1      }
+  40          
+  41          /***************************************************************************************
+  42           WDT interrupt service function
+  43          ***************************************************************************************/
+  44          void WDT_Rpt() interrupt WDT_VECTOR
+  45          {
+  46   1              WDTC &=~ 0x20;                                              //Clear flag Bit
+  47   1              P0_0 =~ P0_0;
+  48   1      } 
+  49          
+  50          /**
+  51            * Delay function 
+C51 COMPILER V9.60.0.0   MAIN                                                              01/05/2021 11:55:34 PAGE 2   
+
+  52            * Fcpu = 16MHz,fui_i = 1,The delay time is about 1Ms
+  53            */
+  54          void Delay_ms(unsigned int fui_i)
+  55          {
+  56   1              unsigned int fui_j;
+  57   1              for(;fui_i > 0;fui_i --)
+  58   1              for(fui_j = 1596;fui_j > 0;fui_j --);
+  59   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     90    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

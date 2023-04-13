@@ -1,0 +1,84 @@
+C51 COMPILER V9.60.0.0   MAIN                                                              01/05/2021 11:31:53 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\SoftWare\Keil\C51\BIN\C51.EXE ..\user\main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.
+                    -\Listings\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          
+   2          //ADC single-channel conversion example
+   3          
+   4          #define ALLOCATE_EXTERN
+   5          #include "HC89S003F4.h"
+   6          
+   7          void Delay_2us(unsigned int fui_i);             //delay function
+   8                                  
+   9          unsigned int gui_AdcValue = 0;                    //Save the ADC value
+  10          
+  11          /***************************************************************************************
+  12            * @Function   ADC conversion for channel 0
+  13          ***************************************************************************************/
+  14          void main()
+  15          {
+  16   1      /************************************system initialization ****************************************/
+  17   1              WDTCCR = 0x00;                                          //Close watchdog
+  18   1                                        //In this example, the watchdog is closed for the convenience of testing. 
+  19   1                                        //In practical use, it is recommended to open the watchdog. See WDT Reset examp
+             -le for details
+  20   1              
+  21   1              CLKSWR = 0x51;                                          //Select internal RC32M as system clock, RC32M/2, Fosc=16MHz
+  22   1              CLKDIV = 0x01;                                          //Fosc/1,Fcpu=16MHz 
+  23   1              P0M0 = P0M0&0xF0|0x08;          //Set P00 as push-pull output
+  24   1              
+  25   1      /************************************ADC initialization*****************************************/
+  26   1              P0M0 = P0M0&0x0F|0x30;          //Set P01 as analog input
+  27   1              ADCC0 = 0x80;                                             //enable ADC power
+  28   1              Delay_2us(10);                                          //delay 20us
+  29   1              ADCC1 = 0x01;                                             //Select external channel 1
+  30   1              ADCC2 = 0x4D;                                             //12bits, Right alignment of data, adc_clk frequency = Fosc/16 
+  31   1      
+  32   1              while(1)
+  33   1              {
+  34   2                      ADCC0 |= 0x40;                                  //Start ADC
+  35   2                      while(!(ADCC0&0x20));           //Wait for the ADC conversion to complete
+  36   2                      ADCC0 &=~ 0x20;                                 //Clear flag bit
+  37   2                      gui_AdcValue = ADCR;            //Get the value of the ADC
+  38   2      
+  39   2                      if(gui_AdcValue <= 0x10)
+  40   2          {
+  41   3                          P0_0 = 1;
+  42   3                         }
+  43   2                      else
+  44   2           {
+  45   3                          P0_0 = 0;
+  46   3                         }
+  47   2              }
+  48   1      }
+  49          
+  50          /**
+  51            * Delay function 
+  52            * Fcpu = 16MHz,fui_i = 1,The delay time is about 2us
+  53            */
+C51 COMPILER V9.60.0.0   MAIN                                                              01/05/2021 11:31:53 PAGE 2   
+
+  54          void Delay_2us(unsigned int fui_i)
+  55          {
+  56   1              while(fui_i--); 
+  57   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     94    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,80 @@
+C51 COMPILER V9.60.0.0   MAIN                                                              01/05/2021 11:54:17 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\SoftWare\Keil\C51\BIN\C51.EXE ..\user\main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.
+                    -\Listings\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          //RTC mode
+   2          
+   3          #define ALLOCATE_EXTERN
+   4          #include "HC89S003F4.h"
+   5          
+   6          /***************************************************************************************
+   7            * @Function   T3 uses an external 32K crystal oscillator, wakes up in 1s at a time, LED1 flips after wake 
+             -up
+   8          ***************************************************************************************/
+   9          void main()
+  10          {
+  11   1      /************************************System initialization ****************************************/
+  12   1              WDTCCR = 0x00;                                          //Close watchdog
+  13   1                                        //In this example, the watchdog is closed for the convenience of testing. 
+  14   1                                        //In practical use, it is recommended to open the watchdog. See WDT Reset examp
+             -le for details
+  15   1              
+  16   1              CLKSWR = 0x51;                                          //Select internal RC32M as system clock, RC32M/2, Fosc=16MHz
+  17   1              CLKDIV = 0x01;                                          //Fosc/1,Fcpu=16MHz 
+  18   1              P0M0 = P0M0&0xF0|0x08;              //Set P00 as push-pull output       
+  19   1      /**********************************TIM3 initialization**************************************/
+  20   1              FREQ_CLK = 0x10;                                        //This routine involves the power-down mode, you need to specify the current system 
+             -clock
+  21   1          CLKCON |= 0x04;
+  22   1      
+  23   1              //T3 Timing 1s  = (65536 - 0x8000) * (1 / External input clock)
+  24   1              //                              = 32768 / (32768 / 1)
+  25   1              //                              = 1s
+  26   1      
+  27   1              //Timing 1s
+  28   1              //Reverse initial value  = 65536 - (1 / (1 / External input clock))
+  29   1              //                      = 65536 - (1 / (1 / 32768))
+  30   1              //          = 65536 - 32768
+  31   1              //                      = 0x8000
+  32   1      
+  33   1              TH3 = 0x80;
+  34   1              TL3 = 0x00;                                                      //Timing time is calculated according to external clock
+  35   1              T3CON = 0x46;                                            //Allow operation in power-down mode, clock divided by 1
+  36   1              IE1 |= 0x02;                                             //Turn on T3 Interrupt
+  37   1              EA = 1;                                                          //Open total Interrupt
+  38   1              while(1)
+  39   1              {
+  40   2                       PCON |= 0x02;                               //Enter power down mode
+  41   2              }
+  42   1      }
+  43          
+  44          /***************************************************************************************
+  45           T3 interrupt service function
+  46          ***************************************************************************************/
+  47          void TIMER3_Rpt(void) interrupt T3_VECTOR
+  48          {
+  49   1               T3CON &=~ 0x80;                                         //Clear T3-flag bit
+  50   1               P0_0 =~ P0_0;
+  51   1      }
+C51 COMPILER V9.60.0.0   MAIN                                                              01/05/2021 11:54:17 PAGE 2   
+
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     56    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

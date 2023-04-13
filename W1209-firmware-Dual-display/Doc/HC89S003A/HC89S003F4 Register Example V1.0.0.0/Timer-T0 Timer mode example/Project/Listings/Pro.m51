@@ -1,0 +1,305 @@
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    01/05/2021  11:52:18  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
+C:\SOFTWARE\KEIL\C51\BIN\BL51.EXE .\Objects\STARTUP.obj, .\Objects\main.obj TO .\Objects\Pro PRINT (.\Listings\Pro.m51) 
+>> RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\STARTUP.obj (?C_STARTUP)
+  .\Objects\main.obj (MAIN)
+
+
+LINK MAP OF MODULE:  .\Objects\Pro (?C_STARTUP)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0002H     UNIT         _DATA_GROUP_
+            IDATA   000AH     0001H     UNIT         ?STACK
+
+            * * * * * * *  X D A T A   M E M O R Y  * * * * * * *
+                    0000H     FE80H                  *** GAP ***
+            XDATA   FE80H     0001H     ABSOLUTE     
+                    FE81H     0004H                  *** GAP ***
+            XDATA   FE85H     0001H     ABSOLUTE     
+                    FE86H     0002H                  *** GAP ***
+            XDATA   FE88H     0001H     ABSOLUTE     
+            XDATA   FE89H     0001H     ABSOLUTE     
+            XDATA   FE8AH     0001H     ABSOLUTE     
+                    FE8BH     0006H                  *** GAP ***
+            XDATA   FE91H     0001H     ABSOLUTE     
+            XDATA   FE92H     0001H     ABSOLUTE     
+            XDATA   FE93H     0001H     ABSOLUTE     
+            XDATA   FE94H     0001H     ABSOLUTE     
+            XDATA   FE95H     0001H     ABSOLUTE     
+                    FE96H     0002H                  *** GAP ***
+            XDATA   FE98H     0001H     ABSOLUTE     
+                    FE99H     0002H                  *** GAP ***
+            XDATA   FE9BH     0001H     ABSOLUTE     
+                    FE9CH     0004H                  *** GAP ***
+            XDATA   FEA0H     0001H     ABSOLUTE     
+                    FEA1H     0001H                  *** GAP ***
+            XDATA   FEA2H     0001H     ABSOLUTE     
+                    FEA3H     0001H                  *** GAP ***
+            XDATA   FEA4H     0001H     ABSOLUTE     
+            XDATA   FEA5H     0001H     ABSOLUTE     
+                    FEA6H     0001H                  *** GAP ***
+            XDATA   FEA7H     0001H     ABSOLUTE     
+                    FEA8H     0002H                  *** GAP ***
+            XDATA   FEAAH     0001H     ABSOLUTE     
+                    FEABH     0005H                  *** GAP ***
+            XDATA   FEB0H     0001H     ABSOLUTE     
+            XDATA   FEB1H     0001H     ABSOLUTE     
+            XDATA   FEB2H     0001H     ABSOLUTE     
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  01/05/2021  11:52:18  PAGE 2
+
+
+            XDATA   FEB3H     0001H     ABSOLUTE     
+                    FEB4H     0004H                  *** GAP ***
+            XDATA   FEB8H     0001H     ABSOLUTE     
+            XDATA   FEB9H     0001H     ABSOLUTE     
+                    FEBAH     0002H                  *** GAP ***
+            XDATA   FEBCH     0001H     ABSOLUTE     
+                    FEBDH     0043H                  *** GAP ***
+            XDATA   FF00H     0001H     ABSOLUTE     
+            XDATA   FF01H     0001H     ABSOLUTE     
+            XDATA   FF02H     0001H     ABSOLUTE     
+            XDATA   FF03H     0001H     ABSOLUTE     
+                    FF04H     0001H                  *** GAP ***
+            XDATA   FF05H     0001H     ABSOLUTE     
+                    FF06H     0002H                  *** GAP ***
+            XDATA   FF08H     0001H     ABSOLUTE     
+                    FF09H     0007H                  *** GAP ***
+            XDATA   FF10H     0001H     ABSOLUTE     
+            XDATA   FF11H     0001H     ABSOLUTE     
+            XDATA   FF12H     0001H     ABSOLUTE     
+            XDATA   FF13H     0001H     ABSOLUTE     
+                    FF14H     002CH                  *** GAP ***
+            XDATA   FF40H     0001H     ABSOLUTE     
+            XDATA   FF41H     0001H     ABSOLUTE     
+            XDATA   FF42H     0001H     ABSOLUTE     
+                    FF43H     003DH                  *** GAP ***
+            XDATA   FF80H     0001H     ABSOLUTE     
+            XDATA   FF81H     0001H     ABSOLUTE     
+                    FF82H     0001H                  *** GAP ***
+            XDATA   FF83H     0001H     ABSOLUTE     
+            XDATA   FF84H     0001H     ABSOLUTE     
+            XDATA   FF85H     0001H     ABSOLUTE     
+                    FF86H     0009H                  *** GAP ***
+            XDATA   FF8FH     0001H     ABSOLUTE     
+            XDATA   FF90H     0001H     ABSOLUTE     
+            XDATA   FF91H     0001H     ABSOLUTE     
+                    FF92H     0002H                  *** GAP ***
+            XDATA   FF94H     0001H     ABSOLUTE     
+            XDATA   FF95H     0001H     ABSOLUTE     
+                    FF96H     0002H                  *** GAP ***
+            XDATA   FF98H     0001H     ABSOLUTE     
+            XDATA   FF99H     0001H     ABSOLUTE     
+                    FF9AH     0002H                  *** GAP ***
+            XDATA   FF9CH     0001H     ABSOLUTE     
+                    FF9DH     0003H                  *** GAP ***
+            XDATA   FFA0H     0001H     ABSOLUTE     
+            XDATA   FFA1H     0001H     ABSOLUTE     
+                    FFA2H     0002H                  *** GAP ***
+            XDATA   FFA4H     0001H     ABSOLUTE     
+            XDATA   FFA5H     0001H     ABSOLUTE     
+            XDATA   FFA6H     0001H     ABSOLUTE     
+            XDATA   FFA7H     0001H     ABSOLUTE     
+            XDATA   FFA8H     0001H     ABSOLUTE     
+            XDATA   FFA9H     0001H     ABSOLUTE     
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     0008H                  *** GAP ***
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  01/05/2021  11:52:18  PAGE 3
+
+
+            CODE    000BH     0003H     ABSOLUTE     
+            CODE    000EH     002DH     UNIT         ?PR?MAIN?MAIN
+            CODE    003BH     0022H     UNIT         ?PR?TIMER0_RPT?MAIN
+            CODE    005DH     000CH     UNIT         ?C_C51STARTUP
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\Pro (?C_STARTUP)
+
+
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?C_C51STARTUP                  -----    -----
+  +--> ?PR?MAIN?MAIN
+
+*** NEW ROOT ***************************************************
+
+?PR?TIMER0_RPT?MAIN            0008H    0002H
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\Pro (?C_STARTUP)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        ?C_STARTUP
+  C:005DH         SEGMENT       ?C_C51STARTUP
+  I:000AH         SEGMENT       ?STACK
+  C:0000H         PUBLIC        ?C_STARTUP
+  D:00E0H         SYMBOL        ACC
+  D:00F0H         SYMBOL        B
+  D:0083H         SYMBOL        DPH
+  D:0082H         SYMBOL        DPL
+  N:0000H         SYMBOL        IBPSTACK
+  N:0100H         SYMBOL        IBPSTACKTOP
+  N:0080H         SYMBOL        IDATALEN
+  C:0060H         SYMBOL        IDATALOOP
+  N:0000H         SYMBOL        PBPSTACK
+  N:0100H         SYMBOL        PBPSTACKTOP
+  N:0000H         SYMBOL        PDATALEN
+  N:0000H         SYMBOL        PDATASTART
+  N:0000H         SYMBOL        PPAGE
+  N:0000H         SYMBOL        PPAGEENABLE
+  D:00A0H         SYMBOL        PPAGE_SFR
+  D:0081H         SYMBOL        SP
+  C:005DH         SYMBOL        STARTUP1
+  N:0000H         SYMBOL        XBPSTACK
+  N:0000H         SYMBOL        XBPSTACKTOP
+  N:0000H         SYMBOL        XDATALEN
+  N:0000H         SYMBOL        XDATASTART
+  C:0000H         LINE#         126
+  C:005DH         LINE#         133
+  C:005FH         LINE#         134
+  C:0060H         LINE#         135
+  C:0061H         LINE#         136
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  01/05/2021  11:52:18  PAGE 4
+
+
+  C:0063H         LINE#         185
+  C:0066H         LINE#         196
+  -------         ENDMOD        ?C_STARTUP
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  X:FF08H         PUBLIC        P1M0
+  X:FF01H         PUBLIC        P0M1
+  X:FF10H         PUBLIC        P2M0
+  X:FF02H         PUBLIC        P0M2
+  D:0080H         PUBLIC        P0
+  X:FF11H         PUBLIC        P2M1
+  X:FF03H         PUBLIC        P0M3
+  D:0090H         PUBLIC        P1
+  X:FF12H         PUBLIC        P2M2
+  D:00A0H         PUBLIC        P2
+  X:FF13H         PUBLIC        P2M3
+  B:00A8H.7       PUBLIC        EA
+  X:FE94H         PUBLIC        XTALCFG
+  D:00A8H         PUBLIC        IE
+  B:0080H.0       PUBLIC        P0_0
+  D:00F8H         PUBLIC        RSTFR
+  X:FF91H         PUBLIC        PWM01_MAP
+  X:FF95H         PUBLIC        PWM11_MAP
+  X:FF99H         PUBLIC        PWM21_MAP
+  X:FE89H         PUBLIC        S2CON2
+  X:FEA2H         PUBLIC        CRCC
+  X:FE85H         PUBLIC        T5CON1
+  X:FFA5H         PUBLIC        SCK_MAP
+  C:000EH         PUBLIC        main
+  X:FEA4H         PUBLIC        BORC
+  X:FFA1H         PUBLIC        RXD_MAP
+  X:FEA5H         PUBLIC        BORDBC
+  X:FFA0H         PUBLIC        TXD_MAP
+  X:FEA7H         PUBLIC        LVDDBC
+  X:FEB8H         PUBLIC        PINTE0
+  X:FEB9H         PUBLIC        PINTE1
+  D:0098H         PUBLIC        SCON
+  D:0089H         PUBLIC        TMOD
+  D:0088H         PUBLIC        TCON
+  X:FE95H         PUBLIC        SPOV_RSTEN
+  X:FE9BH         PUBLIC        ADCC2
+  X:FE91H         PUBLIC        CLKDIV
+  D:00B8H         PUBLIC        IE1
+  X:FF80H         PUBLIC        T0_MAP
+  X:FF81H         PUBLIC        T1_MAP
+  X:FEAAH         PUBLIC        RSTDBC
+  X:FF83H         PUBLIC        T3_MAP
+  X:FF84H         PUBLIC        T4_MAP
+  X:FF85H         PUBLIC        T5_MAP
+  X:FEA0H         PUBLIC        WDTCCR
+  C:003BH         PUBLIC        TIMER0_Rpt
+  D:008CH         PUBLIC        TH0
+  D:008AH         PUBLIC        TL0
+  X:FE93H         PUBLIC        CLKOUT
+  D:008EH         PUBLIC        CLKSWR
+  X:FFA9H         PUBLIC        RXD2_MAP
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  01/05/2021  11:52:18  PAGE 5
+
+
+  X:FFA8H         PUBLIC        TXD2_MAP
+  X:FE98H         PUBLIC        ADCWC
+  X:FE8AH         PUBLIC        S2BUF
+  X:FF90H         PUBLIC        PWM0_MAP
+  X:FFA4H         PUBLIC        SS_MAP
+  X:FF94H         PUBLIC        PWM1_MAP
+  X:FF98H         PUBLIC        PWM2_MAP
+  X:FE88H         PUBLIC        S2CON
+  X:FE80H         PUBLIC        TCON1
+  X:FF9CH         PUBLIC        PWM3_MAP
+  X:FF8FH         PUBLIC        CLKO_MAP
+  X:FEBCH         PUBLIC        INT01_PINS
+  X:FE92H         PUBLIC        FREQ_CLK
+  X:FEB0H         PUBLIC        PITS0
+  X:FF05H         PUBLIC        P0LPU
+  X:FEB1H         PUBLIC        PITS1
+  X:FEB2H         PUBLIC        PITS2
+  X:FEB3H         PUBLIC        PITS3
+  X:FFA7H         PUBLIC        MISO_MAP
+  X:FFA6H         PUBLIC        MOSI_MAP
+  X:FF40H         PUBLIC        P00DBC
+  D:00D0H         PUBLIC        PSW
+  X:FF41H         PUBLIC        P01DBC
+  X:FF42H         PUBLIC        P02DBC
+  X:FF00H         PUBLIC        P0M0
+  -------         PROC          MAIN
+  C:000EH         LINE#         9
+  C:000EH         LINE#         10
+  C:000EH         LINE#         12
+  C:0013H         LINE#         16
+  C:0016H         LINE#         17
+  C:001BH         LINE#         18
+  C:0024H         LINE#         20
+  C:0029H         LINE#         21
+  C:002BH         LINE#         32
+  C:002EH         LINE#         33
+  C:0031H         LINE#         34
+  C:0034H         LINE#         35
+  C:0037H         LINE#         37
+  C:0039H         LINE#         38
+  -------         ENDPROC       MAIN
+  -------         PROC          TIMER0_RPT
+  -------         DO            
+  D:0008H         SYMBOL        count
+  -------         ENDDO         
+  C:003BH         LINE#         44
+  C:003FH         LINE#         47
+  C:0047H         LINE#         48
+  C:0050H         LINE#         49
+  C:0050H         LINE#         50
+  C:0056H         LINE#         51
+  C:0058H         LINE#         52
+  C:0058H         LINE#         53
+  -------         ENDPROC       TIMER0_RPT
+  -------         ENDMOD        MAIN
+
+Program Size: data=11.0 xdata=59 code=97
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  01/05/2021  11:52:18  PAGE 6
+
+
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

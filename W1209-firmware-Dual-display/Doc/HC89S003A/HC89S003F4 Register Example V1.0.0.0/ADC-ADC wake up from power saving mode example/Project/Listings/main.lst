@@ -1,0 +1,101 @@
+C51 COMPILER V9.60.0.0   MAIN                                                              01/05/2021 11:32:45 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\SoftWare\Keil\C51\BIN\C51.EXE ..\user\main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.
+                    -\Listings\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          
+   2          //ADC wake up from power saving mode
+   3          
+   4          #define ALLOCATE_EXTERN
+   5          #include "HC89S003F4.h"
+   6          
+   7          void Delay_2us(unsigned int fui_i);             //delay function
+   8          
+   9          unsigned long gul_VolValue = 0;                   //voltage value
+  10          unsigned long gul_AdcValue = 0;                   //Save the ADC value
+  11          unsigned int  gui_AdcTempVal = 0;                 //ADC temporary value
+  12          unsigned char guc_Count = 0;                        //ADC average value count
+  13          
+  14          /***************************************************************************************
+  15            * @Function   After initialization ,switch to power down mode,input low level of P02 port to wake up MCU£¬
+             -LED1 off.
+  16          ***************************************************************************************/
+  17          void main()
+  18          {
+  19   1      /************************************system initialization****************************************/
+  20   1              WDTCCR = 0x00;                                          //Close watchdog
+  21   1                                        //In this example, the watchdog is closed for the convenience of testing. 
+  22   1                                        //In practical use, it is recommended to open the watchdog. See WDT Reset examp
+             -le for details
+  23   1              
+  24   1              CLKSWR = 0x51;                                          //Select internal RC32M as system clock, RC32M/2, Fosc=16MHz
+  25   1              CLKDIV = 0x01;                                          //Fosc/1,Fcpu=16MHz 
+  26   1      
+  27   1              P0M0 = P0M0&0xF0|0x08;          //Set P00 as push-pull output
+  28   1              P1M0 = P1M0&0xF0|0x08;          //Set P10 as push-pull output
+  29   1      /***********************************ADC initialization**************************************/
+  30   1        FREQ_CLK = 0x10;          //This example relates to power down mode, and Fcpu need to be set
+  31   1              ADCC0 &=~ 0x80;                                         //Close ADC
+  32   1              ADCWC |= 0x80;                                          //Allow ADC wake up module
+  33   1              P0M1 = P0M1&0xF0|0x03;          //Set P02 as analog input       
+  34   1              P0LPU |= 0x10;                                          //Set pull-up resistance as 100k
+  35   1              IE1 |= 0x20;                                              //enable interrupt after AD conversion
+  36   1              Open interrupt
+*** ERROR C202 IN LINE 36 OF ..\user\main.c: 'Open': undefined identifier
+*** ERROR C141 IN LINE 36 OF ..\user\main.c: syntax error near 'interrupt', expected ';'
+  37   1              EA = 1;                                                             //enable all interrupt      
+  38   1              while(1)
+  39   1              {               
+  40   2                      PCON |= 0x02;                                     //switch to power down mode
+  41   2                      gul_VolValue = gul_AdcValue*5000/4096;//Convert to voltage
+  42   2                      
+  43   2                      for(guc_Count=0;guc_Count<10;guc_Count++)
+  44   2                      {
+  45   3                              gui_AdcTempVal += gul_VolValue;         
+  46   3                      }
+  47   2                      gui_AdcTempVal = gui_AdcTempVal/10;
+  48   2                      if((gui_AdcTempVal<3500)&&(gui_AdcTempVal>2000))
+  49   2                      {
+  50   3                              P0_0=~P0_0;     
+C51 COMPILER V9.60.0.0   MAIN                                                              01/05/2021 11:32:45 PAGE 2   
+
+  51   3                      }
+  52   2                      else if((gui_AdcTempVal<5000)&&(gui_AdcTempVal>3900))
+  53   2                      {
+  54   3                              P1_0=~P1_0;
+  55   3                      }
+  56   2              }
+  57   1      }
+  58          
+  59          /***************************************************************************************
+  60             ADC interrupt service function
+  61          ***************************************************************************************/
+  62          void ADC_Rpt(void) interrupt ADC_VECTOR
+  63          {
+  64   1              ADCWC &=~ 0x40;                                         //Clear flag bit
+  65   1              ADCC0 = 0x80;                                             //enable ADC power
+  66   1              Delay_2us(10);                                          //delay 20us
+  67   1              ADCC1 = 0x02;                                             //Select external channel 2
+  68   1              ADCC2 = 0x4D;                                             //12bits, Right alignment of data, adc_clk frequency = Fosc/16        
+  69   1              ADCC0 |= 0x40;                                    //Start ADC
+  70   1              while(!(ADCC0&0x20));                   //Wait for the ADC conversion to complete
+  71   1              ADCC0 &=~ 0x20;                                   //Clear flag bit      
+  72   1              gul_AdcValue = ADCR;                    //Get the value of the ADC      
+  73   1              ADCC0 &=~ 0x80;                                   //close ADC   
+  74   1      }
+  75          
+  76          /**
+  77            * Delay function 
+  78            * Fcpu = 16MHz,fui_i = 1,The delay time is about 2us
+  79            */
+  80          void Delay_2us(unsigned int fui_i)
+  81          {
+  82   1              while(fui_i--); 
+  83   1      }
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  2 ERROR(S)

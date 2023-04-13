@@ -1,0 +1,188 @@
+C51 COMPILER V9.60.0.0   MAIN                                                              01/05/2021 11:36:03 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\SoftWare\Keil\C51\BIN\C51.EXE ..\user\main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.
+                    -\Listings\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          
+   2          //CRC storing data
+   3          
+   4          #define ALLOCATE_EXTERN
+   5          #include "HC89S003F4.h"
+   6          #include "string.h"
+   7          
+   8          unsigned int CRC_CalcCRC(unsigned char *fucp_CheckArr,unsigned int fui_CheckLen);                  //write
+             - the data to be checked and return the check value
+   9          void Flash_EraseBlock(unsigned int fui_Address);                                                   //erase
+             - block
+  10          void FLASH_WriteData(unsigned char fuc_SaveData, unsigned int fui_Address);                        //Write
+             - a byte of data to flash
+  11          void Flash_WriteArr(unsigned int fui_Address,unsigned char fuc_Length,unsigned char *fucp_SaveArr);//Write
+             - any length of data to flash
+  12          void Flash_ReadArr(unsigned int fui_Address,unsigned char fuc_Length,unsigned char *fucp_SaveArr); //Readi
+             -ng data of any length from flash
+  13          void Delay(unsigned int fui_i);                                                                                //delay f
+             -unction
+  14          
+  15          unsigned char guc_StoredData_a[5] = {0x01,0x02,0x03,0x04,0x05};  //stored data
+  16          unsigned char guc_ReadData_a[5] = {0x00};                        //read data                    
+  17          unsigned int  gui_CRCStoredValue = 0;                              //CRC stored data
+  18          unsigned int  gui_CRCReadValue = 0;                                        //CRC read data
+  19          
+  20          /**************************************************************************************
+  21            * @Function     Write bytes to the address 0x2b00,CRC check.If the check value is correct, LED1 flashes,
+             - otherwise wait
+  22            * @Operation     Write bytes to the address 0x2b00
+  23          **************************************************************************************/
+  24          void main()
+  25          {
+  26   1      /************************************system initialization****************************************/
+  27   1              WDTCCR = 0x00;                                          //Close watchdog
+  28   1                                        //In this example, the watchdog is closed for the convenience of testing. 
+  29   1                                        //In practical use, it is recommended to open the watchdog. See WDT Reset examp
+             -le for details
+  30   1              
+  31   1              CLKSWR = 0x51;                                          //Select internal RC32M as system clock, RC32M/2, Fosc=16MHz
+  32   1              CLKDIV = 0x01;                                          //Fosc/1,Fcpu=16MHz 
+  33   1      /*************************************************************************************************/
+  34   1              P0M0 = P0M0&0xF0|0x08;          //Set P21 as push-pull output
+  35   1      /**********************************CRC initialization***************************************/
+  36   1              FREQ_CLK = 0x10;                                        //Fcpu need to be set
+  37   1              
+  38   1      //      Flash_EraseBlock(0x2B00);                       //Erase the block with the first address of 0x2B00
+  39   1      //      Flash_WriteArr(0x2B00,5,guc_StoredData_a);//Write data from 0x2B00
+  40   1      //  When the above two sentences are annotated, the CRC check value will be different and will always wait
+             - at while (1)
+  41   1      //  When the above two sentences are not annotated, the CRC check is the same and the LED flashes                                               
+  42   1              
+  43   1              Flash_ReadArr(0x2B00,5,guc_ReadData_a);              //Read data from 0x2B00
+  44   1              CRCC = 0x07;                                                                         //LSB first£¬The initial value after reset is 0xFFFF,Reset
+             - CRC calculator
+C51 COMPILER V9.60.0.0   MAIN                                                              01/05/2021 11:36:03 PAGE 2   
+
+  45   1              gui_CRCReadValue = CRC_CalcCRC(guc_ReadData_a,5);    //Calculate the CRC value read from the Block
+  46   1              CRCC = 0x07;                                                                         //LSB first£¬The initial value after reset is 0xFFFF,Reset
+             - CRC calculator
+  47   1              gui_CRCStoredValue = CRC_CalcCRC(guc_StoredData_a,5);//check stored CRC value
+  48   1              if(gui_CRCStoredValue != gui_CRCReadValue)           //Compare CRC check value
+  49   1              {
+  50   2                      while(1);
+  51   2              }
+  52   1              while(1)
+  53   1              {
+  54   2                      P0_0 =~ P0_0;
+  55   2                      Delay(250);
+  56   2              }
+  57   1      }
+  58          
+  59          /**
+  60            * @Function   write the data to be checked and return the check value
+  61            * @Argument   *fucp_CheckArr : CRC data first address
+  62            * @Argument   fui_CheckLen : CRC data length
+  63            *             Value range 0 - 65535
+  64            * @Return     CRC result
+  65                                          LSB first , MSB last
+  66            */
+  67          unsigned int CRC_CalcCRC(unsigned char *fucp_CheckArr,unsigned int fui_CheckLen)
+  68          {
+  69   1              while(fui_CheckLen--)CRCL = *(fucp_CheckArr++);
+  70   1              return CRCR;
+  71   1      }
+  72          
+  73          /**
+  74            * @Function   Erase block,it takes about 5ms
+  75            * @Argument   fui_Address £ºAny address in the erased block
+  76            * @Return     NULL
+  77            */
+  78          #pragma disable                                                  //Ensure that the adjustment will not be interrupted, resulting in adjustment failu
+             -re
+  79          void Flash_EraseBlock(unsigned int fui_Address)
+  80          {
+  81   1              IAP_CMD = 0xF00F;                                   //Flash unlock
+  82   1              IAP_ADDR = fui_Address;                 //Write erase address
+  83   1              IAP_CMD = 0xD22D;                                   //Select operation mode, sector erase
+  84   1              IAP_CMD = 0xE11E;                                 //After triggering,IAP_ADDRL&IAP_ADDRH points to 0xFF and locks automatically
+  85   1      }
+  86          
+  87          /**
+  88            * @Function   Write a byte of data to flash
+  89            * @Argument   fui_Address £ºFLASH address
+  90            *     @Argument       fucp_SaveData£ºThe first address of the data storage area
+  91            * @Return     NULL
+  92            * @Notes              The operating block must be erased before writing
+  93            */
+  94          #pragma disable                                                 //Ensure that the adjustment will not be interrupted, resulting in adjustment failur
+             -e
+  95          void FLASH_WriteData(unsigned char fuc_SaveData, unsigned int fui_Address)
+  96          {
+  97   1              IAP_DATA = fuc_SaveData;
+  98   1              IAP_CMD=0xF00F;                             //Flash unlock
+  99   1              IAP_ADDR = fui_Address;
+ 100   1              IAP_CMD=0xB44B;                             //Byte programming
+ 101   1              IAP_CMD=0xE11E;                         //Trigger operation
+ 102   1      }
+ 103          
+C51 COMPILER V9.60.0.0   MAIN                                                              01/05/2021 11:36:03 PAGE 3   
+
+ 104          /**
+ 105            * @Function   Write any length of data to flash
+ 106            * @Argument   fui_Address £ºFLASH address
+ 107            *     @Argument       fuc_Length £º Write data length
+ 108            *                             Value range£º0x00-0xFF
+ 109            *     @Argument        *fucp_SaveArr£ºThe first address of the data storage area
+ 110            * @Return     NULL
+ 111            * @Notes                The operating sector must be erased before writing
+ 112            */ 
+ 113          #pragma disable                                                 //Ensure that the adjustment will not be interrupted, resulting in adjustment failur
+             -e
+ 114          void Flash_WriteArr(unsigned int fui_Address,unsigned char fuc_Length,unsigned char *fucp_SaveArr)
+ 115          {
+ 116   1              unsigned char fui_i = 0;
+ 117   1              for(fui_i=0;fui_i<fuc_Length;fui_i++)
+ 118   1              {
+ 119   2                      FLASH_WriteData(*(fucp_SaveArr++), fui_Address++); 
+ 120   2              }
+ 121   1      }
+ 122          
+ 123          /**
+ 124            * @Function   Reading data of any length from flash
+ 125            * @Argument   fui_Address £ºFLASH address
+ 126            *     @Argument         fuc_Length £ºRead data length
+ 127            *                             alue range£º0x00-0xFF
+ 128            *     @Argument        *fucp_SaveArr£ºThe first address of the data storage area
+ 129            * @Return     NULL
+ 130            */
+ 131          void Flash_ReadArr(unsigned int fui_Address,unsigned char fuc_Length,unsigned char *fucp_SaveArr)
+ 132          {
+ 133   1              while(fuc_Length--)
+ 134   1              *(fucp_SaveArr++)=*((unsigned char code *)(fui_Address++));//Read data
+ 135   1      }
+ 136          
+ 137          /**
+ 138            * Delay function 
+ 139            * Fcpu = 16MHz,fui_i = 1,The delay time is about 1ms
+ 140            */
+ 141          void Delay(unsigned int fui_i)
+ 142          {
+ 143   1              unsigned int fui_j;
+ 144   1              for(;fui_i > 0;fui_i --)
+ 145   1              for(fui_j = 1596;fui_j > 0;fui_j --);
+ 146   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    373    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     14      14
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,71 @@
+C51 COMPILER V9.60.0.0   MAIN                                                              01/05/2021 11:47:26 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\SoftWare\Keil\C51\BIN\C51.EXE ..\user\main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.
+                    -\Listings\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          //PWM Timer
+   2          
+   3          #define ALLOCATE_EXTERN
+   4          #include "HC89S003F4.h"
+   5          
+   6          /***************************************************************************************
+   7            * @Function   Set PWM0 to timer mode, enter an interrupt every 32.76Ms, P00 level flips
+   8          ***************************************************************************************/
+   9          void main()
+  10          {
+  11   1      /************************************System initialization ****************************************/
+  12   1              WDTCCR = 0x00;                                          //Close watchdog
+  13   1                                        //In this example, the watchdog is closed for the convenience of testing. 
+  14   1                                        //In practical use, it is recommended to open the watchdog. See WDT Reset examp
+             -le for details
+  15   1              
+  16   1              CLKSWR = 0x51;                                          //Select internal RC32M as system clock, RC32M/2, Fosc=16MHz
+  17   1              CLKDIV = 0x01;                                          //Fosc/1,Fcpu=16MHz 
+  18   1              P0M0 = P0M0&0xF0|0x08;              //Set P00 as push-pull output
+  19   1      /**********************************PWM initialization**************************************/
+  20   1              PWM0C = 0x83;                                           //PWM clock divided by 128, open Interrupt
+  21   1      
+  22   1              //After the cycle count is completed, a PWM Interrupt will be generated, and the precise 
+  23   1              //timing function can be realized by setting the cycle Register
+  24   1              //Period calculation    = 0x0FFF / (Fosc / PWM frequency division factor)
+  25   1              //                      = 0x0FFF /(16000000 / 128)
+  26   1              //                      = 4095  /125000
+  27   1              //                      = 32.76Ms        (Timed time)
+  28   1          
+  29   1              PWM0PH = 0x0F;                                          //The upper 4 bits of the period Register are 0x0F
+  30   1              PWM0PL = 0xFF;                                          //The lower 8 bits of the period Register are 0xFF
+  31   1              PWM0EN = 0x0F;                                          //Enable PWM
+  32   1      
+  33   1              EA = 1;                                                         //Open total Interrupt
+  34   1              while(1);
+  35   1      }
+  36          
+  37          /***************************************************************************************
+  38           PWM interrupt service function
+  39          ***************************************************************************************/
+  40          void PWM_Rpt(void) interrupt PWM_VECTOR
+  41          {
+  42   1              P0_0 =~ P0_0;
+  43   1              PWM0C &=~ 0x40;                                         //Clear flag Bit
+  44   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     44    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+C51 COMPILER V9.60.0.0   MAIN                                                              01/05/2021 11:47:26 PAGE 2   
+
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
