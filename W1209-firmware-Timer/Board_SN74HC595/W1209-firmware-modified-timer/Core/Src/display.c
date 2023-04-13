@@ -400,7 +400,7 @@ void setDisplayTestMode(bool val) //, char* str)
 //if (!testMode && val) {
 	if (val == true) {
 		//if (*str == 0) {
-		setDisplayStr("1.2.3.");
+		setDisplayStr("8.8.8.");
 		//    } else {
 		//      setDisplayStr (str);
 		//}

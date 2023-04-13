@@ -158,83 +158,6 @@ void main(void) {
 
 	CLK_CKDIVR = 0x00;  // Set the frequency to 16 MHz
 
-////	// PC.7
-////	#define SSD_DIGIT_1_BIT     0x80
-////	// PC.6
-////	#define SSD_DIGIT_2_BIT     0x40
-////	// PC.5
-////	#define SSD_DIGIT_3_BIT     0x20
-////
-////	PC_DDR |= SSD_DIGIT_1_BIT | SSD_DIGIT_2_BIT
-////			| SSD_DIGIT_3_BIT;
-////
-////	PC_CR1 |= SSD_DIGIT_1_BIT | SSD_DIGIT_2_BIT
-////			| SSD_DIGIT_3_BIT;
-////
-////	PC_ODR |= SSD_DIGIT_1_BIT | SSD_DIGIT_2_BIT
-////			| SSD_DIGIT_3_BIT;
-////
-////#define RELAY_BIT               0x40
-////
-////	PD_ODR &= ~RELAY_BIT;
-////	PD_DDR |= RELAY_BIT;
-////	PD_CR1 |= RELAY_BIT;
-//
-//	PA_DDR |= 0xFF;
-//	PA_CR1 |= 0XFF;
-//
-//	PB_DDR |= 0xFF;
-//	PB_CR1 |= 0XFF;
-//
-//	PC_DDR |= 0xFF;
-//	PC_CR1 |= 0XFF;
-//
-//	PD_DDR |= 0xFF;
-//	PD_CR1 |= 0XFF;
-//
-////	HC595_init();
-////
-//	unsigned char i, j, k;
-////
-////#define HC595_data   0x02 // PA1
-////#define HC595_clock  0x08 // PA3
-////#define HC595_update 0x02 // PD1
-////
-////#define HC595_data_port   PA_ODR // PA1/PA3
-////#define HC595_clock_port  PA_ODR // PA1/PA3
-////#define HC595_update_port PD_ODR // PD1
-////
-////	unsigned char data[1];
-////
-////	set_segments(data, 0, '2', 0, 0);
-//
-//	while(1) {
-////		HC595_update_port ^= HC595_update;
-//
-////		set_hc595(data[0], false);
-////		PA_ODR = i;
-////		PB_ODR = j;
-////		PC_ODR = k | (SSD_DIGIT_1_BIT | SSD_DIGIT_2_BIT
-////				| SSD_DIGIT_3_BIT);
-////
-////		PD_ODR = j;
-//
-////		PD_ODR ^= RELAY_BIT;
-//
-//		PA_ODR = i;
-//		PB_ODR = i;
-//		PC_ODR = i;
-//		PD_ODR = i;
-//
-//		i++;
-////
-////		j+= (i>>8) & 1;
-////		k+= (j>>8) & 1;
-//
-//		//for(unsigned long l = 0; l < 0xFFFFF; l++);
-//
-//	}
-
 	enableInterrupts();
 
 	initTimer();
@@ -264,6 +187,8 @@ void main(void) {
 
 		}
 	}
+
+	while((get_Button1() == false) || (get_Button2() == false));
 
 	initParamsEEPROM();
 
