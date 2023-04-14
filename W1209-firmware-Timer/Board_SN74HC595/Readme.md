@@ -1,7 +1,3 @@
-Remote control (serial 9600 bauds):
-
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Timer/Board_SN74HC595/Doc/Board_display_remote.png)
-
 ## Similar board with IC SN74HC595
 
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Timer/Board_SN74HC595/Doc/Timer_SN74HC595.jpg)
@@ -140,10 +136,6 @@ Source: https://www.aliexpress.com/item/1005001830924875.html
 
 --------------
 
-### Alternative firmware for this board with IC SN74HC595: [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Timer/Board_SN74HC595).
-
---------------
-
 If the STM8S003F3P6 is blocked when trying to program, this message should appear:
 
 > target page is write protected (UBC) or read-out protection is enabled
@@ -184,3 +176,11 @@ Reference: [Bare metal programming: STM8 (Part 2) ](https://lujji.github.io/blog
 [STVP (Windows)]:
 
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Timer/Doc/Chip_unprotected.png)
+
+--------------
+
+### Alternative firmware for this board with IC SN74HC595:
+
+Remote control (serial 9600 bauds):
+
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Timer/Board_SN74HC595/Doc/Board_display_remote.png)
