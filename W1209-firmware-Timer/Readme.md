@@ -77,6 +77,7 @@ Parameters (Long press SET button):
  
 - P7: Lock Factory reset
 - P8: Auto bright
+- P9: Internal timer calibration (To allow more accurate timing)
 
 --------------------------
 
