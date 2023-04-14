@@ -78,3 +78,11 @@ Parameters (Long press SET button):
 - P7: Lock Factory reset
 - P8: Auto bright
 - P9: Internal timer calibration (To allow more accurate timing)
+
+-----------
+
+### Similar board with IC SN74HC595:
+
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Timer/Board_SN74HC595/Doc/Timer_SN74HC595.jpg)
+
+More information: [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Timer/Board_SN74HC595)
