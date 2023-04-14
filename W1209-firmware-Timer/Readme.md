@@ -19,6 +19,10 @@ Adapted from [W1209-firmware-remote](https://github.com/rtek1000/W1209-firmware-
 
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Timer/App_Windows/Doc/W1209%20Timer%20Test%20App%20Windows.png)
 
+To-do:
+
+- Add P9 parameter in the App Windows
+
 User's Guide:
 - Button SET: Parameters adjust
 - Buttons Up (+) and Down (-): Start/Restart timer
