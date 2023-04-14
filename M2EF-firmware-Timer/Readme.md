@@ -203,3 +203,6 @@ Remote control (serial 9600 bauds):
 - More information about this alternative firmware [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Timer).
 - - (This firmware is an adaptation of the firmware for the W1209 board)
 
+---------
+
+Note: This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
