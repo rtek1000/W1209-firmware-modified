@@ -64,6 +64,9 @@ Typical application:
 - - Firstly set the time, T1=4.05 T2=0.1.0
 - - Secondly set the working mode P-3, it will be automatically memorized 5s after setting, and start to run.
 
+Info sources:
+- https://www.aliexpress.com/item/1005001830924875.html
+- https://pt.aliexpress.com/item/1005001722532897.html
 ----------
 
 ### Hardware:
@@ -131,8 +134,6 @@ IC pinout:
 - Anode: 3V3 (STM8 VDD)
 - Catode: (1k) to Relay coil (5V for 110-220Vac version)
 - - For 12/24V version: do not use the board without modifying the LED circuit.  Relay voltage can bounce back across the LED and damage the STM8 microcontroller
-
-Source: https://www.aliexpress.com/item/1005001830924875.html
 
 --------------
 
