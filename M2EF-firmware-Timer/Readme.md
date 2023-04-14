@@ -191,9 +191,9 @@ Remote control (serial 9600 bauds):
 - P2: T1 seconds [0 ~ 59]
 - P3: T1 milliseconds [0 ~ 999]
 
-- P4: T1 minutes [0 ~ 999]
-- P5: T1 seconds [0 ~ 59]
-- P6: T1 milliseconds [0 ~ 999]
+- P4: T2 minutes [0 ~ 999]
+- P5: T2 seconds [0 ~ 59]
+- P6: T2 milliseconds [0 ~ 999]
  
 - P7: Lock Factory reset
 - P8: Auto bright
