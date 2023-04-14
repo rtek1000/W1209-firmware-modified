@@ -79,6 +79,10 @@ Parameters (Long press SET button):
 - P8: Auto bright
 - P9: Internal timer calibration (To allow more accurate timing)
 
+Parameters table:
+
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Timer/Doc/Table_params_W1209_timer.png)
+
 -----------
 
 ### M2EF - Similar board with IC SN74HC595:
