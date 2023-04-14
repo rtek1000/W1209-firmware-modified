@@ -81,7 +81,7 @@ Parameters (Long press SET button):
 
 -----------
 
-### Similar board with IC SN74HC595:
+### M2EF - Similar board with IC SN74HC595:
 
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/M2EF-firmware-Timer/Doc/M2EF-Timer_SN74HC595_1.png)
 
