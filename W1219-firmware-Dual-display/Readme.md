@@ -54,6 +54,10 @@ Maybe it's an HC89S003A, see datasheet,
 - Pin 4: SWD mode clock input
 - Pin 18: SWD data input/output
 
+Board:
+
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1219-firmware-Dual-display/Doc/W3230_board.jpg)
+
 Pinout:
 
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1219-firmware-Dual-display/Doc/HC89S003A.png)
