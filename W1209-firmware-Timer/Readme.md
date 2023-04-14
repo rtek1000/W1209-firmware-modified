@@ -85,4 +85,4 @@ Parameters (Long press SET button):
 
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Timer/Board_SN74HC595/Doc/Timer_SN74HC595.jpg)
 
-More information: [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Timer/Board_SN74HC595)
+More information: [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/M2EF-firmware-Timer)
