@@ -15,13 +15,13 @@ Adapted from [W1209-firmware-remote](https://github.com/rtek1000/W1209-firmware-
 - Two-step timing (Times separated in minutes, seconds and milliseconds).
 - Display automatically shows the most significant digits.
 - Sensor input operating as a button.
-- Remote Control (App Windows for tests).
+- Remote Control (App (Windows) for tests).
 
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Timer/App_Windows/Doc/W1209%20Timer%20Test%20App%20Windows.png)
 
 To-do:
 
-- Add P9 parameter in the App Windows
+- Add P9 parameter in Windows App
 
 User's Guide:
 - Button SET: Parameters adjust
