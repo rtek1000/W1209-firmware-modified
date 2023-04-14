@@ -2,7 +2,7 @@
 
 - Be sure to install the NTC sensor in isolation from the metal housing.
 - - Be sure to install electrical ground in the housing if it is metal.
-- An external isolated 5V power supply can solve this problem.
+- An external isolated 5V (>1A) power supply can solve this problem.
 
 ### W3230 - Alternative version (12V/24V/110V-220V):
 
