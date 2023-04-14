@@ -1,0 +1,25 @@
+[Settings]
+WndTxt = HC-ISP
+Version = 2.0.12.0
+CheckVersion = 1
+CK_URL = http://www.holychip.cn/search.php?search_keyword=HC-ISP
+DL_URL = http://www.holychip.cn/search.php?search_keyword=HC-ISP
+
+
+[SET]
+RegistryKey = HOLYCHIP
+WndTxt = HC-PM51
+Version = 5.0.12.0
+PmFileVersion = 11
+CheckVersion = 1
+InitMCU = HC89S003F4
+CK_URL = http://www.holychip.cn/search.php?search_keyword=HC-ISP
+DL_URL = http://www.holychip.cn/search.php?search_keyword=HC-ISP
+Ext = hcf
+SlaveName0 = HC-PM51
+SlaveName1 = HC-LINK
+FmVer = V1020,V5090,V6010
+LinkFmVer = HC-LINK V4.02
+About0 = HC-PM51		5.0.12.0
+About1 = http://www.holychip.cn
+About2 = (C) 2022 Shanghai Holychip Co., Ltd
