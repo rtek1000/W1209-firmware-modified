@@ -1,5 +1,7 @@
 ### W3230 - Alternative version (12V/24V/110V-220V):
 
+Warning: for the 110V/220V version there is no electrical isolation from the input mains due to the direct power supply (IC OB2222ECP).
+
 ![image](https://github.com/rtek1000/W1209-firmware-modified/blob/master/W3230-firmware-Dual-display/Doc/W3230.png)
 
 - P6: Maximum temperature [Off/-55~120]
