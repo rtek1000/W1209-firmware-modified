@@ -68,6 +68,10 @@ Typical application:
 - - Firstly set the time, T1=4.05 T2=0.1.0
 - - Secondly set the working mode P-3, it will be automatically memorized 5s after setting, and start to run.
 
+----------
+
+### Hardware:
+
 Board image:
 
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Timer/Doc/Board_no_display.jpg)
