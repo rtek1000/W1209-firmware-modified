@@ -184,4 +184,4 @@ Reference: [Bare metal programming: STM8 (Part 2) ](https://lujji.github.io/blog
 
 Remote control (serial 9600 bauds):
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Timer/Board_SN74HC595/Doc/Board_display_remote.png)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/M2EF-firmware-Timer/Doc/M2EF-Board_display_remote.png)
