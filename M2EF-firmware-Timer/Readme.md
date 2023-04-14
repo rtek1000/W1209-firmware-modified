@@ -186,6 +186,7 @@ Remote control (serial 9600 bauds):
 
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/M2EF-firmware-Timer/Doc/M2EF-Board_display_remote.png)
 
+- P0: Cycle mode [0, 1, 2, 3, 4, 5]
 - P1: T1 minutes [0 ~ 999]
 - P2: T1 seconds [0 ~ 59]
 - P3: T1 milliseconds [0 ~ 999]
