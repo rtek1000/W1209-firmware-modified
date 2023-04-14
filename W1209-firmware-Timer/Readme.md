@@ -33,7 +33,7 @@ User's Guide:
 
 Parameters (Long press SET button):
 
-- P0: Relay mode [0, 1, 2, 3, 4, 5]
+- P0: Cycle mode [0, 1, 2, 3, 4, 5]
 - - Mode 0: The relay opens after a delay of T1 time, and ends
 ```
     ________
