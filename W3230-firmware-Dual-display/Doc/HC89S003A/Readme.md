@@ -1,6 +1,6 @@
 Note:
 - The example codes are compiled with the Keil C51 IDE, but apparently the free version can generate a binary file only 2k in size.
-- SDCC can compile Keil C51 projects, see these tips.
+- SDCC can compile Keil C51 projects, see these tips:
 - - [Migrate from Keil to SDCC](https://charleeli.medium.com/migrate-from-keil-to-sdcc-dd3362c087a7)
 
 > Migration
