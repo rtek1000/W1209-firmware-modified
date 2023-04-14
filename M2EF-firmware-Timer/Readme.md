@@ -198,6 +198,10 @@ Remote control (serial 9600 bauds):
 - P8: Auto bright
 - P9: Internal timer calibration (To allow more accurate timing)
 
+Parameters table:
+
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/M2EF-firmware-Timer/Doc/Table_params_M2EF_timer.png)
+
 ---------
 
 - More information about this alternative firmware [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Timer).
