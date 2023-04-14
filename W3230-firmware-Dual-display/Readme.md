@@ -1,6 +1,7 @@
 ### Warning: there is **no electrical isolation** from the input mains due to the direct power supply (IC OB2222ECP).
 
 - Be sure to install the NTC sensor in isolation from the metal housing.
+- An external 5V power supply can solve this problem.
 
 ### W3230 - Alternative version (12V/24V/110V-220V):
 
