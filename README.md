@@ -170,6 +170,14 @@ There is an error in the electronic circuit that can kill the microcontroller, m
 
 - - ![image](https://github.com/rtek1000/NTC_Lookup_Table_Generator/blob/main/Img/Image_1.png)
 
+----------
+
+### Firmware to use W1209 as a timer: [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Timer)
+
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Timer/App_Windows/Doc/W1209%20Timer%20Test%20App%20Windows.png)
+
+----------
+
 - Note: This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
 
 ## Original description:
