@@ -71,7 +71,7 @@ Info sources:
 
 ### Hardware:
 
-Board image:
+Internal board image:
 
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Timer/Doc/Board_no_display.jpg)
 
