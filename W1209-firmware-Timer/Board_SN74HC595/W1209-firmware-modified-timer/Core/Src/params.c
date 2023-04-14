@@ -39,6 +39,7 @@
  P6 - | 0 | T2 Seconds
  P7 - |Off| On/Off Buttons lock
  P8 - |Off| On/Off Automatic brightness reduction (IDLE >15 seconds)
+ P9 - | 0 | Internal timer calibration
  */
 
 #include "params.h"
@@ -55,11 +56,11 @@
 static unsigned char paramId;
 static int paramCache[paramLen];
 
-const int paramMin[] =     { 0,   0,  0,   0,   0,  0,   0, 0, 0, 0 };
-const int paramMax[] =     { 5, 999, 59, 999, 999, 59, 999, 1, 1, 0 };
+const int paramMin[] =     { 0,   0,  0,   0,   0,  0,   0, 0, 0, -8 };
+const int paramMax[] =     { 5, 999, 59, 999, 999, 59, 999, 1, 1, 7 };
 const int paramDefault[] = { 0,   1,  0,   0,   1,  0,   0, 0, 0, 0 };
 
-#define paramIdMax 8
+#define paramIdMax 9
 
 void resetParamsEEPROM();
 void loadParamsEEPROM();
@@ -229,6 +230,7 @@ void paramToString(unsigned char id, unsigned char *strBuff) {
 	case PARAM_T2_SECONDS:
 	case PARAM_T1_MILLIS:
 	case PARAM_T2_MILLIS:
+	case PARAM_HSI_CALIBRATION:
 		itofpa(paramCache[id], strBuff, 6);
 
 //		((unsigned char*) strBuff)[0] = '0' + paramCache[id];

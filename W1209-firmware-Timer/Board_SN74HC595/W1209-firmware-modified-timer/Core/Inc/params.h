@@ -48,6 +48,7 @@ enum param_enum {
   PARAM_T2_MILLIS,                 // 6
   PARAM_LOCK_BUTTONS,              // 7
   PARAM_AUTO_BRIGHT,               // 8
+  PARAM_HSI_CALIBRATION            // 9
 };
 
 int getParam();

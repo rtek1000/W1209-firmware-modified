@@ -267,6 +267,18 @@ __interrupt (23)
 			} else {
 				timer_seconds = 59;
 
+				if(getParamById(PARAM_HSI_CALIBRATION) != CLK_HSITRIMR) {
+					int hsi_calib = getParamById(PARAM_HSI_CALIBRATION);
+					if (hsi_calib >= 0) {
+						CLK_HSITRIMR = hsi_calib;
+					} else {
+						hsi_calib = 8 - hsi_calib;
+						hsi_calib |= 0x08;
+
+						CLK_HSITRIMR = hsi_calib;
+					}
+				}
+
 				if(timer_minutes > 0) {
 					timer_minutes--;
 				}
