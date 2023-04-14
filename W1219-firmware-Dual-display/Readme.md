@@ -1,6 +1,6 @@
 (W1219):
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Dual-display/Doc/Dual_display.jpg)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1219-firmware-Dual-display/Doc/Dual_display.jpg)
 
 Source: https://m.aliexpress.com/item/1005005223034816.html
 
