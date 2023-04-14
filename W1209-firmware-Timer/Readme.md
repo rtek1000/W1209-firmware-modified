@@ -86,3 +86,7 @@ Parameters (Long press SET button):
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/M2EF-firmware-Timer/Doc/M2EF-Timer_SN74HC595_1.png)
 
 More information: [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/M2EF-firmware-Timer)
+
+---------
+
+Note: This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
