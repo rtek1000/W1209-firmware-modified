@@ -95,6 +95,8 @@ Reference: [Bare metal programming: STM8 (Part 2) ](https://lujji.github.io/blog
 
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Timer/Doc/Chip_unprotected.png)
 
+Note: **The original firmware will be erased**.
+
 ----------
 
 ### W3230 - Alternative version (12V/24V/110V-220V):
