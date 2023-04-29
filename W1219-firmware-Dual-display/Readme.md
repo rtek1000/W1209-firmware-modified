@@ -2,7 +2,7 @@
 
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1219-firmware-Dual-display/Doc/Dual_display.jpg)
 
-Source: https://m.aliexpress.com/item/1005005223034816.html
+Source: https://www.aliexpress.com/item/1005005223034816.html
 
 Note: This version of the board uses the SN74HC164D IC to drive the display segments.
 
