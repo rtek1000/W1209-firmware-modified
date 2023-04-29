@@ -56,6 +56,11 @@ Note: The bottom (green) display is too bright, you may need to use 1k resistors
 
 ----------
 
+To-Do:
+- Adapt code from W1209 to W1219
+
+----------
+
 If the STM8S003F3P6 is blocked when trying to program, this message should appear:
 
 > target page is write protected (UBC) or read-out protection is enabled
