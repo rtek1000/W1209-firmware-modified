@@ -39,12 +39,12 @@ Pinout:
 10. Relay
 
 11. NC
-12. Disp 2 pin 8 (A) (470R)
-13. Disp 2 pin 9 (A) (470R)
-14. Disp 2 pin 12 (A) (470R)
-15. Disp 1 pin 8 (K) (470R)
-16. Disp 1 pin 9 (K) (470R)
-17. Disp 1 pin 12 (K) (470R)
+12. Disp 2 pin 8 (A3) (470R)
+13. Disp 2 pin 9 (A2) (470R)
+14. Disp 2 pin 12 (A1) (470R)
+15. Disp 1 pin 8 (K3) (470R)
+16. Disp 1 pin 9 (K2) (470R)
+17. Disp 1 pin 12 (K1) (470R)
 18. SWIM (ST-link)
 19. HC164 pin 1 / pin 2
 20. HC164 pin 8
