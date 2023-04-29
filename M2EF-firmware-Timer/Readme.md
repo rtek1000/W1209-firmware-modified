@@ -214,6 +214,8 @@ Firmware usage
 
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/M2EF-firmware-Timer/App_Windows/Doc/W1209%20Timer%20Test%20App%20Windows.png)
 
+Note: **The original firmware will be erased**.
+
 To-do:
 
 - Add P9 parameter in Windows App
