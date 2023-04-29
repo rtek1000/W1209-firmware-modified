@@ -54,6 +54,45 @@ Note: The bottom (green) display is too bright, you may need to use 1k resistors
 
 ----------
 
+If the STM8S003F3P6 is blocked when trying to program, this message should appear:
+
+> target page is write protected (UBC) or read-out protection is enabled
+
+[stm8flash (Linux)]:
+
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Timer/Doc/MCU_write_protected.png)
+
+[STVP (Windows)]:
+
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Timer/Doc/Chip_protected.png)
+
+
+It will be necessary to reset the OPTION_BYTE of the MCU:
+
+>Option bytes
+>
+>Option bytes are located in the EEPROM and allow configuring device hardware features such as readout protection and alternate function mapping. Each option byte, except for read-out protection, has to be stored in a normal form (OPTx) and complementary form (NOPTx). The procedure for writing option bytes is the same as for writing EEPROM, except for the unlcok sequence: OPT bit has to be set in FLASH_CR2 and FLASH_NCR2 registers.
+
+>If you mess things up, you can reset the option bytes via SWIM:
+
+```$ echo -ne '\x00\x00\xff\x00\xff\x00\xff\x00\xff\x00\xff' > opt.bin```
+
+```$ stm8flash -c stlinkv2 -p stm8s003f3 -s opt -w opt.bin```
+
+
+Command result:
+```
+Determine OPT area
+STLink: v2, JTAG: v41, SWIM: v7, VID: 8304, PID: 4837
+Due to its file extension (or lack thereof), "opt.bin" is considered as RAW BINARY format!
+11 bytes at 0x4800... OK
+Bytes written: 11
+```
+
+Reference: [Bare metal programming: STM8 (Part 2) ](https://lujji.github.io/blog/bare-metal-programming-stm8-part2/)
+
+----------
+
 ### W3230 - Alternative version (12V/24V/110V-220V):
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W3230-firmware-Dual-display/Doc/W3230.png)
 
