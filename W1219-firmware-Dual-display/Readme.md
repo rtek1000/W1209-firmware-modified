@@ -49,6 +49,9 @@ Pinout:
 19. HC164 pin 1 / pin 2
 20. HC164 pin 8
 
+Note: The bottom (green) display is too bright, you may need to use 1k resistors instead of 470R.
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1219-firmware-Dual-display/Doc/W1219_Displays.png)
+
 ----------
 
 ### W3230 - Alternative version (12V/24V/110V-220V):
