@@ -25,6 +25,8 @@ Pinout:
 13. Disp pin 10 (Seg F)
 14. +5V
 
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1219-firmware-Dual-display/Doc/SN74HC164D.png)
+
 
 [STM8S003F3P6]
 1. LED
