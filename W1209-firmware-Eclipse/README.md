@@ -107,6 +107,8 @@
    - - - Bytes written: 8136
    - Note: When flashing the microcontroller, the original firmware will be overwritten, and cannot be undone
 
+   - To-Do:
+   - - Ckeck bug: initialization skips delay time to trigger relay for P0 parameter (H1/H2/H3)
 
    - References:
    - - https://github.com/rtek1000/NTC_Lookup_Table_Generator
