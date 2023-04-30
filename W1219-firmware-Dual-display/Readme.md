@@ -59,6 +59,10 @@ Note: The bottom (green) display is too bright, you may need to use 1k resistors
 To-Do:
 - Adapt code from W1209 to W1219
 
+- Note: Timer code adapted for W1219:
+https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1219-firmware-Timer
+- - The SN74HC164 operates similarly to the SN74HC595, but the 164 does not have a strobe function to load the value into the outputs.
+
 ----------
 
 If the STM8S003F3P6 is blocked when trying to program, this message should appear:
