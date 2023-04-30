@@ -41,9 +41,9 @@ Pinout:
 10. Relay [PA3]
 
 11. Not Connected [PB5]
-12. Disp 2 pin 8 (A3) (470R) [PB4]
-13. Disp 2 pin 9 (A2) (470R) [PC3]
-14. Disp 2 pin 12 (A1) (470R) [PC4]
+12. Disp 2 pin 8 (K3) (470R) [PB4]
+13. Disp 2 pin 9 (K2) (470R) [PC3]
+14. Disp 2 pin 12 (K1) (470R) [PC4]
 15. Disp 1 pin 8 (K3) (470R) [PC5]
 16. Disp 1 pin 9 (K2) (470R) [PC6]
 17. Disp 1 pin 12 (K1) (470R) [PC7]
