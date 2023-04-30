@@ -61,6 +61,7 @@ To-Do:
 
 - Note: Timer code adapted for W1219: [W1219-firmware-Timer](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1219-firmware-Timer)
 - - The SN74HC164 operates similarly to the SN74HC595, but the 164 does not have a strobe function to load the value into the outputs.
+- - The two displays are common cathode (code 2831APG), and share the SN74HC164D driver
 
 ----------
 
