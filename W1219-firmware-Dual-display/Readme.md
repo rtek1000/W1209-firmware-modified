@@ -64,7 +64,6 @@ Notes:
 ----------
 
 To-Do:
-- Bug: initialization skips delay time to trigger relay for P0 parameter (H1/H2/H3)
 - Check remote communication
 
 - Notes:
