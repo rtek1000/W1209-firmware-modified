@@ -71,7 +71,7 @@ void initADC()
 
   //pinMode(SENSOR_pin, INPUT);
   result = 0;
-  averaged = 0;
+  averaged = ADC_RAW_TABLE_BASE_TEMP << ADC_AVERAGING_BITS;
 }
 
 /**
