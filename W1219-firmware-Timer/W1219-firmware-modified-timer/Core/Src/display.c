@@ -49,6 +49,7 @@
 
 ///* Definitions for display */
 
+// 1st display
 // Port C controls digits: 1, 2, 3
 #define SSD_DIGIT_123_PORT   PC_ODR
 
@@ -59,6 +60,19 @@
 // PC.7
 #define SSD_DIGIT_3_BIT     0x80
 
+// 2nd display
+// Port B controls digits: 1
+#define SSD_DIGIT2_1_PORT   PB_ODR
+// Port C controls digits: 2, 3
+#define SSD_DIGIT2_23_PORT   PC_ODR
+
+// PB.4
+#define SSD_DIGIT2_1_BIT     0x10
+// PC.3
+#define SSD_DIGIT2_2_BIT     0x08
+// PC.4
+#define SSD_DIGIT2_3_BIT     0x10
+
 const unsigned char Hex2CharMap[] = { '0', '1', '2', '3', '4', '5', '6', '7',
 		'8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
@@ -66,8 +80,10 @@ static char activeDigitId;
 //static unsigned char displayAC[3];
 //static unsigned char displayD[3];
 static unsigned char displayData[3];
+static unsigned char displayData2[3];
 
 static void setDigit(unsigned char, unsigned char, bool);
+static void setDigit2(unsigned char, unsigned char, bool);
 
 static bool displayOff = false;
 static bool testMode = false;
@@ -76,9 +92,12 @@ static bool controlDotStatus = false;
 
 static bool lowBrightness = false;
 #define brightnessPWMtime 2500 // Higher value: clearer
+#define brightnessPWMtime2A 1800 // Higher value: clearer
+#define brightnessPWMtime2B 1300 // Higher value: clearer
 
 unsigned char *stringBuffer1;
 
+bool alternate_display = false;
 byte menuDisplay = 0;
 bool blink_disp = false;
 bool blink_disp_enabled = false;
@@ -90,6 +109,8 @@ unsigned long millis_display2 = 0;
 extern volatile int timer_millis;
 extern volatile unsigned char timer_seconds;
 extern volatile int timer_minutes;
+
+extern bool timer_index;
 
 void setDisplayDot(unsigned char id, bool val);
 
@@ -109,10 +130,16 @@ void initDisplay() {
 	HC164_init();
 
 	PC_DDR |= SSD_DIGIT_1_BIT | SSD_DIGIT_2_BIT
-			| SSD_DIGIT_3_BIT;
+			| SSD_DIGIT_3_BIT | SSD_DIGIT2_2_BIT
+			| SSD_DIGIT2_3_BIT;
 
 	PC_CR1 |= SSD_DIGIT_1_BIT | SSD_DIGIT_2_BIT
-			| SSD_DIGIT_3_BIT;
+			| SSD_DIGIT_3_BIT | SSD_DIGIT2_2_BIT
+			| SSD_DIGIT2_3_BIT;
+
+	PB_DDR |= SSD_DIGIT2_1_BIT;
+
+	PB_CR1 |= SSD_DIGIT2_1_BIT;
 
 //	PA_DDR |= SSD_SEG_B_BIT | SSD_SEG_F_BIT;
 //	PA_CR1 |= SSD_SEG_B_BIT | SSD_SEG_F_BIT;
@@ -137,10 +164,10 @@ void initDisplay() {
 
 	setLED(true);
 
-	for (int i = 0; i < 100; i++) {
+	for (int i = 0; i < 200; i++) {
 		refreshDisplay();
 
-		delay(5);
+		delay(3);
 	}
 
 	setLED(false);
@@ -217,7 +244,13 @@ void mainDisplay(void) {
 			stringBuffer[2] = '0' + (tmp1 % 10);
 		}
 
-		setDisplayStr(stringBuffer);
+		if(timer_index == false){
+			setDisplayStr(stringBuffer, true);
+			setDisplayStr("000", false);
+		} else {
+			setDisplayStr("000", true);
+			setDisplayStr(stringBuffer, false);
+		}
 
 		setDisplayOff(0);
 
@@ -235,26 +268,26 @@ void mainDisplay(void) {
 	case MENU_SELECT_PARAM:
 		paramMsg[1] = '0' + getParamId();
 
-		setDisplayStr((unsigned char*) &paramMsg);
+		setDisplayStr((unsigned char*) &paramMsg, true);
 
 		break;
 
 	case MENU_CHANGE_PARAM:
 		paramToString(getParamId(), stringBuffer);
 
-		setDisplayStr(stringBuffer);
+		setDisplayStr(stringBuffer, true);
 
 		break;
 
 	case MENU_EEPROM_LOCKED:
 		paramMsg[1] = '7';
 
-		setDisplayStr((unsigned char*) &paramMsg);
+		setDisplayStr((unsigned char*) &paramMsg, true);
 
 		break;
 
 	case MENU_EEPROM_LOCKED2:
-		setDisplayStr("LOC");
+		setDisplayStr("LOC", true);
 
 		break;
 
@@ -282,7 +315,7 @@ void mainDisplay(void) {
 //		break;
 
 	case MENU_EEPROM_RESET:
-		setDisplayStr("RST");
+		setDisplayStr("RST", true);
 
 		break;
 
@@ -300,48 +333,66 @@ void mainDisplay(void) {
  */
 void refreshDisplay() {
 	enableDigit(3); // all segments off
+	enableDigit2(3); // all segments off
 
-//	SSD_SEG_BF_PORT &= ~SSD_BF_PORT_MASK;
-//	SSD_SEG_CG_PORT &= ~SSD_CG_PORT_MASK;
-//	SSD_SEG_AEDP_PORT &= ~SSD_AEDP_PORT_MASK;
 	set_hc164(0, false);
 
-	if (!displayOff) {
-//		SSD_SEG_BF_PORT |= displayAC[activeDigitId] & SSD_BF_PORT_MASK;
-//		SSD_SEG_CG_PORT |= displayAC[activeDigitId] & SSD_CG_PORT_MASK;
-//		SSD_SEG_AEDP_PORT |= displayD[activeDigitId];
+	if(alternate_display == true) {
+		if (!displayOff) {
+			set_hc164(displayData[activeDigitId],
+					((activeDigitId == 0) && (controlDotStatus)));
+		} else {
+			set_hc164(0,
+					((activeDigitId == 0) && (controlDotStatus)));
+		}
 
-//		if ((activeDigitId == 0) && (controlDotStatus)) {
-//			SSD_SEG_AEDP_PORT |= SSD_SEG_P_BIT;
-//		}
+		enableDigit(activeDigitId);
 
-		set_hc164(displayData[activeDigitId],
-				((activeDigitId == 0) && (controlDotStatus)));
+		if (lowBrightness) {
+			int i = brightnessPWMtime;
+
+			while (i--)
+				;
+
+			enableDigit(3);
+		}
 	} else {
-//		if ((activeDigitId == 0) && (controlDotStatus)) {
-//			SSD_SEG_AEDP_PORT = SSD_SEG_P_BIT;
-//		}
+		if (!displayOff) {
+			set_hc164(displayData2[activeDigitId],
+					((activeDigitId == 0) && (controlDotStatus)));
+		} else {
+			set_hc164(0,
+					((activeDigitId == 0) && (controlDotStatus)));
+		}
 
-		set_hc164(0,
-				((activeDigitId == 0) && (controlDotStatus)));
+		enableDigit2(activeDigitId);
+
+		if (lowBrightness) {
+			int i = brightnessPWMtime2B;
+
+			while (i--)
+				;
+
+			enableDigit2(3);
+		} else {
+			int i = brightnessPWMtime2A;
+
+			while (i--)
+				;
+
+			enableDigit2(3);
+		}
 	}
 
-	enableDigit(activeDigitId);
-
-	if (activeDigitId <= 0) {
-		activeDigitId = 2;
-	} else {
-		activeDigitId--;
+	if(alternate_display == true){
+		if (activeDigitId <= 0) {
+			activeDigitId = 2;
+		} else {
+			activeDigitId--;
+		}
 	}
 
-	if (lowBrightness) {
-		int i = brightnessPWMtime;
-
-		while (i--)
-			;
-
-		enableDigit(3);
-	}
+	alternate_display = !alternate_display;
 
 	if (activeDigitId == 2) {
 		mainDisplay();
@@ -362,7 +413,8 @@ void setDisplayTestMode(bool val) //, char* str)
 //if (!testMode && val) {
 	if (val == true) {
 		//if (*str == 0) {
-		setDisplayStr("8.8.8.");
+		setDisplayStr("8.8.8.", true);
+		setDisplayStr("8.8.8.", false);
 		//    } else {
 		//      setDisplayStr (str);
 		//}
@@ -398,7 +450,7 @@ void setDisplayDot(unsigned char id, bool val) {
 
 void setDisplayInt(int _value) {
 	itofpa(_value, (char*) stringBuffer1, 0);
-	setDisplayStr(stringBuffer1);
+	setDisplayStr(stringBuffer1, true);
 }
 
 /**
@@ -406,7 +458,7 @@ void setDisplayInt(int _value) {
  @param val
  pointer to the null-terminated string.
  */
-void setDisplayStr(const unsigned char *val) {
+void setDisplayStr(const unsigned char *val, bool sel_disp) {
 	unsigned char i, d;
 
 // get number of display digit(s) required to show given string.
@@ -423,16 +475,28 @@ void setDisplayStr(const unsigned char *val) {
 
 // disable the digit if it is not needed.
 	for (i = 3 - d; i > 0; i--) {
-		setDigit(3 - i, ' ', false);
+		if(sel_disp == true){
+			setDigit(3 - i, ' ', false);
+		} else {
+			setDigit2(3 - i, ' ', false);
+		}
 	}
 
 // set values for digits.
 	for (i = 0; d != 0 && *val + i != 0; i++, d--) {
 		if (*(val + i + 1) == '.') {
-			setDigit(d - 1, *(val + i), !displayOff);
+			if(sel_disp == true){
+				setDigit(d - 1, *(val + i), !displayOff);
+			} else {
+				setDigit2(d - 1, *(val + i), !displayOff);
+			}
 			i++;
 		} else {
-			setDigit(d - 1, *(val + i), false);
+			if(sel_disp == true){
+				setDigit(d - 1, *(val + i), false);
+			} else {
+				setDigit2(d - 1, *(val + i), false);
+			}
 		}
 	}
 }
@@ -450,35 +514,47 @@ void enableDigit(unsigned char id) {
 	case 0:
 		SSD_DIGIT_123_PORT &= ~SSD_DIGIT_1_BIT;
 		SSD_DIGIT_123_PORT |= (SSD_DIGIT_2_BIT | SSD_DIGIT_3_BIT);
-
-//		SSD_DIGIT_12_PORT &= ~SSD_DIGIT_1_BIT;
-//		SSD_DIGIT_12_PORT |= SSD_DIGIT_2_BIT;
-//		SSD_DIGIT_3_PORT |= SSD_DIGIT_3_BIT;
 		break;
 
 	case 1:
 		SSD_DIGIT_123_PORT &= ~SSD_DIGIT_2_BIT;
 		SSD_DIGIT_123_PORT |= (SSD_DIGIT_1_BIT | SSD_DIGIT_3_BIT);
-
-//		SSD_DIGIT_12_PORT &= ~SSD_DIGIT_2_BIT;
-//		SSD_DIGIT_12_PORT |= SSD_DIGIT_1_BIT;
-//		SSD_DIGIT_3_PORT |= SSD_DIGIT_3_BIT;
 		break;
 
 	case 2:
 		SSD_DIGIT_123_PORT &= ~SSD_DIGIT_3_BIT;
 		SSD_DIGIT_123_PORT |= (SSD_DIGIT_1_BIT | SSD_DIGIT_2_BIT);
-
-//		SSD_DIGIT_3_PORT &= ~SSD_DIGIT_3_BIT;
-//		SSD_DIGIT_12_PORT |= SSD_DIGIT_1_BIT | SSD_DIGIT_2_BIT;
 		break;
 
 	default:
 		SSD_DIGIT_123_PORT |= (SSD_DIGIT_1_BIT | SSD_DIGIT_2_BIT
 				| SSD_DIGIT_3_BIT);
+		break;
+	}
+}
 
-//		SSD_DIGIT_12_PORT |= SSD_DIGIT_1_BIT | SSD_DIGIT_2_BIT;
-//		SSD_DIGIT_3_PORT |= SSD_DIGIT_3_BIT;
+void enableDigit2(unsigned char id) {
+	switch (id) {
+	case 0:
+		SSD_DIGIT2_1_PORT &= ~SSD_DIGIT2_1_BIT;
+		SSD_DIGIT2_23_PORT |= (SSD_DIGIT2_2_BIT | SSD_DIGIT2_3_BIT);
+		break;
+
+	case 1:
+		SSD_DIGIT2_1_PORT |= SSD_DIGIT2_1_BIT;
+		SSD_DIGIT2_23_PORT &= ~SSD_DIGIT2_2_BIT;
+		SSD_DIGIT2_23_PORT |= SSD_DIGIT2_3_BIT;
+		break;
+
+	case 2:
+		SSD_DIGIT2_1_PORT |= SSD_DIGIT2_1_BIT;
+		SSD_DIGIT2_23_PORT |= SSD_DIGIT2_2_BIT;
+		SSD_DIGIT2_23_PORT &= ~SSD_DIGIT2_3_BIT;
+		break;
+
+	default:
+		SSD_DIGIT2_1_PORT |= SSD_DIGIT2_1_BIT;
+		SSD_DIGIT2_23_PORT |= (SSD_DIGIT2_2_BIT | SSD_DIGIT2_3_BIT);
 		break;
 	}
 }
@@ -514,155 +590,8 @@ void enableDigit(unsigned char id) {
 
 static void setDigit(unsigned char id, unsigned char val, bool dot) {
 	set_segments(displayData, id, val, dot, testMode);
+}
 
-	//
-//	if (id > 2)
-//		return;
-//
-//// if (testMode) return;
-//
-//	switch (val) {
-//	case '-':
-//		displayAC[id] = SSD_SEG_G_BIT;
-//		displayD[id] = 0;
-//		break;
-//
-//	case ' ':
-//		displayAC[id] = 0;
-//		displayD[id] = 0;
-//		break;
-//
-//	case '0':
-//		displayAC[id] = SSD_SEG_B_BIT | SSD_SEG_F_BIT | SSD_SEG_C_BIT;
-//		displayD[id] = SSD_SEG_A_BIT | SSD_SEG_D_BIT | SSD_SEG_E_BIT;
-//		break;
-//
-//	case '1':
-//		displayAC[id] = SSD_SEG_B_BIT | SSD_SEG_C_BIT;
-//		displayD[id] = 0;
-//		break;
-//
-//	case '2':
-//		displayAC[id] = SSD_SEG_B_BIT | SSD_SEG_G_BIT;
-//		displayD[id] = SSD_SEG_A_BIT | SSD_SEG_D_BIT | SSD_SEG_E_BIT;
-//		break;
-//
-//	case '3':
-//		displayAC[id] = SSD_SEG_B_BIT | SSD_SEG_C_BIT | SSD_SEG_G_BIT;
-//		displayD[id] = SSD_SEG_A_BIT | SSD_SEG_D_BIT;
-//		break;
-//
-//	case '4':
-//		displayAC[id] = SSD_SEG_B_BIT | SSD_SEG_C_BIT | SSD_SEG_F_BIT
-//				| SSD_SEG_G_BIT;
-//		displayD[id] = 0;
-//		break;
-//
-//	case '5':
-//	case 'S':
-//		displayAC[id] = SSD_SEG_C_BIT | SSD_SEG_F_BIT | SSD_SEG_G_BIT;
-//		displayD[id] = SSD_SEG_A_BIT | SSD_SEG_D_BIT;
-//		break;
-//
-//	case '6':
-//		displayAC[id] = SSD_SEG_C_BIT | SSD_SEG_F_BIT | SSD_SEG_G_BIT;
-//		displayD[id] = SSD_SEG_A_BIT | SSD_SEG_D_BIT | SSD_SEG_E_BIT;
-//		break;
-//
-//	case '7':
-//		displayAC[id] = SSD_SEG_B_BIT | SSD_SEG_C_BIT;
-//		displayD[id] = SSD_SEG_A_BIT;
-//		break;
-//
-//	case '8':
-//		displayAC[id] = SSD_SEG_B_BIT | SSD_SEG_C_BIT | SSD_SEG_F_BIT
-//				| SSD_SEG_G_BIT;
-//		displayD[id] = SSD_SEG_A_BIT | SSD_SEG_D_BIT | SSD_SEG_E_BIT;
-//		break;
-//
-//	case '9':
-//		displayAC[id] = SSD_SEG_B_BIT | SSD_SEG_C_BIT | SSD_SEG_F_BIT
-//				| SSD_SEG_G_BIT;
-//		displayD[id] = SSD_SEG_A_BIT | SSD_SEG_D_BIT;
-//		break;
-//
-//	case 'A':
-//		displayAC[id] = SSD_SEG_B_BIT | SSD_SEG_C_BIT | SSD_SEG_F_BIT
-//				| SSD_SEG_G_BIT;
-//		displayD[id] = SSD_SEG_A_BIT | SSD_SEG_E_BIT;
-//		break;
-//
-//	case 'B':
-//		displayAC[id] = SSD_SEG_C_BIT | SSD_SEG_F_BIT | SSD_SEG_G_BIT;
-//		displayD[id] = SSD_SEG_D_BIT | SSD_SEG_E_BIT;
-//		break;
-//
-//	case 'C':
-//		displayAC[id] = SSD_SEG_F_BIT;
-//		displayD[id] = SSD_SEG_A_BIT | SSD_SEG_D_BIT | SSD_SEG_E_BIT;
-//		break;
-//
-//	case 'D':
-//		displayAC[id] = SSD_SEG_B_BIT | SSD_SEG_C_BIT | SSD_SEG_G_BIT;
-//		displayD[id] = SSD_SEG_D_BIT | SSD_SEG_E_BIT;
-//		break;
-//
-//	case 'E':
-//		displayAC[id] = SSD_SEG_F_BIT | SSD_SEG_G_BIT;
-//		displayD[id] = SSD_SEG_A_BIT | SSD_SEG_D_BIT | SSD_SEG_E_BIT;
-//		break;
-//
-//	case 'F':
-//		displayAC[id] = SSD_SEG_F_BIT | SSD_SEG_G_BIT;
-//		displayD[id] = SSD_SEG_A_BIT | SSD_SEG_E_BIT;
-//		break;
-//
-//	case 'H':
-//		displayAC[id] = SSD_SEG_B_BIT | SSD_SEG_C_BIT | SSD_SEG_F_BIT
-//				| SSD_SEG_G_BIT;
-//		displayD[id] = SSD_SEG_E_BIT;
-//		break;
-//
-//	case 'L':
-//		displayAC[id] = SSD_SEG_F_BIT;
-//		displayD[id] = SSD_SEG_D_BIT | SSD_SEG_E_BIT;
-//		break;
-//
-//	case 'N':
-//		displayAC[id] = SSD_SEG_B_BIT | SSD_SEG_F_BIT | SSD_SEG_C_BIT;
-//		displayD[id] = SSD_SEG_A_BIT | SSD_SEG_E_BIT;
-//		break;
-//
-//	case 'O':
-//		displayAC[id] = SSD_SEG_B_BIT | SSD_SEG_F_BIT | SSD_SEG_C_BIT;
-//		displayD[id] = SSD_SEG_A_BIT | SSD_SEG_D_BIT | SSD_SEG_E_BIT;
-//		break;
-//
-//	case 'P':
-//		displayAC[id] = SSD_SEG_B_BIT | SSD_SEG_F_BIT | SSD_SEG_G_BIT;
-//		displayD[id] = SSD_SEG_A_BIT | SSD_SEG_E_BIT;
-//		break;
-//
-//	case 'R':
-//		displayAC[id] = SSD_SEG_G_BIT;
-//		displayD[id] = SSD_SEG_E_BIT;
-//		break;
-//
-//	case 'T':
-//		displayAC[id] = SSD_SEG_F_BIT | SSD_SEG_G_BIT;
-//		displayD[id] = SSD_SEG_D_BIT | SSD_SEG_E_BIT;
-//		break;
-//
-//	default:
-//		displayAC[id] = 0;
-//		displayD[id] = SSD_SEG_D_BIT;
-//	}
-//
-//	if ((dot == true) && ((id != 0) || (testMode == true))) { // do not show DOT0 for Digit 0; only for test mode
-//		displayD[id] |= SSD_SEG_P_BIT;
-//	} else {
-//		displayD[id] &= ~SSD_SEG_P_BIT;
-//	}
-//
-//	//return;
+static void setDigit2(unsigned char id, unsigned char val, bool dot) {
+	set_segments(displayData2, id, val, dot, testMode);
 }

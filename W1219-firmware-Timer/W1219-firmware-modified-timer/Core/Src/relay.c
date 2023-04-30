@@ -58,6 +58,8 @@ static bool is_T2_completed = false;
 
 unsigned int relay_cycle_count = 0;
 
+extern bool timer_index;
+
 extern volatile int timer_millis;
 extern volatile unsigned char timer_seconds;
 extern volatile int timer_minutes;
@@ -216,6 +218,7 @@ void refreshRelay(void) {
 				timer_millis = getParamById(PARAM_T2_MILLIS);
 				timer_seconds = getParamById(PARAM_T2_SECONDS);
 				timer_minutes = getParamById(PARAM_T2_MINUTES);
+				timer_index = true;
 				enableInterrupts();
 			} else { // if (getRelayCycleMode() == RELAY_CYCLE_ONE_PULSE_T1) { //  {
 				setRelay(mode);
@@ -239,6 +242,7 @@ void refreshRelay(void) {
 				timer_millis = getParamById(PARAM_T1_MILLIS);
 				timer_seconds = getParamById(PARAM_T1_SECONDS);
 				timer_minutes = getParamById(PARAM_T1_MINUTES);
+				timer_index = false;
 				enableInterrupts();
 			} else { // if (getRelayCycleMode() != RELAY_CYCLE_ONE_PULSE_T2) {
 				setRelay(!mode);

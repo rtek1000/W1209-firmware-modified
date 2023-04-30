@@ -62,6 +62,8 @@ volatile bool data_millis_inc = false;
 
 volatile bool timer_count_enabled = true;
 
+bool timer_index = false;
+
 //volatile unsigned char tmr1_counter = 0;
 //extern volatile int data_received;
 extern volatile int data_buffer;
@@ -142,6 +144,7 @@ void initTimerCount(void){
 	timer_millis = getParamById(PARAM_T1_MILLIS);
 	timer_seconds = getParamById(PARAM_T1_SECONDS);
 	timer_minutes = getParamById(PARAM_T1_MINUTES);
+	timer_index = false;
 }
 
 bool getStateTimerCount(void) {

@@ -23,7 +23,6 @@ Adapted from [W1209-firmware-Timer](https://github.com/rtek1000/W1209-firmware-m
 To-do:
 
 - Add P9 parameter in Windows App
-- Enable use of secondary display
 - Test the remote communication
 
 User's Guide:

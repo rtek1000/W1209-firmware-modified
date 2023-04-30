@@ -195,4 +195,3 @@ void set_hc164(unsigned char data, bool ctrl_dot) {
 
 	}
 }
-

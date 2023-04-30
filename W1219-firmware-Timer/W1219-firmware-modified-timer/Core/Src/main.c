@@ -117,7 +117,7 @@
 
 bool factoryMode = false;
 
-unsigned long millis_5ms;
+unsigned long millis_3ms;
 unsigned long millis_base;
 unsigned long millis_100ms;
 unsigned long millis_250ms;
@@ -204,8 +204,8 @@ void main(void) {
 
 		millis_base = millis();
 
-		if ((millis_base - millis_5ms) >= 5) {
-			millis_5ms = millis_base;
+		if ((millis_base - millis_3ms) >= 3) {
+			millis_3ms = millis_base;
 
 			refreshDisplay();
 
