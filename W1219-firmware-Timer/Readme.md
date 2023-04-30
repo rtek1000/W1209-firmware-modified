@@ -1,12 +1,13 @@
-### Do not use this W1209 board without solving the LED problem
-   - The 12V voltage can bounce back across the LED and damage the microcontroller. See more details in the main description:
-   - Here: https://github.com/rtek1000/W1209-firmware-modified
+Note: On this W1219 board, the LED is controlled independently of the relay.
+Note: This version of the board uses the SN74HC164D IC to drive the display segments.
+- Check pinout: [W1219-firmware-Dual-display](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1219-firmware-Dual-display)
 
-### Firmware to use the W1209 board as a Programmable Timer
+### Firmware to use the W1219 board as a Programmable Timer
 
-Adapted from [W1209-firmware-remote](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Remote) (Check communication information/Protocol)
+Adapted from [W1209-firmware-Timer](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Timer)
+- Check communication information/Protocol: [W1209-firmware-remote](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Remote) 
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Remote/Doc/thermostat-w1209.jpg)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1219-firmware-Timer/Doc/W1219_Displays.png)
 
 ### Firmware usage
 
@@ -14,7 +15,6 @@ Adapted from [W1209-firmware-remote](https://github.com/rtek1000/W1209-firmware-
 - Maximum time about 1000 minutes (about 16 hours and 40 minutes).
 - Two-step timing (Times separated in minutes, seconds and milliseconds).
 - Display automatically shows the most significant digits.
-- Sensor input operating as a button.
 - Remote Control (App (Windows) for tests).
 
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Timer/App_Windows/Doc/W1209%20Timer%20Test%20App%20Windows.png)
@@ -22,6 +22,8 @@ Adapted from [W1209-firmware-remote](https://github.com/rtek1000/W1209-firmware-
 To-do:
 
 - Add P9 parameter in Windows App
+- Enable use of secondary display
+- Test the remote communication
 
 User's Guide:
 - Button SET: Parameters adjust
@@ -85,7 +87,7 @@ Parameters (Long press SET button):
 
 Parameters table:
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Timer/Doc/Table_params_W1209_timer.png)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1219-firmware-Timer/Doc/Table_params_W1219_timer.png)
 
 -----------
 
