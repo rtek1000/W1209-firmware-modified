@@ -51,7 +51,11 @@ Pinout:
 19. HC164 pin 1 / pin 2 [PD2]
 20. HC164 pin 8 [PD3]
 
-Note: The bottom (green) display is too bright, you may need to use 1k resistors instead of 470R (R1/R2/R3).
+Notes:
+- The SN74HC164 operates similarly to the SN74HC595, but the 164 does not have a strobe function to load the value into the outputs.
+- The two displays are common cathode (code 2831APG), and share the SN74HC164D driver
+
+- The bottom (green) display is too bright, you may need to use 1k resistors instead of 470R (R1/R2/R3) or control via software.
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1219-firmware-Dual-display/Doc/W1219_Displays.png)
 
 ----------
@@ -60,8 +64,6 @@ To-Do:
 - Adapt code from W1209 to W1219
 
 - Note: Timer code adapted for W1219: [W1219-firmware-Timer](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1219-firmware-Timer)
-- - The SN74HC164 operates similarly to the SN74HC595, but the 164 does not have a strobe function to load the value into the outputs.
-- - The two displays are common cathode (code 2831APG), and share the SN74HC164D driver
 
 ----------
 
