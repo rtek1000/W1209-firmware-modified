@@ -84,5 +84,6 @@ To-Do (to achieve higher communication speed):
 - Add remote control using Serial port (Pins 5/6)
 - - Need to change board tracks.
 - - - UART1 RX and TX pins in use.
+- Ckeck bug: initialization skips delay time to trigger relay for P0 parameter (H1/H2/H3)
 
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Remote/Doc/thermostat-w1209%20-%20Remote.jpg)
