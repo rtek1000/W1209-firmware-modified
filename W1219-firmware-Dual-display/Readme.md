@@ -29,27 +29,27 @@ Pinout:
 
 
 [STM8S003F3P6]
-1. LED
-2. NTC
-3. Btn (-)
+1. LED [PD4]
+2. NTC [AIN5/PD5]
+3. Btn (-) [PD6]
 4. NRST
-5. Btn (+)
-6. Btn SET
+5. Btn (+) [PA1]
+6. Btn SET [PA2]
 7. GND
 8. Vcap
 9. +5V
-10. Relay
+10. Relay [PA3]
 
-11. NC
-12. Disp 2 pin 8 (A3) (470R)
-13. Disp 2 pin 9 (A2) (470R)
-14. Disp 2 pin 12 (A1) (470R)
-15. Disp 1 pin 8 (K3) (470R)
-16. Disp 1 pin 9 (K2) (470R)
-17. Disp 1 pin 12 (K1) (470R)
-18. SWIM (ST-link)
-19. HC164 pin 1 / pin 2
-20. HC164 pin 8
+11. Not Connected [PB5]
+12. Disp 2 pin 8 (A3) (470R) [PB4]
+13. Disp 2 pin 9 (A2) (470R) [PC3]
+14. Disp 2 pin 12 (A1) (470R) [PC4]
+15. Disp 1 pin 8 (K3) (470R) [PC5]
+16. Disp 1 pin 9 (K2) (470R) [PC6]
+17. Disp 1 pin 12 (K1) (470R) [PC7]
+18. SWIM (ST-link) [PD1]
+19. HC164 pin 1 / pin 2 [PD2]
+20. HC164 pin 8 [PD3]
 
 Note: The bottom (green) display is too bright, you may need to use 1k resistors instead of 470R (R1/R2/R3).
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1219-firmware-Dual-display/Doc/W1219_Displays.png)
