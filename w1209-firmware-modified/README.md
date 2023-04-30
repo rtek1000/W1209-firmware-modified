@@ -127,6 +127,9 @@ There is an error in the electronic circuit that can kill the microcontroller, m
 - - - sudo apt-get install codelite
 - - - sudo apt-get install codelite-plugins
 
+- To-Do:
+- - Ckeck bug: initialization skips delay time to trigger relay for P0 parameter (H1/H2/H3)
+
 # Original description:
 - w1209-firmware
 - - The functional equivalent to the original firmware of "Digital Thermostat Module Model XH-W1209".
