@@ -1,6 +1,7 @@
-Note: On this W1219 board, the LED is controlled independently of the relay.
-Note: This version of the board uses the SN74HC164D IC to drive the display segments.
-- Check pinout: [W1219-firmware-Dual-display](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1219-firmware-Dual-display)
+- Note: On this W1219 board, the LED is controlled independently of the relay.
+
+- Note: This version of the board uses the SN74HC164D IC to drive the display segments.
+- - Check pinout: [W1219-firmware-Dual-display](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1219-firmware-Dual-display)
 
 ### Firmware to use the W1219 board as a Programmable Timer
 
