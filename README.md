@@ -11,6 +11,8 @@ See too: [Examples and tutorials found on the Internet for using the resources o
 
 -----> **Do not use the board** without checking the relay **LED problem**. See below at "W1209 hardware (variation)"
 
+- Note: On W1219 board, the LED is controlled independently of the relay.
+
 ----------------
 
 - Apparently there is a bug in the compiler SDCC (v. 4.0.0), in case the display malfunctions when modifying the code:
