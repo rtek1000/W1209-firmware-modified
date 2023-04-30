@@ -64,9 +64,13 @@ Notes:
 ----------
 
 To-Do:
-- Adapt code from W1209 to W1219
+- Bug: initialization skips delay time to trigger relay with Hn parameters (H1/H2/H3)
+- Check remote communication
 
-- Note: Timer code adapted for W1219: [W1219-firmware-Timer](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1219-firmware-Timer)
+- Notes:
+- - W1209-firmware-Remote code adapted to W1219-firmware-Remote
+- - - Check info: [W1209-firmware-Remote](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Remote) 
+- - Timer code adapted for W1219: [W1219-firmware-Timer](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1219-firmware-Timer)
 
 ----------
 
