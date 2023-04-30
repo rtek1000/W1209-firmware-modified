@@ -29,10 +29,6 @@ To-do:
 User's Guide:
 - Button SET: Parameters adjust
 - Buttons Up (+) and Down (-): Start/Restart timer
-- NTC sensor input operating as a button: Start/Restart timer
-- - (Same function of Buttons Up (+) and Down (-))
-- - (Do not leave the NTC connected to the board)
-- - (Leave disconnected if not using)
 
 Parameters (Long press SET button):
 
