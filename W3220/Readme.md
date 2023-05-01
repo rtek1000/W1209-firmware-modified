@@ -6,7 +6,7 @@
 
 ### W3230 - Alternative version (12V/24V/110V-220V):
 
-![image](https://github.com/rtek1000/W1209-firmware-modified/blob/master/W3230-firmware-Dual-display/Doc/W3230.png)
+![image](https://github.com/rtek1000/W1209-firmware-modified/blob/master/W3230/W3230-firmware-Dual-display/Doc/W3230.png)
 
 - P6: Maximum temperature [Off/-55~120]
 - P7: Lock settings [On/Off]
@@ -55,15 +55,15 @@ Maybe it's an HC89S003A, see datasheet,
 
 Board:
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W3230-firmware-Dual-display/Doc/W3230_board.jpg)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W3230/W3230-firmware-Dual-display/Doc/W3230_board.jpg)
 
 HC89S003A pinout:
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W3230-firmware-Dual-display/Doc/HC89S003A.png)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W3230/W3230-firmware-Dual-display/Doc/HC89S003A.png)
 
 HC89S003A desc.:
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W3230-firmware-Dual-display/Doc/HC89S003A_desc.png)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W3230/W3230-firmware-Dual-display/Doc/HC89S003A_desc.png)
 
 
 >Holychip is compatible with STM8S series of FLASH MCU products, with a complete product series, providing users with the best cost-effective solution. The full range of products have rich peripheral functions, integrate PWM, ADC, UART, SPI, I2C, LCD, support full mapping of peripheral function  pins, port four-level driver, online System Programming (ISP), and have high anti-interference ability (4KV ESD/ 4KV EFT) to meet the application needs of different markets. Users do not need to change the PCB and directly replace the STM8S105/103/005/003/001 series products. 
