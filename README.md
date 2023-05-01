@@ -5,7 +5,7 @@ See too: [Examples and tutorials found on the Internet for using the resources o
 - Note: This repository is no longer a fork of the [original](https://github.com/mister-grumbler/w1209-firmware).
 - - To allow new forks and issue openings in case a bug is found
 
-- Note: [original](https://github.com/mister-grumbler/w1209-firmware) code adapted for Eclipse IDE project [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/w1209-firmware-modified/Eclipse%20project).
+- Note: [original](https://github.com/mister-grumbler/w1209-firmware) code adapted for Eclipse IDE project [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209/w1209-firmware-modified/Eclipse%20project).
 
 ----------------
 
