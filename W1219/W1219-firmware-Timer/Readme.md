@@ -8,7 +8,7 @@
 Adapted from [W1209-firmware-Timer](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Timer)
 - Check communication information/Protocol: [W1209-firmware-remote](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Remote) 
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1219-firmware-Timer/Doc/W1219_Displays.png)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1219/W1219-firmware-Timer/Doc/W1219_Displays.png)
 
 ### Firmware usage
 
@@ -18,7 +18,7 @@ Adapted from [W1209-firmware-Timer](https://github.com/rtek1000/W1209-firmware-m
 - Display automatically shows the most significant digits.
 - Remote Control (App (Windows) for tests).
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Timer/App_Windows/Doc/W1209%20Timer%20Test%20App%20Windows.png)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1219/W1209-firmware-Timer/App_Windows/Doc/W1209%20Timer%20Test%20App%20Windows.png)
 
 To-do:
 
@@ -83,15 +83,15 @@ Parameters (Long press SET button):
 
 Parameters table:
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1219-firmware-Timer/Doc/Table_params_W1219_timer.png)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1219/W1219-firmware-Timer/Doc/Table_params_W1219_timer.png)
 
 -----------
 
 ### M2EF - Similar board with IC SN74HC595:
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/M2EF-firmware-Timer/Doc/M2EF-Timer_SN74HC595_1.png)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/M2EF/M2EF-firmware-Timer/Doc/M2EF-Timer_SN74HC595_1.png)
 
-More information: [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/M2EF-firmware-Timer)
+More information: [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/M2EF/M2EF-firmware-Timer)
 
 ---------
 
