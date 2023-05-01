@@ -222,7 +222,7 @@ To-do:
 
 ---------
 
-- More information about this alternative firmware [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Timer).
+- More information about this alternative firmware [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209/W1209-firmware-Timer).
 - - (This firmware is an adaptation of the firmware for the W1209 board)
 
 ---------
