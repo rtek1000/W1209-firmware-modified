@@ -40,7 +40,7 @@ long foo;
 - Remote version (serial port emulated by timers) [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Remote).
 - Windows app to manage settings:
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Remote/App_Windows/Doc/W1209_Remote_test.png)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209/W1209-firmware-Remote/App_Windows/Doc/W1209_Remote_test.png)
 
 ## Modifications (W1209 Usage):
 - Shows "HHH" or "LLL" on display if sensor fails, display flashing:
@@ -139,7 +139,7 @@ long foo;
 - Note: Added delay for debounce, for fast increment hold key down.
 
 - Table of adjustable parameters:
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Arduino/Doc/Table_params_W1209_modified_1.png)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209/W1209-firmware-Arduino/Doc/Table_params_W1209_modified_1.png)
 
 ## W1209 hardware (variation):
 There is an error in the electronic circuit that can kill the microcontroller, make the modification as soon as possible. Avoid using the board without modifying it. See [here](https://github.com/mister-grumbler/w1209-firmware/issues/22).
@@ -148,7 +148,7 @@ There is an error in the electronic circuit that can kill the microcontroller, m
 - Other details can be seen in this [post](https://github.com/TG9541/stm8ef/wiki/W1209-Identifying-'compliant'-boards).
 
 - R2 is not the same for all boards:
-![image](https://raw.githubusercontent.com/rtek1000/w1209-firmware/master/Doc/w1209.png)
+![image](https://raw.githubusercontent.com/rtek1000/w1209-firmware/master/W1209/Doc/w1209.png)
 
 - The generic schematic diagram shows the value of 20K ohms for R2:
 ![image](https://raw.githubusercontent.com/rtek1000/NTC_Lookup_Table_Generator/main/Img/image.jpg)
@@ -165,7 +165,7 @@ There is an error in the electronic circuit that can kill the microcontroller, m
 
 ### Firmware to use the W1209 as a programmable timer: [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Timer)
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Timer/App_Windows/Doc/W1209%20Timer%20Test%20App%20Windows.png)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209/W1209-firmware-Timer/App_Windows/Doc/W1209%20Timer%20Test%20App%20Windows.png)
 
 - There are 6 modes of operation (Looped or non-looped).
 - Maximum time about 1000 minutes (about 16 hours and 40 minutes).
