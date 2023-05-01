@@ -4,7 +4,7 @@
 
 ### App Windows to test:
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Remote/App_Windows/Doc/W1209_Remote_test.png)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209/W1209-firmware-Remote/App_Windows/Doc/W1209_Remote_test.png)
 
 - Added serial (9600 bauds) (normal hardware)
 - RX: button (+) pin 14 (PC4) (supported by timer1)
@@ -60,7 +60,7 @@ PT024.4099 ---> Sensor: 24.4 (P T 024.4 099) 24.4: 024.4; ccc: 099
 - - Add 48 to turn numerical values into ASCII.
 - - The command can be done manually via the serial terminal, as long as the checksum matches the command.
 
-(See source code: [remote.c](https://github.com/rtek1000/W1209-firmware-modified/blob/master/W1209-firmware-Remote/w1209-firmware-modified-eclipse-remote/Core/Src/remote.c) for W1209 Eclipse project)
+(See source code: [remote.c](https://github.com/rtek1000/W1209-firmware-modified/blob/master/W1209/W1209-firmware-Remote/w1209-firmware-modified-eclipse-remote/Core/Src/remote.c) for W1209 Eclipse project)
 
 ```
 	for (int i = 0; i <= 6; i++) {
@@ -86,4 +86,4 @@ To-Do (to achieve higher communication speed):
 - - - UART1 RX and TX pins in use.
 - Ckeck bug: initialization skips delay time to trigger relay for P0 parameter (H1/H2/H3)
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Remote/Doc/thermostat-w1209%20-%20Remote.jpg)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209/W1209-firmware-Remote/Doc/thermostat-w1209%20-%20Remote.jpg)
