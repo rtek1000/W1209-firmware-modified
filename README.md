@@ -163,7 +163,7 @@ There is an error in the electronic circuit that can kill the microcontroller, m
 
 ----------
 
-### Firmware to use the W1209 as a programmable timer: [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Timer)
+### Firmware to use the W1209 as a programmable timer: [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209/W1209-firmware-Timer)
 
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209/W1209-firmware-Timer/App_Windows/Doc/W1209%20Timer%20Test%20App%20Windows.png)
 
