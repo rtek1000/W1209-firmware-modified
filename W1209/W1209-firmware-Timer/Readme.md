@@ -4,9 +4,9 @@
 
 ### Firmware to use the W1209 board as a Programmable Timer
 
-Adapted from [W1209-firmware-remote](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Remote) (Check communication information/Protocol)
+Adapted from [W1209-firmware-remote](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209/W1209-firmware-Remote) (Check communication information/Protocol)
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Remote/Doc/thermostat-w1209.jpg)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209/W1209-firmware-Remote/Doc/thermostat-w1209.jpg)
 
 ### Firmware usage
 
@@ -17,7 +17,7 @@ Adapted from [W1209-firmware-remote](https://github.com/rtek1000/W1209-firmware-
 - Sensor input operating as a button.
 - Remote Control (App (Windows) for tests).
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Timer/App_Windows/Doc/W1209%20Timer%20Test%20App%20Windows.png)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209/W1209-firmware-Timer/App_Windows/Doc/W1209%20Timer%20Test%20App%20Windows.png)
 
 To-do:
 
@@ -85,15 +85,15 @@ Parameters (Long press SET button):
 
 Parameters table:
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Timer/Doc/Table_params_W1209_timer.png)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209/W1209-firmware-Timer/Doc/Table_params_W1209_timer.png)
 
 -----------
 
 ### M2EF - Similar board with IC SN74HC595:
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/M2EF-firmware-Timer/Doc/M2EF-Timer_SN74HC595_1.png)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/M2EF/M2EF-firmware-Timer/Doc/M2EF-Timer_SN74HC595_1.png)
 
-More information: [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/M2EF-firmware-Timer)
+More information: [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/M2EF/M2EF-firmware-Timer)
 
 ---------
 
