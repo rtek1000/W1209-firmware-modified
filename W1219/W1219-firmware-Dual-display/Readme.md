@@ -1,6 +1,6 @@
 ### W1219 board:
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1219-firmware-Dual-display/Doc/Dual_display.jpg)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1219/W1219-firmware-Dual-display/Doc/Dual_display.jpg)
 
 Source: https://www.aliexpress.com/item/1005005223034816.html
 
@@ -25,7 +25,7 @@ Pinout:
 13. Disp pin 10 (Seg F)
 14. +5V
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1219-firmware-Dual-display/Doc/SN74HC164D.png)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1219/W1219-firmware-Dual-display/Doc/SN74HC164D.png)
 
 
 [STM8S003F3P6]
@@ -59,7 +59,7 @@ Notes:
 - The bottom (green) display is too bright, you may need to use 1k resistors instead of 470R (R1/R2/R3) or control via software.
 
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1219-firmware-Dual-display/Doc/W1219_Displays.png)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1219/W1219-firmware-Dual-display/Doc/W1219_Displays.png)
 
 ----------
 
@@ -69,7 +69,7 @@ To-Do:
 - Notes:
 - - W1209-firmware-Remote code adapted to W1219-firmware-Remote
 - - - Check info: [W1209-firmware-Remote](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Remote) 
-- - Timer code adapted for W1219: [W1219-firmware-Timer](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1219-firmware-Timer)
+- - Timer code adapted for W1219: [W1219-firmware-Timer](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209/W1219-firmware-Timer)
 
 ----------
 
@@ -79,11 +79,11 @@ If the STM8S003F3P6 is blocked when trying to program, this message should appea
 
 [stm8flash (Linux)]:
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Timer/Doc/MCU_write_protected.png)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209/W1209-firmware-Timer/Doc/MCU_write_protected.png)
 
 [STVP (Windows)]:
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Timer/Doc/Chip_protected.png)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209/W1209-firmware-Timer/Doc/Chip_protected.png)
 
 
 It will be necessary to reset the OPTION_BYTE of the MCU:
@@ -112,19 +112,19 @@ Reference: [Bare metal programming: STM8 (Part 2) ](https://lujji.github.io/blog
 
 [STVP (Windows)]:
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Timer/Doc/Chip_unprotected.png)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209/W1209-firmware-Timer/Doc/Chip_unprotected.png)
 
 Note: **The original firmware will be erased**.
 
 ----------
 
 ### W3230 - Alternative version (12V/24V/110V-220V):
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W3230-firmware-Dual-display/Doc/W3230.png)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W3230/W3230-firmware-Dual-display/Doc/W3230.png)
 
 - P6: Maximum temperature [Off/-55~120]
 - P7: Lock settings [On/Off]
 - Button (-) long press: Factory reset
 - Botton Restart long press: On/Off
 
-More info [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W3230-firmware-Dual-display)
+More info [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W3230/W3230-firmware-Dual-display)
 
