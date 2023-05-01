@@ -60,7 +60,7 @@ PT024.4099 ---> Sensor: 24.4 (P T 024.4 099) 24.4: 024.4; ccc: 099
 - - Add 48 to turn numerical values into ASCII.
 - - The command can be done manually via the serial terminal, as long as the checksum matches the command.
 
-(See source code: [remote.c](https://github.com/rtek1000/W1209-firmware-modified/blob/master/W1209-firmware-Remote/w1209-firmware-modified-eclipse-remote/Core/Src/remote.c) for W1209 Eclipse project)
+(See source code: [remote.c](https://github.com/rtek1000/W1209-firmware-modified/blob/master/W1209/W1209-firmware-Remote/w1209-firmware-modified-eclipse-remote/Core/Src/remote.c) for W1209 Eclipse project)
 
 ```
 	for (int i = 0; i <= 6; i++) {
