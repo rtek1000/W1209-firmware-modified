@@ -18,7 +18,7 @@ Adapted from [W1209-firmware-Timer](https://github.com/rtek1000/W1209-firmware-m
 - Display automatically shows the most significant digits.
 - Remote Control (App (Windows) for tests).
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1219/W1209-firmware-Timer/App_Windows/Doc/W1209%20Timer%20Test%20App%20Windows.png)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209/W1209-firmware-Timer/App_Windows/Doc/W1209%20Timer%20Test%20App%20Windows.png)
 
 To-do:
 
