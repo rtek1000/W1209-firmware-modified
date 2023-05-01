@@ -1,4 +1,4 @@
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Remote/App_Windows/Doc/W1209_Remote_test.png)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209/W1209-firmware-Remote/App_Windows/Doc/W1209_Remote_test.png)
 
 - Added serial (9600 bauds) (normal hardware)
 - RX: button (+) pin 14 (PC4) (supported by timer1)
