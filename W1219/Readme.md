@@ -126,5 +126,5 @@ Note: **The original firmware will be erased**.
 - Button (-) long press: Factory reset
 - Botton Restart long press: On/Off
 
-More info [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W3230/W3230-firmware-Dual-display)
+More info [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W3220/W3230-firmware-Dual-display)
 
