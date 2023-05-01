@@ -1,6 +1,6 @@
 ## M2EF - Similar board with IC SN74HC595
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/M2EF-firmware-Timer/Doc/M2EF-Timer_SN74HC595_1.png)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/M2EF/M2EF-firmware-Timer/Doc/M2EF-Timer_SN74HC595_1.png)
 
 ----------
 
@@ -73,7 +73,7 @@ Info sources:
 
 Internal board image:
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Timer/Doc/Board_no_display.jpg)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209/W1209-firmware-Timer/Doc/Board_no_display.jpg)
 
 Notes:
 - For 110/220V board version, due to the diode only 4V3 reach the Relay, to correct this, replace the diode with a jumper.
@@ -83,7 +83,7 @@ Notes:
 - The board provides support for NTC temperature sensor. Need to populate the resistor R4 (and C4) also the connector.
 - - Firmware can be adapted based on W1209 to operate NTC sensor.
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Timer/Doc/Board3.png)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209/W1209-firmware-Timer/Doc/Board3.png)
 
 IC pinout:
 [STM8S003F3P6]
@@ -128,7 +128,7 @@ IC pinout:
 15. Display pin 1 (Seg E) (220R) [QA]
 16. VDD (3V3)
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Timer/Doc/Sn74hc595.png)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209/W1209-firmware-Timer/Doc/Sn74hc595.png)
 
 [LED]
 - Anode: 3V3 (STM8 VDD)
@@ -143,11 +143,11 @@ If the STM8S003F3P6 is blocked when trying to program, this message should appea
 
 [stm8flash (Linux)]:
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Timer/Doc/MCU_write_protected.png)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209/W1209-firmware-Timer/Doc/MCU_write_protected.png)
 
 [STVP (Windows)]:
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Timer/Doc/Chip_protected.png)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209/W1209-firmware-Timer/Doc/Chip_protected.png)
 
 
 It will be necessary to reset the OPTION_BYTE of the MCU:
@@ -176,7 +176,7 @@ Reference: [Bare metal programming: STM8 (Part 2) ](https://lujji.github.io/blog
 
 [STVP (Windows)]:
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209-firmware-Timer/Doc/Chip_unprotected.png)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209/W1209-firmware-Timer/Doc/Chip_unprotected.png)
 
 --------------
 
@@ -184,7 +184,7 @@ Reference: [Bare metal programming: STM8 (Part 2) ](https://lujji.github.io/blog
 
 Remote control (serial 9600 bauds):
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/M2EF-firmware-Timer/Doc/M2EF-Board_display_remote.png)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/M2EF/M2EF-firmware-Timer/Doc/M2EF-Board_display_remote.png)
 
 - P0: Cycle mode [0, 1, 2, 3, 4, 5]
 - P1: T1 minutes [0 ~ 999]
@@ -201,7 +201,7 @@ Remote control (serial 9600 bauds):
 
 Parameters table:
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/M2EF-firmware-Timer/Doc/Table_params_M2EF_timer.png)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/M2EF/M2EF-firmware-Timer/Doc/Table_params_M2EF_timer.png)
 
 Firmware usage
 
@@ -212,7 +212,7 @@ Firmware usage
 - Sensor input operating as a button.
 - Remote Control (App (Windows) for tests).
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/M2EF-firmware-Timer/App_Windows/Doc/W1209%20Timer%20Test%20App%20Windows.png)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/M2EF/M2EF-firmware-Timer/App_Windows/Doc/W1209%20Timer%20Test%20App%20Windows.png)
 
 Note: **The original firmware will be erased**.
 
