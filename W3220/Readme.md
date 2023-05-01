@@ -55,7 +55,7 @@ Maybe it's an HC89S003A, see datasheet,
 
 Board:
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W3230/W3230-firmware-Dual-display/Doc/W3230_board.jpg)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W3220/W3230-firmware-Dual-display/Doc/W3230_board.jpg)
 
 HC89S003A pinout:
 
