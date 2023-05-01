@@ -8,7 +8,7 @@
 - This repository is a fork of the [original](https://github.com/mister-grumbler/w1209-firmware).
 
 # Code adaptation for Arduino IDE sketch.ino:
-- (apparently all functions working): ckeck it [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Arduino).
+- (apparently all functions working): ckeck it [here](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209/W1209-firmware-Arduino).
 
 # Modifications (W1209 Usage):
 - Shows "HHH" or "LLL" on display if sensor fails, display flashing:
@@ -74,7 +74,7 @@ There is an error in the electronic circuit that can kill the microcontroller, m
 - Other details can be seen in this [post](https://github.com/TG9541/stm8ef/wiki/W1209-Identifying-'compliant'-boards).
 
 - R2 is not the same for all boards:
-![image](https://raw.githubusercontent.com/rtek1000/w1209-firmware/master/Doc/w1209.png)
+![image](https://raw.githubusercontent.com/rtek1000/w1209-firmware/master/W1209/Doc/w1209.png)
 
 - The generic schematic diagram shows the value of 20K ohms for R2:
 ![image](https://raw.githubusercontent.com/rtek1000/NTC_Lookup_Table_Generator/main/Img/image.jpg)
