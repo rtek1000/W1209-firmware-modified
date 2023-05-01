@@ -148,7 +148,7 @@ There is an error in the electronic circuit that can kill the microcontroller, m
 - Other details can be seen in this [post](https://github.com/TG9541/stm8ef/wiki/W1209-Identifying-'compliant'-boards).
 
 - R2 is not the same for all boards:
-![image](https://raw.githubusercontent.com/rtek1000/w1209-firmware/master/W1209/Doc/w1209.png)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209/Doc/w1209.png)
 
 - The generic schematic diagram shows the value of 20K ohms for R2:
 ![image](https://raw.githubusercontent.com/rtek1000/NTC_Lookup_Table_Generator/main/Img/image.jpg)
