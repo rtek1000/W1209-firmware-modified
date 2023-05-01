@@ -65,7 +65,7 @@
 - Note: Added delay for debounce, for fast increment hold key down.
 
 - Table of adjustable parameters:
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/Doc/Table_params_W1209_modified_6.png)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1209/Doc/Table_params_W1209_modified_6.png)
 
 # W1209 hardware (variation):
 There is an error in the electronic circuit that can kill the microcontroller, make the modification as soon as possible. Avoid using the board without modifying it. See [here](https://github.com/mister-grumbler/w1209-firmware/issues/22).
@@ -122,7 +122,7 @@ There is an error in the electronic circuit that can kill the microcontroller, m
 
 - Editing tool:
 - - Any editor can be used to modify the files, as suggested in the original repository, you can use CodeLite, it is lightweight and has color and plugins that help in reading the code.
-![image](https://github.com/rtek1000/W1209-firmware-modified/blob/master/Doc/CodeLite%20IDE.png)
+![image](https://github.com/rtek1000/W1209-firmware-modified/blob/master/W1209/Doc/CodeLite%20IDE.png)
 - - CodeLite install:
 - - - sudo apt-get install codelite
 - - - sudo apt-get install codelite-plugins
