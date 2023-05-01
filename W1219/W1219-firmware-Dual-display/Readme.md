@@ -68,8 +68,8 @@ To-Do:
 
 - Notes:
 - - W1209-firmware-Remote code adapted to W1219-firmware-Remote
-- - - Check info: [W1209-firmware-Remote](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209-firmware-Remote) 
-- - Timer code adapted for W1219: [W1219-firmware-Timer](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209/W1219-firmware-Timer)
+- - - Check info: [W1209-firmware-Remote](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1209/W1209-firmware-Remote) 
+- - Timer code adapted for W1219: [W1219-firmware-Timer](https://github.com/rtek1000/W1209-firmware-modified/tree/master/W1219/W1219-firmware-Timer)
 
 ----------
 
