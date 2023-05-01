@@ -57,6 +57,7 @@ Notes:
 - The two displays are common cathode (code 2831APG), and share the SN74HC164D driver
 
 - The bottom (green) display is too bright, you may need to use 1k resistors instead of 470R (R1/R2/R3) or control via software.
+- - The firmware available here (Remote/Timer) already has this fix
 
 
 ![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W1219/W1219-firmware-Dual-display/Doc/W1219_Displays.png)
