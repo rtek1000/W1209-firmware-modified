@@ -59,7 +59,7 @@ Board:
 
 HC89S003A pinout:
 
-![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W3230/W3230-firmware-Dual-display/Doc/HC89S003A.png)
+![image](https://raw.githubusercontent.com/rtek1000/W1209-firmware-modified/master/W3220/W3230-firmware-Dual-display/Doc/HC89S003A.png)
 
 HC89S003A desc.:
 
