@@ -53,23 +53,29 @@ long foo;
    - - - C1: Cooler mode (hysteresis above Threshold)
    - - - C2: Cooler mode (hysteresis below Threshold)
    - - - C3: Cooler mode (hysteresis above and below Threshold)
-   - - - H1: Cooler mode (hysteresis below Threshold)
-   - - - H2: Cooler mode (hysteresis above Threshold)
-   - - - H3: Cooler mode (hysteresis above and below Threshold)
-   - - Parameter P1: Hysteresis
+   - - - H1: Heater mode (hysteresis below Threshold)
+   - - - H2: Heater mode (hysteresis above Threshold)
+   - - - H3: Heater mode (hysteresis above and below Threshold)
+   - - - A1: Alarm mode (cause relay activation using the maximum "P2" and minimum parameters "P3")
+   - - - - Temperature greater than the maximum value "P2": relay activated
+   - - - - Temperature lower than the minimum value "P3": relay activated
+   - - - A2: Alarm mode (cause relay activation using the maximum "P2" and minimum parameters "P3")
+   - - - - Temperature greater than the maximum value "P2": relay disabled
+   - - - - Temperature lower than the minimum value "P3": relay disabled
+   - - Parameter P1: Hysteresis (Degree hysteresis (°C) to toggle relay)
    - - Parameter P2: Up limit
    - - - (Used in the alert indication; Activated in Parameter P6)
-   - - - (Used in Alarm mode Parameter P0: A1 and A2; Activated in Parameter P6)
+   - - - (Used in Alarm mode Parameter P0: A1 and A2)
    - - Parameter P3: Down limit
    - - - (Used in the alert indication; Activated in P6)
-   - - - (Used in Alarm mode Parameter P0: A1 and A2; Activated in Parameter P6)
+   - - - (Used in Alarm mode Parameter P0: A1 and A2)
    - - Parameter P4: Temperature sensor offset
    - - - (From -7.0 up to +7.0)
    - - Parameter P5: Delay time before activating the relay
    - - - (From 0 to 10 minutes)
    - - - (Does not affect relay deactivation, deactivation is immediate)
    - - Parameter P6: ON/OFF
-   - - - (Alarm mode; Need setup Parameter P2 and P3)
+   - - - (Alert mode; Need setup Parameter P2 and P3; The display flashes when the temperature is outside the configured range.)
    - - Parameter P7: ON/OFF
    - - - (Threshold value change access blocking)
    - - - (Factory reset lockout with Up "+" and Down "-" keys)
@@ -91,6 +97,10 @@ long foo;
    - - - Wait for "rSt" to appear on the display
    - - - Release all keys
    - - - Wait for the current temperature to appear
+   - Shows "HHH" or "LLL" on display if sensor fails, display flashing:
+   - - If the sensor is disconnected, it shows "LLL"
+   - - If the sensor is short circuited, it shows "HHH"
+
    - Troubleshoot:
    - - Microcontroller resetting:
            Try using a pull up resistor on the reset line
@@ -127,6 +137,7 @@ long foo;
    - References:
    - - https://github.com/rtek1000/NTC_Lookup_Table_Generator
    - - https://github.com/rtek1000/W1209-firmware-modified
+   - - https://github.com/rtek1000/W1209-firmware-modified/blob/master/W1209/W1209-firmware-Eclipse/
 
 - Note:
 - - To enter the main configuration parameters menu:
