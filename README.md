@@ -56,10 +56,10 @@ long foo;
    - - - H1: Heater mode (hysteresis below Threshold)
    - - - H2: Heater mode (hysteresis above Threshold)
    - - - H3: Heater mode (hysteresis above and below Threshold)
-   - - - A1: Alarm mode (cause relay activation using the maximum "P2" and minimum parameters "P3")
+   - - - A1: Alarm mode (cause relay activation using the max. "P2" and min. parameters "P3")
    - - - - Temperature greater than the maximum value "P2": relay activated
    - - - - Temperature lower than the minimum value "P3": relay activated
-   - - - A2: Alarm mode (cause relay activation using the maximum "P2" and minimum parameters "P3")
+   - - - A2: Alarm mode (cause relay activation using the max. "P2" and min. parameters "P3")
    - - - - Temperature greater than the maximum value "P2": relay disabled
    - - - - Temperature lower than the minimum value "P3": relay disabled
    - - Parameter P1: Hysteresis (Degree hysteresis (°C) to toggle relay)
