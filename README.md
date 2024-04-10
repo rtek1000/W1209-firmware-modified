@@ -135,9 +135,9 @@ long foo;
 
 
    - References:
-   - - https://github.com/rtek1000/NTC_Lookup_Table_Generator
-   - - https://github.com/rtek1000/W1209-firmware-modified
-   - - https://github.com/rtek1000/W1209-firmware-modified/blob/master/W1209/W1209-firmware-Eclipse/
+   - - [NTC_Lookup_Table_Generator](https://github.com/rtek1000/NTC_Lookup_Table_Generator)
+   - - [W1209-firmware-modified](https://github.com/rtek1000/W1209-firmware-modified)
+   - - [W1209-firmware-Eclipse](https://github.com/rtek1000/W1209-firmware-modified/blob/master/W1209/W1209-firmware-Eclipse/)
 
 - Note:
 - - To enter the main configuration parameters menu:
