@@ -1,6 +1,6 @@
 [W1219]
 
-STM8 PINOUT
+STM8S003F3P6 PINOUT
 
 Pin 1: PD4 - LED (OUT)
 Pin 2: PD5 (AIN5) - SENSOR (Analog IN) [Pull-Up: 5k1]
